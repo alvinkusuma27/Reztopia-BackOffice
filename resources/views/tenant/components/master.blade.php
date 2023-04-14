@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lali jenenge - @yield('title')</title>
+    <title>Restopia - @yield('title')</title>
 
     <link rel="stylesheet" href="{{ asset('assets/css/main/app.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/main/app-dark.css') }}" />
@@ -30,18 +30,16 @@
 
             @yield('container')
 
+            @include('tenant.components.footer')
         </div>
     </div>
 
-    @include('tenant.components.footer')
 
     @stack('scripts')
     <script src="{{ asset('assets/js/bootstrap.js') }}"></script>
     <script src="{{ asset('assets/js/app.js') }}"></script>
 
-    <!-- Need: Apexcharts -->
-    <script src="{{ asset('assets/extensions/apexcharts/apexcharts.min.js') }}"></script>
-    <script src="{{ asset('assets/js/pages/dashboard.js') }}"></script>
+
 </body>
 
 </html>
