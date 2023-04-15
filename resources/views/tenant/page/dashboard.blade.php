@@ -3,7 +3,8 @@
 
 @section('container')
     <div class="page-heading">
-        <h3>Profile Statistics</h3>
+        <h3>Welcome Kantin</h3>
+        <p>All System are running smothly! you have 3 unread <span style="color:aqua">alert!</span> </p>
     </div>
     <div class="page-content">
         <section class="row">

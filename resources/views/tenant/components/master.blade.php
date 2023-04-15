@@ -13,6 +13,20 @@
 
     <link rel="stylesheet" href="{{ asset('assets/css/shared/iconly.css') }}" />
 
+    <style>
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+
     @stack('head')
 
 </head>

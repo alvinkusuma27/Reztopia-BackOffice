@@ -44,27 +44,33 @@
                 <li class="sidebar-title">Menu</li>
 
                 <li class="sidebar-item active">
-                    <a href="index.html" class="sidebar-link">
+                    <a href="{{ route('dashboard') }}" class="sidebar-link">
                         <i class="bi bi-grid-fill"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="index.html" class="sidebar-link">
+                    <a href="{{ route('menu') }}" class="sidebar-link">
                         <i class="bi bi-cart-check-fill"></i>
                         <span>Menu</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="index.html" class="sidebar-link">
+                    <a href="{{ route('laporan') }}" class="sidebar-link">
                         <i class="bi bi-newspaper"></i>
                         <span>Laporan</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="index.html" class="sidebar-link">
+                    <a href="{{ route('profile') }}" class="sidebar-link">
                         <i class="bi bi-person-badge-fill"></i>
                         <span>Profile</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="index.html" class="sidebar-link">
+                        <i class="bi bi-door-open-fill"></i>
+                        <span>Logout</span>
                     </a>
                 </li>
             </ul>

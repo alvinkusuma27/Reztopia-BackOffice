@@ -15,4 +15,28 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('tenant.page.dashboard');
-});
+})->name('dashboard');
+
+Route::get('/menu', function () {
+    return view('tenant.page.menu');
+})->name('menu');
+
+Route::get('/laporan', function () {
+    return view('tenant.page.laporan');
+})->name('laporan');
+
+Route::get('/profile', function () {
+    return view('tenant.page.profile');
+})->name('profile');
+
+Route::get('/login', function () {
+    return view('tenant.auth.login');
+})->name('login');
+
+Route::get('/register', function () {
+    return view('tenant.auth.register');
+})->name('register');
+
+Route::get('/forgot-password', function () {
+    return view('tenant.auth.forgot-password');
+})->name('forgot-password');
