@@ -40,3 +40,11 @@ Route::get('/register', function () {
 Route::get('/forgot-password', function () {
     return view('tenant.auth.forgot-password');
 })->name('forgot-password');
+
+Route::get('/sent-forgot-password', function () {
+    return view('tenant.auth.sent-forgot-password');
+})->name('sent-forgot-password');
+
+Route::get('/success-reset', function () {
+    return view('tenant.auth.success-reset');
+})->name('success-reset');
