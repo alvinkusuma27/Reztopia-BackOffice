@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 @extends('tenant.auth.components.master-message')
 @section('title', 'SUCCEESS RESET')
 @section('container')

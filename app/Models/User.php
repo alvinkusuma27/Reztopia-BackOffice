@@ -17,9 +17,19 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+    protected $table = 'users';
+    protected $primaryKey = 'id';
+    protected $guarded = [];
+
     protected $fillable = [
         'name',
         'email',
+        'username',
+        'sex',
+        'roles',
+        'image',
+        // 'created_by',
         'password',
     ];
 
@@ -41,4 +51,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function session()
+    {
+        return $this->belongsTo(Sessions::class);
+    }
 }
