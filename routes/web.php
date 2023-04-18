@@ -6,6 +6,7 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TenantController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -46,8 +47,13 @@ Route::group(
     function () {
         Route::get('login', [AuthController::class, 'login'])->name('login');
         Route::post('post_login', [AuthController::class, 'post_login'])->name('post_login');
-        Route::get('register', [AuthController::class, 'register'])->name('register');
+        // Route::get('register', [AuthController::class, 'register'])->name('register');
         // Route::post('register', [AuthController::class, 'post_register'])->name('post_register');
+        Route::get('forgot-password', [UserController::class, 'forgot'])->name('forgot-password');
+        Route::post('forgot-password', [UserController::class, 'forgot_store'])->name('forgot-password.store');
+        Route::get('sent-forgot-password', [UserController::class, 'sent_forgot_password'])->name('sent-forgot-password');
+        Route::get('success-reset', [UserController::class, 'success_reset'])->name('success-reset');
+        Route::get('reset-password/{token}', [UserController::class, 'reset_password'])->name('reset-password');
     }
 );
 
@@ -73,14 +79,14 @@ Route::group(
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 
-Route::get('/forgot-password', function () {
-    return view('tenant.auth.forgot-password');
-})->name('forgot-password');
+// Route::get('/forgot-password', function () {
+//     return view('tenant.auth.forgot-password');
+// })->name('forgot-password');
 
-Route::get('/sent-forgot-password', function () {
-    return view('tenant.auth.sent-forgot-password');
-})->name('sent-forgot-password');
+// Route::get('/sent-forgot-password', function () {
+//     return view('tenant.auth.sent-forgot-password');
+// })->name('sent-forgot-password');
 
-Route::get('/success-reset', function () {
-    return view('tenant.auth.success-reset');
-})->name('success-reset');
+// Route::get('/success-reset', function () {
+//     return view('tenant.auth.success-reset');
+// })->name('success-reset');

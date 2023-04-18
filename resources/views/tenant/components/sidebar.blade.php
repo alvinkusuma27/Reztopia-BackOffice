@@ -79,6 +79,14 @@
                         <span>Logout</span>
                     </a>
                 </li>
+                <li class="sidebar-title">User</li>
+
+                <li class="sidebar-item {{ $active == 'dashboard' ? 'active' : '' }}">
+                    <a href="{{ route('dashboard') }}" class="sidebar-link">
+                        <i class="bi bi-grid-fill"></i>
+                        <span>Request password</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
