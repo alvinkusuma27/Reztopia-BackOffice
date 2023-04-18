@@ -31,4 +31,9 @@ class Categories extends Model
     {
         return $this->belongsTo(Products::class);
     }
+
+    public function order()
+    {
+        return $this->belongsTo(Orders::class);
+    }
 }

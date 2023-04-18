@@ -21,6 +21,7 @@ return new class extends Migration
             $table->double('cost')->default(0);
             $table->string('active');
             $table->string('image');
+            $table->string('type_product');
             $table->bigInteger('created_by');
             $table->unsignedBigInteger('id_category')->nullable();
             $table->foreign('id_category')->references('id')->on('categories');

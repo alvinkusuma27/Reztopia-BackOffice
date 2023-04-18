@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('sessions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_user')->nullable();
+            $table->unsignedBigInteger('id_user')->nullable()->default(1);
             $table->string('ip_address');
             $table->string('user_agent');
             $table->string('payload');

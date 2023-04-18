@@ -3,7 +3,7 @@
         <div class="sidebar-header position-relative">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="logo">
-                    <a href="index.html"><img src="assets/images/logo/logo.svg" alt="Logo" width="100px"
+                    <a href="{{ route('dashboard') }}"><img src="assets/images/logo/logo.svg" alt="Logo" width="100px"
                             srcset="" /></a>
                 </div>
                 <div class="theme-toggle d-flex gap-2 align-items-center mt-2">
@@ -43,25 +43,31 @@
             <ul class="menu">
                 <li class="sidebar-title">Menu</li>
 
-                <li class="sidebar-item active">
+                <li class="sidebar-item {{ $active == 'dashboard' ? 'active' : '' }}">
                     <a href="{{ route('dashboard') }}" class="sidebar-link">
                         <i class="bi bi-grid-fill"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
-                <li class="sidebar-item">
+                <li class="sidebar-item {{ $active == 'tenant' ? 'active' : '' }}">
+                    <a href="{{ route('tenant') }}" class="sidebar-link">
+                        <i class="bi bi-cart-check-fill"></i>
+                        <span>Tenant</span>
+                    </a>
+                </li>
+                {{-- <li class="sidebar-item {{ $active == 'menu' ? 'active' : '' }}">
                     <a href="{{ route('menu') }}" class="sidebar-link">
                         <i class="bi bi-cart-check-fill"></i>
                         <span>Menu</span>
                     </a>
-                </li>
-                <li class="sidebar-item">
+                </li> --}}
+                <li class="sidebar-item {{ $active == 'menu' ? 'laporan' : '' }}">
                     <a href="{{ route('laporan') }}" class="sidebar-link">
                         <i class="bi bi-newspaper"></i>
                         <span>Laporan</span>
                     </a>
                 </li>
-                <li class="sidebar-item">
+                <li class="sidebar-item {{ $active == 'menu' ? 'profile' : '' }}">
                     <a href="{{ route('profile') }}" class="sidebar-link">
                         <i class="bi bi-person-badge-fill"></i>
                         <span>Profile</span>

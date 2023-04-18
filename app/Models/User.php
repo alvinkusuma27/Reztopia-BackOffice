@@ -29,6 +29,7 @@ class User extends Authenticatable
         'sex',
         'roles',
         'image',
+        'phone',
         // 'created_by',
         'password',
     ];
@@ -55,5 +56,10 @@ class User extends Authenticatable
     public function session()
     {
         return $this->belongsTo(Sessions::class);
+    }
+
+    public function outlet()
+    {
+        return $this->belongsTo(Outlet::class);
     }
 }

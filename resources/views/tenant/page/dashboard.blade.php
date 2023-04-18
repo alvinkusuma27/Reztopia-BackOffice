@@ -3,14 +3,14 @@
 
 @section('container')
     <div class="page-heading">
-        <h3>Welcome Kantin</h3>
+        <h3>Welcome Tenant {{ $outlet[0]->name }}</h3>
         <p>All System are running smothly! you have 3 unread <span style="color:aqua">alert!</span> </p>
     </div>
     <div class="page-content">
         <section class="row">
             <div class="col-12 col-lg-12">
                 <div class="row">
-                    <div class="col-6 col-lg-3 col-md-6">
+                    <div class="col-6 col-lg-6 col-md-6">
                         <div class="card">
                             <div class="card-body px-4 py-4-5">
                                 <div class="row">
@@ -23,13 +23,13 @@
                                         <h6 class="text-muted font-semibold">
                                             Today's Orders
                                         </h6>
-                                        <h6 class="font-extrabold mb-0">112.000</h6>
+                                        <h6 class="font-extrabold mb-0">{{ $today_order }}</h6>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-6 col-lg-3 col-md-6">
+                    <div class="col-6 col-lg-6 col-md-6">
                         <div class="card">
                             <div class="card-body px-4 py-4-5">
                                 <div class="row">
@@ -40,13 +40,13 @@
                                     </div>
                                     <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                                         <h6 class="text-muted font-semibold">Total Orders</h6>
-                                        <h6 class="font-extrabold mb-0">183.000</h6>
+                                        <h6 class="font-extrabold mb-0">{{ $total_order }}</h6>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-6 col-lg-3 col-md-6">
+                    {{-- <div class="col-6 col-lg-3 col-md-6">
                         <div class="card">
                             <div class="card-body px-4 py-4-5">
                                 <div class="row">
@@ -57,7 +57,7 @@
                                     </div>
                                     <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                                         <h6 class="text-muted font-semibold">Number of Users</h6>
-                                        <h6 class="font-extrabold mb-0">80.000</h6>
+                                        <h6 class="font-extrabold mb-0">BELUM</h6>
                                     </div>
                                 </div>
                             </div>
@@ -74,12 +74,12 @@
                                     </div>
                                     <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                                         <h6 class="text-muted font-semibold">Number of Reservations</h6>
-                                        <h6 class="font-extrabold mb-0">112</h6>
+                                        <h6 class="font-extrabold mb-0">BELUM</h6>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
                 {{-- <div class="row">
                     <div class="col-12">
@@ -97,7 +97,9 @@
                     <div class="col-12 col-xl-6">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Profile Visit</h4>
+                                <h4>Order Details BELUM</h4>
+                                <p>The total number of sessions within the date range. It is the period time a user is
+                                    actively engaged with your website, page or app, etc</p>
                             </div>
                             <div class="card-body">
                                 {{-- <div class="row">
@@ -151,36 +153,38 @@
                     <div class="col-12 col-xl-6">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Latest Comments</h4>
+                                <h4>Top Product</h4>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-hover table-lg">
                                         <thead>
                                             <tr>
-                                                <th>Poduct</th>
+                                                <th>Product</th>
                                                 <th>Price</th>
                                                 <th>Order</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td class="col-3">
-                                                    <div class="d-flex align-items-center">
-                                                        <p class="font-bold ms-3 mb-0">Kacang</p>
-                                                    </div>
-                                                </td>
-                                                <td class="col-auto">
-                                                    <p class="mb-0">
-                                                        Rp200.000
-                                                    </p>
-                                                </td>
-                                                <td>
-                                                    <div class="col-auto">
-                                                        <p class="mb-0">10</p>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                            @foreach ($top_product as $item)
+                                                <tr>
+                                                    <td class="col-3">
+                                                        <div class="d-flex align-items-center">
+                                                            <p class="font-bold ms-3 mb-0">{{ $item->name }}</p>
+                                                        </div>
+                                                    </td>
+                                                    <td class="col-auto">
+                                                        <p class="mb-0">
+                                                            Rp.{{ number_format($item->price) }}
+                                                        </p>
+                                                    </td>
+                                                    <td>
+                                                        <div class="col-auto">
+                                                            <p class="mb-0">{{ $item->total }}</p>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>

@@ -69,7 +69,7 @@ class UserSeeder extends Seeder
                 'name' => 'kulon',
                 'sex' => 'l',
                 'username' => 'kulon',
-                'roles' => 'kulon',
+                'roles' => 'kantin',
                 'email' => 'kulon@kulon.com',
                 'password' => Hash::make('kulon'),
                 'phone' => '081212121212',

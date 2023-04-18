@@ -20,8 +20,8 @@ return new class extends Migration
             $table->double('quantity');
             $table->double('price');
             $table->double('discount');
-            $table->double('add_on_price');
-            $table->double('varian_price');
+            $table->double('add_on_price')->nullable();
+            $table->double('varian_price')->nullable();
             $table->double('subtotal');
             $table->timestamps();
         });

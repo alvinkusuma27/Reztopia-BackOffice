@@ -17,13 +17,17 @@ return new class extends Migration
             $table->foreign('id_outlet')->references('id')->on('outlets');
             $table->unsignedBigInteger('id_order_status')->nullable();
             $table->foreign('id_order_status')->references('id')->on('order_status');
+            $table->unsignedBigInteger('id_categories')->nullable();
+            $table->foreign('id_categories')->references('id')->on('categories');
             $table->string('cashier')->nullable();
             $table->string('payment_method')->nullable();
             $table->string('customer')->nullable();
-            $table->double('total')->default(0);
-            $table->double('paid')->default(0);
-            $table->double('return')->default(0);
+            $table->double('total');
+            $table->double('paid');
+            $table->double('return');
+            $table->string('proof_of_payment');
             $table->date('deleted_at')->nullable();
+            $table->date('date_order')->nullable();
             $table->timestamps();
         });
     }

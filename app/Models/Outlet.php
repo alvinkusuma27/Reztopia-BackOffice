@@ -15,6 +15,7 @@ class Outlet extends Model
 
     protected $fillable = [
         'name',
+        'id_user',
         'slug',
         'phone',
         'address',
@@ -30,6 +31,11 @@ class Outlet extends Model
 
     public function order()
     {
-        return $this->belongsTo(order::class);
+        return $this->belongsTo(Orders::class);
+    }
+
+    public function user()
+    {
+        return $this->hasMany(User::class, 'id', 'id_user');
     }
 }

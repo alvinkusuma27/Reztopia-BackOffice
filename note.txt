@@ -1,0 +1,8 @@
+$data_product = DB::table('products')
+            ->join('categories as c', 'c.id', '=', 'products.id_category')
+            ->join('outlets as o', 'o.id', '=', 'c.id_outlet')
+            ->join('users as u', 'u.id', '=', 'o.id_user')
+            ->get();
+
+
+REGISTER gaatek

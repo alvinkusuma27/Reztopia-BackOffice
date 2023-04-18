@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Database\Seeders\OrderStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,6 +16,7 @@ class Orders extends Model
     protected $fillable = [
         'id_outlet',
         'id_order_status',
+        'id_categories',
         'cashier',
         'payment_method',
         'customer',
@@ -35,11 +35,16 @@ class Orders extends Model
 
     public function order_status()
     {
-        return $this->hasMany(OrderStatus::class, 'id', 'id_order_status');
+        return $this->hasMany(Order_status::class, 'id', 'id_order_status');
     }
 
     public function order_detail()
     {
         return $this->belongsTo(Order_detail::class);
+    }
+
+    public function categories()
+    {
+        return $this->hasMany(Categories::class, 'id', 'id_categories');
     }
 }

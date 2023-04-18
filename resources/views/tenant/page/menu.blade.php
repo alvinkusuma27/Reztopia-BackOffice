@@ -11,112 +11,56 @@
 @section('container')
     <div class="page-heading">
         <div class="d-flex justify-content-lg-between">
-            <div class="flex-start">
-
-                <h3>Produk Kantin Barli</h3>
-                <p>Pantau produk kantin dari sini</p>
-            </div>
-            <div class="btn-group mb-1 mr-3">
-                <div class="dropdown">
-                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false">
-                        <i class="bi bi-pencil"></i>
-                        Atur Kategori
-                    </button>
-                    <div class="dropdown-menu">
-                        <button class="dropdown-item" href="#" data-bs-toggle="modal"
-                            data-bs-target="#modalTambahCategory"><i class="bi bi-plus"></i>
-                            <span>Tambah Produk</span></button>
-                        <button class="dropdown-item" href="#" data-bs-toggle="modal"
-                            data-bs-target="#modalEditCategory"><i class="bi bi-pencil"></i>
-                            <span>Edit Produk</span></button>
-                        <button class="dropdown-item" href="#" data-bs-toggle="modal"
-                            data-bs-target="#modalHapusCategory"><i class="bi bi-trash"></i>
-                            <span>Hapus Produk</span></button>
+            <div class="col-lg-12 col-md-6">
+                <div class="flex-start">
+                    <h3>Produk Kantin {{ $categories[0]->name }}</h3>
+                    <p>Pantau produk kantin dari sini</p>
+                </div>
+                <div class="flex-end">
+                    <div class="btn-group mb-1 mr-3">
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <i class="bi bi-pencil"></i>
+                                Atur Kategori
+                            </button>
+                            <div class="dropdown-menu">
+                                <button class="dropdown-item" href="#" data-bs-toggle="modal"
+                                    data-bs-target="#modalTambahCategory"><i class="bi bi-plus"></i>
+                                    <span>Tambah Produk</span></button>
+                                <button class="dropdown-item" href="#" data-bs-toggle="modal"
+                                    data-bs-target="#modalEditCategory"><i class="bi bi-pencil"></i>
+                                    <span>Edit Produk</span></button>
+                                <button class="dropdown-item" href="#" data-bs-toggle="modal"
+                                    data-bs-target="#modalHapusCategory"><i class="bi bi-trash"></i>
+                                    <span>Hapus Produk</span></button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
+            </div>
         </div>
+
     </div>
     <div class="page-content">
         <section class="row">
             <div class="col-12 col-lg-12">
                 <div class="row">
-                    <div class="col-6 col-lg-4 col-md-6">
-                        <div class="card">
-                            <div class="card-body px-4 py-4-5">
-                                <div class="row">
-                                    <h6 class="text-muted font-semibold">
-                                        Tanpa Kategori
-                                    </h6>
-                                    <h6 class="font-extrabold mb-0">12</h6>
+                    @foreach ($categories as $item)
+                        <div class="col-6 col-lg-4 col-md-6">
+                            <div class="card">
+                                <div class="card-body px-4 py-4-5">
+                                    <div class="row">
+                                        <h6 class="text-muted font-semibold">
+                                            {{ $item->name }}
+                                        </h6>
+                                        <h6 class="font-extrabold mb-0">{{ $item->jumlah_produk }}</h6>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-6 col-lg-4 col-md-6">
-                        <div class="card">
-                            <div class="card-body px-4 py-4-5">
-                                <div class="row">
-                                    <h6 class="text-muted font-semibold">
-                                        Produk Dessert
-                                    </h6>
-                                    <h6 class="font-extrabold mb-0">2</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-lg-4 col-md-6">
-
-
-                        <div class="card">
-                            <div class="card-body px-4 py-4-5">
-                                <div class="row">
-                                    <h6 class="text-muted font-semibold">
-                                        Produk Traditional Food
-                                    </h6>
-                                    <h6 class="font-extrabold mb-0">10</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-lg-4 col-md-6">
-                        <div class="card">
-                            <div class="card-body px-4 py-4-5">
-                                <div class="row">
-                                    <h6 class="text-muted font-semibold">
-                                        Produk Western Food
-                                    </h6>
-                                    <h6 class="font-extrabold mb-0">20</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-lg-4 col-md-6">
-                        <div class="card">
-                            <div class="card-body px-4 py-4-5">
-                                <div class="row">
-                                    <h6 class="text-muted font-semibold">
-                                        Produk Asian Food
-                                    </h6>
-                                    <h6 class="font-extrabold mb-0">23</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-lg-4 col-md-6">
-                        <div class="card">
-                            <div class="card-body px-4 py-4-5">
-                                <div class="row">
-                                    <h6 class="text-muted font-semibold">
-                                        Produk Fine Dinning
-                                    </h6>
-                                    <h6 class="font-extrabold mb-0">2</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
                 <div class="row">
                     <div class="col-12 col-xl-12">
@@ -148,26 +92,28 @@
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-3">
-                                        <div class="card">
-                                            <div class="card-content">
-                                                <button class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                    data-bs-target="#modalEditProduk">
-                                                    <img src="assets/images/samples/motorcycle.jpg"
-                                                        class="card-img-top img-fluid" alt="singleminded">
-                                                    <div class="card-body color-card">
-                                                        <h5 class="card-title">Ayam Goreng</h5>
-                                                        <p class="card-text">
-                                                            Makanan
-                                                        </p>
-                                                        <p class="card-text">
-                                                            Rp.12000
-                                                        </p>
-                                                    </div>
-                                                </button>
+                                    @foreach ($categories as $item)
+                                        <div class="col-3">
+                                            <div class="card">
+                                                <div class="card-content">
+                                                    <button class="dropdown-item" href="#" data-bs-toggle="modal"
+                                                        data-bs-target="#modalEditProduk">
+                                                        <img src="assets/images/samples/motorcycle.jpg"
+                                                            class="card-img-top img-fluid" alt="singleminded">
+                                                        <div class="card-body color-card">
+                                                            <h5 class="card-title">{{ $item->nama_makanan }}</h5>
+                                                            <p class="card-text">
+                                                                {{ $item->type_product }}
+                                                            </p>
+                                                            <p class="card-text">
+                                                                Rp.{{ number_format($item->price) }}
+                                                            </p>
+                                                        </div>
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>

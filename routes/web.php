@@ -2,6 +2,10 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\MenuController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TenantController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -20,21 +24,19 @@ use Illuminate\Support\Facades\Route;
 //     return view('tenant.page.dashboard');
 // })->name('dashboard');
 
-Route::get('/menu', function () {
-    return view('tenant.page.menu');
-})->name('menu');
+// Route::get('/menu', function () {
+//     return view('tenant.page.menu');
+// })->name('menu');
 
-Route::get('/laporan', function () {
-    return view('tenant.page.laporan');
-})->name('laporan');
+// Route::get('/laporan', function () {
+//     return view('tenant.page.laporan');
+// })->name('laporan');
 
-Route::get('/profile', function () {
-    return view('tenant.page.profile');
-})->name('profile');
+// Route::get('/profile', function () {
+//     return view('tenant.page.profile');
+// })->name('profile');
 
-// Route::get('/login', function () {
-//     return view('tenant.auth.login');
-// })->name('login');
+Route::redirect('/', 'dashboard');
 
 Route::group(
     [
@@ -44,8 +46,8 @@ Route::group(
     function () {
         Route::get('login', [AuthController::class, 'login'])->name('login');
         Route::post('post_login', [AuthController::class, 'post_login'])->name('post_login');
-        Route::get('register', [AuthController::class, 'register'])->name('register');
-        Route::post('register', [AuthController::class, 'post_register'])->name('post_register');
+        // Route::get('register', [AuthController::class, 'register'])->name('register');
+        // Route::post('register', [AuthController::class, 'post_register'])->name('post_register');
     }
 );
 
@@ -55,6 +57,16 @@ Route::group(
     ],
     function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('tenant', [TenantController::class, 'index'])->name('tenant');
+        Route::post('tenant', [TenantController::class, 'store'])->name('tenant.store');
+        Route::post('tenant/{id}', [TenantController::class, 'update'])->name('tenant.update');
+        Route::get('tenant/{id}', [TenantController::class, 'destroy'])->name('tenant.destroy');
+        // Route::get('menu', [MenuController::class, 'index'])->name('menu');
+        Route::get('laporan', [LaporanController::class, 'index'])->name('laporan');
+        Route::get('profile', [ProfileController::class, 'index'])->name('profile');
+        Route::post('profile/update_profile', [ProfileController::class, 'update_profile'])->name('update_profile');
+        Route::post('profile/update_image_profile', [ProfileController::class, 'update_image_profile'])->name('update_image_profile');
+        Route::post('profile/change_password', [ProfileController::class, 'change_password'])->name('change_password');
     }
 );
 
