@@ -46,7 +46,7 @@ Route::group(
     function () {
         Route::get('login', [AuthController::class, 'login'])->name('login');
         Route::post('post_login', [AuthController::class, 'post_login'])->name('post_login');
-        // Route::get('register', [AuthController::class, 'register'])->name('register');
+        Route::get('register', [AuthController::class, 'register'])->name('register');
         // Route::post('register', [AuthController::class, 'post_register'])->name('post_register');
     }
 );

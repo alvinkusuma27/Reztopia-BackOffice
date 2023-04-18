@@ -33,9 +33,12 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="profile-img">
-                            <form action="" method="post" enctype="multipart/form-data">
-                                <img src="{{ $outlet[0]->user[0]->image }}" alt="{{ $outlet[0]->user[0]->image }}" />
+                            <form action="{{ route('update_image_profile') }}" method="post" enctype="multipart/form-data">
+                                @csrf
+                                <img src="{{ asset('storage/uploads/user/' . $outlet[0]->user[0]->image) }}"
+                                    alt="{{ $outlet[0]->user[0]->image }}" width="100" />
                                 <input class="form-control mt-2" type="file" name="photo">
+                                <button type="submit" class="btn btn-primary">Save</button>
                             </form>
                             {{-- <p>Ganti profile</p> --}}
                             {{-- <div class="d-flex justify-content-between">
@@ -112,26 +115,31 @@
                         <i data-feather="x"></i>
                     </button> --}}
                         </div>
-                        <div class="modal-body">
-                            <div class="form-group mb-3">
-                                <label for="basicInput">Nomor Telepon</label>
-                                <input type="text" class="form-control mt-3" id="basicInput" name="deskripsi">
+                        <form action="{{ route('update_profile') }}" method="post">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="form-group mb-3">
+                                    <label for="basicInput">Nomor Telepon</label>
+                                    <input type="number" class="form-control mt-3" id="basicInput" name="phone"
+                                        value="{{ $outlet[0]->user[0]->phone }}">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="basicInput">Email</label>
+                                    <input type="email" class="form-control mt-3" id="basicInput" name="email"
+                                        value="{{ $outlet[0]->user[0]->email }}">
+                                </div>
                             </div>
-                            <div class="form-group mb-3">
-                                <label for="basicInput">Email</label>
-                                <input type="number" class="form-control mt-3" id="basicInput" name="harga">
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                    <i class="bx bx-x d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Close</span>
+                                </button>
+                                <button type="submit" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+                                    <i class="bx bx-check d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Accept</span>
+                                </button>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                                <i class="bx bx-x d-block d-sm-none"></i>
-                                <span class="d-none d-sm-block">Close</span>
-                            </button>
-                            <button type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
-                                <i class="bx bx-check d-block d-sm-none"></i>
-                                <span class="d-none d-sm-block">Accept</span>
-                            </button>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -147,28 +155,34 @@
                         <i data-feather="x"></i>
                     </button> --}}
                         </div>
-                        <div class="modal-body">
-                            <div class="form-group mb-3">
-                                <label for="basicInput">Kata Sandi Lama</label>
-                                <input type="te" class="form-control mt-3" id="passOld" name="deskripsi">
+                        <form action="{{ route('change_password') }}" method="post">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="form-group mb-3">
+                                    <label for="basicInput">Kata Sandi Lama</label>
+                                    <input type="te" class="form-control mt-3" id="passOld" name="passOld"
+                                        value="{{ old('passOld') }}">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="basicInput">Kata Sandi Baru</label>
+                                    <input type="te" class="form-control mt-3" id="passNew" name="passNew"
+                                        value="{{ old('passNew') }}">
+                                    {{-- <input type="checkbox" class="ml-3" onclick="myFunction()"> Show Password --}}
+                                    <p class="text-muted mt-2">Buat kata sandi yang sulit ditebak</p>
+                                </div>
                             </div>
-                            <div class="form-group mb-3">
-                                <label for="basicInput">Kata Sandi Baru</label>
-                                <input type="te" class="form-control mt-3" id="passNew" name="harga">
-                                {{-- <input type="checkbox" class="ml-3" onclick="myFunction()"> Show Password --}}
-                                <p class="text-muted mt-2">Buat kata sandi yang sulit ditebak</p>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                    <i class="bx bx-x d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Close</span>
+                                </button>
+                                <button type="submit" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+                                    <i class="bx bx-check d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Accept</span>
+                                </button>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                                <i class="bx bx-x d-block d-sm-none"></i>
-                                <span class="d-none d-sm-block">Close</span>
-                            </button>
-                            <button type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
-                                <i class="bx bx-check d-block d-sm-none"></i>
-                                <span class="d-none d-sm-block">Accept</span>
-                            </button>
-                        </div>
+                        </form>
+
                     </div>
                 </div>
             </div>
