@@ -15,20 +15,31 @@ class Outlets extends Seeder
     {
         DB::table('outlets')->insert([
             [
-                'id_user' => 1,
+                // 'id_user' => 1,
                 'name' => 'Primarasa',
                 'slug' => 'enak',
                 'phone' => '08123818883',
                 'address' => 'surabaya',
                 'created_by' => 0,
+                'active' => 'active'
             ],
             [
-                'id_user' => 2,
+                // 'id_user' => 2,
                 'name' => 'Rasajawa',
                 'slug' => 'enak',
                 'phone' => '08123818883',
                 'address' => 'surabaya',
                 'created_by' => 0,
+                'active' => 'active'
+            ],
+            [
+                // 'id_user' => 3,
+                'name' => 'Rajarasa',
+                'slug' => 'enak',
+                'phone' => '08123818883',
+                'address' => 'surabaya',
+                'created_by' => 0,
+                'active' => 'deactive'
             ],
         ]);
     }

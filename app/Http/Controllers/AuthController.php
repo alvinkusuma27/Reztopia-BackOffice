@@ -99,4 +99,19 @@ class AuthController extends Controller
         Auth::logout();
         return redirect()->route('login');
     }
+
+    public function forgot()
+    {
+        return view('tenant.auth.forgot-password');
+    }
+
+    public function sent_forgot_password()
+    {
+        return view('tenant.auth.sent-forgot-password');
+    }
+
+    public function success_reset()
+    {
+        return view('tenant.auth.success-reset');
+    }
 }

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('slug');
             $table->string('phone');
             $table->string('address');
+            $table->string('active')->default('active');
             $table->string('created_by');
             $table->timestamps();
         });

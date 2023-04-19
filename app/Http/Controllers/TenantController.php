@@ -33,7 +33,7 @@ class TenantController extends Controller
             'tenant' => 'required',
             'password' => 'required|min:8',
             'phone' => 'required',
-            'email' => 'required',
+            'email' => 'required|unique:users',
         ]);
 
         if (!$validator->fails()) {
