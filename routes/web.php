@@ -49,11 +49,6 @@ Route::group(
         Route::post('post_login', [AuthController::class, 'post_login'])->name('post_login');
         // Route::get('register', [AuthController::class, 'register'])->name('register');
         // Route::post('register', [AuthController::class, 'post_register'])->name('post_register');
-        Route::get('forgot-password', [UserController::class, 'forgot'])->name('forgot-password');
-        Route::post('forgot-password', [UserController::class, 'forgot_store'])->name('forgot-password.store');
-        Route::get('sent-forgot-password', [UserController::class, 'sent_forgot_password'])->name('sent-forgot-password');
-        Route::get('success-reset', [UserController::class, 'success_reset'])->name('success-reset');
-        Route::get('reset-password/{token}', [UserController::class, 'reset_password'])->name('reset-password');
     }
 );
 
