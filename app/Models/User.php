@@ -30,7 +30,7 @@ class User extends Authenticatable
         'roles',
         'image',
         'phone',
-        // 'created_by',
+        'position',
         'password',
     ];
 

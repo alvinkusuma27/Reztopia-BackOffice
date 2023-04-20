@@ -25,7 +25,7 @@
 @section('container')
     <div class="page-heading">
         <h3>Profile</h3>
-        <p>Manager Kantin {{ $outlet[0]->name }}</p>
+        <p>Manager Kantin {{ empty($outlet[0]) ? '' : $outlet[0]->name }}</p>
     </div>
     <div class="page-content">
         <section class="row">
@@ -35,8 +35,8 @@
                         <div class="profile-img">
                             <form action="{{ route('update_image_profile') }}" method="post" enctype="multipart/form-data">
                                 @csrf
-                                <img src="{{ asset('storage/uploads/user/' . $outlet[0]->user[0]->image) }}"
-                                    alt="{{ $outlet[0]->user[0]->image }}" width="100" />
+                                <img src="{{ empty($outlet[0]) ? '' : asset('storage/uploads/user/' . $outlet[0]->user[0]->image) }}"
+                                    alt="{{ empty($outlet[0]) ? '' : $outlet[0]->user[0]->image }}" width="100" />
                                 <input class="form-control mt-2" type="file" name="photo">
                                 <button type="submit" class="btn btn-primary">Save</button>
                             </form>
@@ -48,10 +48,10 @@
                     <div class="col-md-6">
                         <div class="profile-head">
                             <h5>
-                                {{ $outlet[0]->user[0]->username }}
+                                {{ empty($outlet[0]) ? '' : $outlet[0]->user[0]->username }}
                             </h5>
                             <h6>
-                                {{ $outlet[0]->name }}
+                                {{ empty($outlet[0]) ? '' : $outlet[0]->name }}
                             </h6>
                             <div class="d-flex justify-content-between mt-4">
                                 <div class="flex-start">
@@ -59,11 +59,11 @@
                                         <div class="card-content">
                                             <p>
                                                 <i class="bi bi-telephone-fill"></i>
-                                                <span>{{ $outlet[0]->phone }}</span>
+                                                <span>{{ empty($outlet[0]) ? '' : $outlet[0]->phone }}</span>
                                             </p>
                                             <p>
                                                 <i class="bi bi-mailbox2"></i>
-                                                <span>{{ $outlet[0]->user[0]->email }}</span>
+                                                <span>{{ empty($outlet[0]) ? '' : $outlet[0]->user[0]->email }}</span>
                                             </p>
                                         </div>
                                     </div>
@@ -121,12 +121,12 @@
                                 <div class="form-group mb-3">
                                     <label for="basicInput">Nomor Telepon</label>
                                     <input type="number" class="form-control mt-3" id="basicInput" name="phone"
-                                        value="{{ $outlet[0]->user[0]->phone }}">
+                                        value="{{ empty($outlet[0]) ? '' : $outlet[0]->user[0]->phone }}">
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="basicInput">Email</label>
                                     <input type="email" class="form-control mt-3" id="basicInput" name="email"
-                                        value="{{ $outlet[0]->user[0]->email }}">
+                                        value="{{ empty($outlet[0]) ? '' : $outlet[0]->user[0]->email }}">
                                 </div>
                             </div>
                             <div class="modal-footer">

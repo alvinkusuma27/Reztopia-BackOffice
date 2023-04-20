@@ -19,10 +19,17 @@ class Outlet extends Model
         'slug',
         'phone',
         'address',
+        'image',
+        'link',
         'created_by',
         'created_at',
         'updated_at'
     ];
+
+    // public function getImageUrlAttribute($value)
+    // {
+    //     return env('APP_URL') . '/images_ravs/' . $this->image;
+    // }
 
     public function categories()
     {

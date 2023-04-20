@@ -19,37 +19,64 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
+
+        // return response()->json([
+        //     'data' => $request->all()
+        // ], 200);
         try {
-            $request->validate([
-                'email' => 'email|required',
+
+            $validator = Validator::make($request->all(), [
+                'email' => 'required|email',
                 'password' => 'required'
             ]);
 
-            $credentials = request(['email', 'password']);
-            if (!Auth::attempt($credentials)) {
-                return ResponseFormatter::error([
-                    'message' => 'Unauthorized'
-                ], 'Authentication Failed', 500);
+            if (!$validator->fails()) {
+
+                $credentials = request(['email', 'password']);
+                if (!Auth::attempt($credentials)) {
+                    return response()->json([
+                        'meta' => [
+                            'message' => 'Authentication Failed'
+                        ]
+                    ], 500);
+                }
+
+                $user = User::where('email', $request->email)->first();
+                if (!Hash::check($request->password,  $user->password, [])) {
+                    throw new \Exception('Invalid Credentials');
+                }
+
+                $tokenResult = $user->createToken('authToken')->plainTextToken;
+
+                return response()->json([
+                    'meta' => [
+                        'access_token' => $tokenResult,
+                        'token_type' => 'Bearer',
+                    ],
+                    'data' => $user
+                ], 200);
             }
 
-            $user = User::where('email', $request->email)->first();
-            if (!Hash::check($request->password,  $user->password, [])) {
-                throw new \Exception('Invalid Credentials');
-            }
+            return response()->json([
+                'meta' => [
+                    'meta' => [
+                        'message' => $validator->messages()->all()
+                    ]
+                ]
+            ], 400);
 
-            $tokenResult = $user->createToken('authToken')->plainTextToken;
-            return ResponseFormatter::success([
-                'access_token' => $tokenResult,
-                'token_type' => 'Bearer',
-                'user' => $user
-            ], 'Authenticated');
+            // return ResponseFormatter::success([
+            //     'access_token' => $tokenResult,
+            //     'token_type' => 'Bearer',
+            //     'user' => $user
+            // ], 'Authenticated');
         } catch (Exception $error) {
             return response()->json([
                 'meta' => [
                     'status' => 'error',
                     'message' => 'Something went wrong'
                 ],
-                'data' => $error
+                'data' => $error->getMessage()
             ], 500);
             // return ResponseFormatter::error([
             //     'message' => 'Something went wrong',
@@ -112,7 +139,7 @@ class UserController extends Controller
                     'status' => 'error'
                 ],
                 'data' => $validator->messages()->all()
-            ], 500);
+            ], 400);
 
             // return ResponseFormatter::success([
             //     'access_token' => $tokenResult,
@@ -126,7 +153,7 @@ class UserController extends Controller
                     'status' => 'error',
                     'message' => $error
                 ],
-                'data' => $error
+                'data' => $error->getMessage()
             ], 200);
             // return ResponseFormatter::error([
             //     'message' => 'Something went wrong',

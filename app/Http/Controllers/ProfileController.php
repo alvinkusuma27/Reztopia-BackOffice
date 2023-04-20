@@ -20,7 +20,7 @@ class ProfileController extends Controller
         // $user = Auth::user()->name;
         // dd($user);
         $outlet = Outlet::with('user')->where('id_user', $id)->get();
-        $coba = asset('storage/uploads/user/') . $outlet[0]->user[0]->image;
+        // $coba = asset('storage/uploads/user/') . $outlet[0]->user[0]->image;
         // dd($coba);
         // dd($outlet);
         return view('tenant.page.profile', compact('active', 'outlet'));

@@ -56,6 +56,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'admin',
                 'sex' => 'l',
+                'position' => 'manager',
                 'username' => 'admin',
                 'roles' => 'admin',
                 'email' => 'admin@admin.com',
@@ -68,6 +69,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'kulon',
                 'sex' => 'l',
+                'position' => 'cashier',
                 'username' => 'kulon',
                 'roles' => 'kantin',
                 'email' => 'kulon@kulon.com',

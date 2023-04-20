@@ -43,7 +43,7 @@ class DashboardController extends Controller
         // dd($data);
         // $order = Orders::with('categories')->get();
         $top_product = DB::table('orders')
-            ->select('p.name', 'p.price', DB::raw('count(p.id) as total'))
+            ->select('p.name', 'p.original_price', DB::raw('count(p.id) as total'))
             ->join('categories as c', 'c.id', '=', 'orders.id_categories')
             ->join('products as p', 'p.id_category', '=', 'c.id')
             ->join('outlets as o', 'o.id', '=', 'orders.id_outlet')
