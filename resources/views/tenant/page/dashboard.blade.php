@@ -175,7 +175,7 @@
                                                     </td>
                                                     <td class="col-auto">
                                                         <p class="mb-0">
-                                                            Rp.{{ number_format($item->price) }}
+                                                            Rp.{{ number_format($item->original_price) }}
                                                         </p>
                                                     </td>
                                                     <td>

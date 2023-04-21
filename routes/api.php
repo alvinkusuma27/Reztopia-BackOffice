@@ -4,6 +4,7 @@ use App\Http\Controllers\API\MenuController;
 use App\Http\Controllers\API\TenantController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
+// use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Auth::routes(['verify' => true]);
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', [UserController::class, 'fetch']);
     Route::post('logout', [UserController::class, 'logout']);
@@ -28,8 +30,11 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('index', [TenantController::class, 'index'])->name('tenant.index');
             Route::get('search/{value}', [TenantController::class, 'search'])->name('tenant.search');
             Route::get('menu/{tenant}', [MenuController::class, 'index'])->name('tenant.menu');
-            Route::get('menu/{tenant}/{value?}', [MenuController::class, 'filterOrsort'])->name('tenant.filterOrSort');
-            Route::get('menu/{tenant}/{filter?}/{sort?}', [MenuController::class, 'filterNsort'])->name('tenant.sortNfilter');
+            // Route::get('menu/{tenant}/{value?}', [MenuController::class, 'filterOrsort'])->name('tenant.filterOrSort');
+            // jek grung ganti method post
+            Route::post('menu/filter-or-sort', [MenuController::class, 'filterNSort'])->name('tenant.sortNfilter');
+            // Route::get('menu/{tenant}/{filter?}/{sort?}', [MenuController::class, 'filterNsort'])->name('tenant.sortNfilter');
+            Route::get('menu/{tenant}/product/{id}', [MenuController::class, 'viewProduct']);
         }
     );
 

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ProfileController;
@@ -37,7 +38,9 @@ use Illuminate\Support\Facades\Route;
 //     return view('tenant.page.profile');
 // })->name('profile');
 
+// Auth::routes(['verify' => true]);
 Route::redirect('/', 'dashboard');
+Route::get('email', [EmailController::class, 'index']);
 
 Route::group(
     [

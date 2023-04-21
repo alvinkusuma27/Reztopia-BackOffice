@@ -58,21 +58,7 @@ class TenantController extends Controller
     public function search($value)
     {
 
-        // search tenant, link tenant
-        // $customer = DB::table('customer')
-        //     ->where('customer.name', 'LIKE', "%$findcustomer%")
-        //     ->orWhere('customer.phone', 'LIKE', "%$findcustomer%")
-        //     ->get();
-
-        // return View::make("your view here");
-
         try {
-
-            // $validator = Validator::make($request->all(), [
-            //     'search' => 'string|required'
-            // ]);
-
-            // if (!$validator->fails()) {
             $search = DB::table('products as p')
                 ->select('p.name as nama_produk', 'o.name as tenant_name', 'c.name as category_name')
                 ->join('categories as c', 'c.id', '=', 'p.id_category')
@@ -82,7 +68,6 @@ class TenantController extends Controller
                 ->orWhere('p.name', $value)
                 ->get();
 
-            // $data = $request->all();
             if (empty($search[0])) {
                 return response()->json([
                     'meta' => [
@@ -98,15 +83,6 @@ class TenantController extends Controller
                 ],
                 'data' => $search
             ], 200);
-            // }
-
-            // return response()->json([
-            //     'meta' => [
-            //         'status' => 'error',
-            //         'message' => 'bad request'
-            //     ],
-            //     'data' => $validator->messages()->all()
-            // ], 400);
         } catch (Exception $error) {
             return response()->json([
                 'meta' => [
