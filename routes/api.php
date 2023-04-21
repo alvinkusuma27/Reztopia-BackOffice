@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\CartController;
 use App\Http\Controllers\API\MenuController;
 use App\Http\Controllers\API\TenantController;
 use App\Http\Controllers\API\UserController;
@@ -29,21 +30,31 @@ Route::middleware('auth:sanctum')->group(function () {
         function () {
             Route::get('index', [TenantController::class, 'index'])->name('tenant.index');
             Route::get('search/{value}', [TenantController::class, 'search'])->name('tenant.search');
-            Route::get('menu/{tenant}', [MenuController::class, 'index'])->name('tenant.menu');
-            // Route::get('menu/{tenant}/{value?}', [MenuController::class, 'filterOrsort'])->name('tenant.filterOrSort');
-            // jek grung ganti method post
-            Route::post('menu/filter-or-sort', [MenuController::class, 'filterNSort'])->name('tenant.sortNfilter');
-            // Route::get('menu/{tenant}/{filter?}/{sort?}', [MenuController::class, 'filterNsort'])->name('tenant.sortNfilter');
-            Route::get('menu/{tenant}/product/{id}', [MenuController::class, 'viewProduct']);
         }
     );
+
 
     Route::group(
         [
             'prefix' => 'menu',
         ],
         function () {
-            //
+            Route::get('{tenant}', [MenuController::class, 'index'])->name('menu.index');
+            // Route::get('menu/{tenant}/{value?}', [MenuController::class, 'filterOrsort'])->name('tenant.filterOrSort');
+            // jek grung ganti method post
+            Route::post('filter-or-sort', [MenuController::class, 'filterNSort'])->name('menu.sortNfilter');
+            // Route::get('menu/{tenant}/{filter?}/{sort?}', [MenuController::class, 'filterNsort'])->name('tenant.sortNfilter');
+            Route::get('{tenant}/product/{id}', [MenuController::class, 'viewProduct']);
+            // Route::get('view-product/{tenant}/{id}', [MenuController::class, 'viewProduct']);
+        }
+    );
+
+    Route::group(
+        [
+            'prefix' => 'cart'
+        ],
+        function () {
+            Route::post('add-cart', [CartController::class, 'addCart'])->name('addCart');
         }
     );
 

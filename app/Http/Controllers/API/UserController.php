@@ -210,12 +210,14 @@ class UserController extends Controller
         // return ResponseFormatter::success([
         //     'data' => $user
         // ]);
+        $data = Auth::user()->name;
         return response()->json([
             'meta' => [
                 'success' => true,
                 'message' => 'data berhasil diambil',
             ],
-            'data' => $user
+            'data' => $user,
+            'nama' => $data
         ], 200);
     }
 }

@@ -63,9 +63,9 @@ class TenantController extends Controller
                 ->select('p.name as nama_produk', 'o.name as tenant_name', 'c.name as category_name')
                 ->join('categories as c', 'c.id', '=', 'p.id_category')
                 ->join('outlets as o', 'o.id', '=', 'c.id_outlet')
-                ->where('o.name', $value)
-                ->orWhere('c.name', $value)
-                ->orWhere('p.name', $value)
+                ->where('o.name', 'LIKE', '%' . $value . '%')
+                ->orWhere('c.name', 'LIKE', '%' . $value . '%')
+                ->orWhere('p.name', 'LIKE', '%' . $value . '%')
                 ->get();
 
             if (empty($search[0])) {

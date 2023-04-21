@@ -6,3 +6,20 @@ $data_product = DB::table('products')
 
 
 REGISTER gaatek
+
+
+Add table cart(
+    id_product{
+        name,
+        price
+    }
+    id_note_cart
+    quantity
+    type order
+    id_user
+    id_outlet
+)
+
+add table note_cart(
+    note
+)
