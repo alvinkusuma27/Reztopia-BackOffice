@@ -26,7 +26,7 @@ class MenuController extends Controller
                     $item->image = env('APP_URL')  . '/storage/uploads/product/' . $item->image;
                     array_push($result, $item);
                 }
-
+                // dd($product, $result);
                 return response()->json([
                     'meta' => [
                         'status' => 'success',
@@ -101,16 +101,16 @@ class MenuController extends Controller
                                 'status' => 'failed',
                                 'message' => 'Data Not Found'
                             ]
-                        ], 400);
+                        ], 404);
                     }
                 }
                 return response()->json([
                     'meta' => [
-                        'status' => 'success',
-                        'message' => 'Successfully fetch data'
+                        'status' => 'Failed',
+                        'message' => 'Bad Requst'
                     ],
                     'data' => $validator->messages()->all()
-                ], 200);
+                ], 400);
             } else if ($request->sort && empty($request->filter)) {
                 $validator = Validator::make(
                     $request->all(),
@@ -193,11 +193,11 @@ class MenuController extends Controller
                 }
                 return response()->json([
                     'meta' => [
-                        'status' => 'success',
-                        'message' => 'Successfully fetch data'
+                        'status' => 'Failed',
+                        'message' => 'Bad Requst'
                     ],
                     'data' => $validator->messages()->all()
-                ], 200);
+                ], 400);
             } else {
                 return response()->json([
                     'meta' => [
@@ -231,6 +231,7 @@ class MenuController extends Controller
                 ->get();
 
             if (empty($product[0])) {
+
                 return response()->json([
                     'meta' => [
                         'status' => 'Failed',
@@ -238,12 +239,18 @@ class MenuController extends Controller
                     ]
                 ], 404);
             }
+            $result = array();
+            foreach ($product as $item) {
+                $item->image = env('APP_URL') . '/storage/uploads/history-detail/' . $item->image;
+                array_push($result, $item);
+            }
             return response()->json([
                 'meta' => [
                     'status' => 'success',
                     'message' => 'Successfully fetch data'
                 ], 'data' => [
-                    'data' => $product
+                    'data' => $result,
+                    'link' => route('addCart')
                 ]
             ], 200);
         } catch (Exception $error) {

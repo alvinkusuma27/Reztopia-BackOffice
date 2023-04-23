@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\CartController;
+use App\Http\Controllers\API\HistoryController;
 use App\Http\Controllers\API\MenuController;
 use App\Http\Controllers\API\TenantController;
 use App\Http\Controllers\API\UserController;
@@ -49,12 +50,23 @@ Route::middleware('auth:sanctum')->group(function () {
         }
     );
 
+    Route::group([
+        'prefix' => 'history',
+    ], function () {
+        Route::get('index', [HistoryController::class, 'index'])->name('history');
+        Route::get('history-detail/{id}', [HistoryController::class, 'history_detail'])->name('history.detail');
+        // Route::get('{tenant}', [MenuController::class, 'index'])->name('menu.index');
+    });
+
     Route::group(
         [
             'prefix' => 'cart'
         ],
         function () {
+            Route::get('index', [CartController::class, 'index']);
             Route::post('add-cart', [CartController::class, 'addCart'])->name('addCart');
+            Route::post('add-note', [CartController::class, 'addNote']);
+            Route::post('quantity', [CartController::class, 'quantity']);
         }
     );
 

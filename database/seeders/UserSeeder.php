@@ -79,6 +79,19 @@ class UserSeeder extends Seeder
                 'created_by' => 0,
                 // ''
             ],
+            [
+                'name' => 'tes',
+                'sex' => 'l',
+                'position' => 'cashier',
+                'username' => 'tes',
+                'roles' => 'kantin',
+                'email' => 'tes@tes.com',
+                'password' => Hash::make('tes123123'),
+                'phone' => '081212121212',
+                'image' => 'gambar.png',
+                'created_by' => 0,
+                // ''
+            ],
         ]);
     }
 }

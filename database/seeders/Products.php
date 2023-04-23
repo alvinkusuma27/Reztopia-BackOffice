@@ -16,17 +16,19 @@ class Products extends Seeder
         DB::table('products')->insert(
             [
                 [
+                    'id_category' => 1,
                     'name' => 'nabati',
                     'slug' => 'link aja',
                     'description' => 'enak tau',
-                    'original_prize' => 20000,
-                    'cost_prize' => 10000,
+                    'original_price' => 20000,
+                    'cost_price' => 10000,
                     'cost' => 10000,
                     'active' => '1',
                     'image' => 'nabati.png',
                     'created_by' => '1',
                 ],
                 [
+                    'id_category' => 1,
                     'name' => 'momogi',
                     'slug' => 'link aja',
                     'description' => 'enak tau',

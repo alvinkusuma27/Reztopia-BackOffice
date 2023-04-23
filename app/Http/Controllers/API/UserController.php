@@ -59,10 +59,10 @@ class UserController extends Controller
 
             return response()->json([
                 'meta' => [
-                    'meta' => [
-                        'message' => $validator->messages()->all()
-                    ]
-                ]
+                    'status' => 'Failed',
+                    'message' => 'Bad Requst'
+                ],
+                'data' => $validator->messages()->all()
             ], 400);
 
             // return ResponseFormatter::success([
@@ -136,7 +136,8 @@ class UserController extends Controller
             }
             return response()->json([
                 'meta' => [
-                    'status' => 'error'
+                    'status' => 'Failed',
+                    'message' => 'Bad Requst'
                 ],
                 'data' => $validator->messages()->all()
             ], 400);
@@ -206,18 +207,17 @@ class UserController extends Controller
 
     public function tes()
     {
-        $user = User::paginate(2);
+        $user = User::all();
         // return ResponseFormatter::success([
         //     'data' => $user
         // ]);
-        $data = Auth::user()->name;
+        // $data = Auth::user()->name;
         return response()->json([
             'meta' => [
                 'success' => true,
                 'message' => 'data berhasil diambil',
             ],
             'data' => $user,
-            'nama' => $data
         ], 200);
     }
 }

@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('id_category')->nullable();
+            $table->foreign('id_category')->references('id')->on('categories');
             $table->string('name');
             $table->string('sku')->nullable();
             $table->string('slug');
@@ -24,8 +26,6 @@ return new class extends Migration
             $table->string('image');
             $table->string('type_product');
             $table->bigInteger('created_by');
-            $table->unsignedBigInteger('id_category')->nullable();
-            $table->foreign('id_category')->references('id')->on('categories');
             $table->timestamps();
         });
     }

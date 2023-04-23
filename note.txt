@@ -23,3 +23,16 @@ Add table cart(
 add table note_cart(
     note
 )
+
+email belum fix
+backoffice belum fix
+
+User
+Outlet
+Categories
+Products
+OrderStatus
+order
+OrderDetails
+note_cart
+cart

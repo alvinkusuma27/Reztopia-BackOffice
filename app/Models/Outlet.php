@@ -45,4 +45,9 @@ class Outlet extends Model
     {
         return $this->hasMany(User::class, 'id', 'id_user');
     }
+
+    public function cart()
+    {
+        return $this->belongsTo(Cart::class);
+    }
 }

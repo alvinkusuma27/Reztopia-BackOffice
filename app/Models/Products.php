@@ -37,4 +37,9 @@ class Products extends Model
     {
         return $this->belongsTo(Order_detail::class);
     }
+
+    public function cart()
+    {
+        return $this->belongsTo(Cart::class);
+    }
 }

@@ -14,18 +14,23 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_outlet')->nullable();
-            $table->foreign('id_outlet')->references('id')->on('outlets');
             $table->unsignedBigInteger('id_order_status')->nullable();
+            $table->unsignedBigInteger('id_category')->nullable();
+            $table->unsignedBigInteger('id_user')->nullable();
+            $table->foreign('id_outlet')->references('id')->on('outlets');
             $table->foreign('id_order_status')->references('id')->on('order_status');
-            $table->unsignedBigInteger('id_categories')->nullable();
-            $table->foreign('id_categories')->references('id')->on('categories');
+            $table->foreign('id_category')->references('id')->on('categories');
+            $table->foreign('id_user')->references('id')->on('users');
             $table->string('cashier')->nullable();
             $table->string('payment_method')->nullable();
-            $table->string('customer')->nullable();
+            $table->string('order_type')->nullable();
+            $table->string('payment_code')->nullable();
+            $table->string('table_number')->nullable();
             $table->double('total');
             $table->double('paid');
             $table->double('return');
             $table->string('proof_of_payment');
+            $table->text('link')->nullable();
             $table->date('deleted_at')->nullable();
             $table->date('date_order')->nullable();
             $table->timestamps();

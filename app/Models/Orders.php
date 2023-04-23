@@ -16,8 +16,10 @@ class Orders extends Model
     protected $fillable = [
         'id_outlet',
         'id_order_status',
-        'id_categories',
+        'id_category',
+        'id_user',
         'cashier',
+        'link',
         'payment_method',
         'customer',
         'total',

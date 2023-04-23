@@ -24,7 +24,7 @@ class TenantController extends Controller
             $results_tenant = array();
             foreach ($tenant as $item) {
                 $item->image = env('APP_URL') . '/storage/uploads/tenant/' . $item->image;
-                $item->link = env('APP_URL') . route('tenant.menu', $item->id);
+                $item->link = env('APP_URL') . route('tenant.search', $item->id);
                 array_push($results_tenant, $item);
             }
             // dd($results_tenant);
