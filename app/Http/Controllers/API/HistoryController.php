@@ -19,8 +19,8 @@ class HistoryController extends Controller
                 ->select('or.link', 'or.id', 'ot.image as image_tenant', 'or.date_order', 'ot.name', 'od.quantity', 'od.price as price_total', 'p.original_price as price_product', 'os.name as status')
                 ->join('outlets as ot', 'ot.id', '=', 'or.id_outlet')
                 ->join('order_status as os', 'os.id', '=', 'or.id_order_status')
-                ->join('order_details as od', 'od.id_order', '=', 'or.id')
-                ->join('products as p', 'p.id', '=', 'od.id_product')
+                ->join('order_details as od', 'od.id', '=', 'or.id_order_detail')
+                ->join('products as p', 'p.name', '=', 'od.product')
                 ->where('or.id_user', Auth::user()->id)
                 ->get();
             if (!empty($data[0])) {
@@ -79,8 +79,8 @@ class HistoryController extends Controller
                 )
                 ->join('outlets as ot', 'ot.id', '=', 'or.id_outlet')
                 ->join('order_status as os', 'os.id', '=', 'or.id_order_status')
-                ->join('order_details as od', 'od.id_order', '=', 'or.id')
-                ->join('products as p', 'p.id', '=', 'od.id_product')
+                ->join('order_details as od', 'od.id', '=', 'or.id_order_detail')
+                ->join('products as p', 'p.name', '=', 'od.product')
                 ->join('users as u', 'u.id', '=', 'or.id_user')
                 ->where('or.id_user', Auth::user()->id)
                 ->where('or.id', $id)

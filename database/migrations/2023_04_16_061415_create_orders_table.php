@@ -15,10 +15,12 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('id_outlet')->nullable();
             $table->unsignedBigInteger('id_order_status')->nullable();
+            $table->unsignedBigInteger('id_order_detail')->nullable();
             $table->unsignedBigInteger('id_category')->nullable();
             $table->unsignedBigInteger('id_user')->nullable();
             $table->foreign('id_outlet')->references('id')->on('outlets');
             $table->foreign('id_order_status')->references('id')->on('order_status');
+            $table->foreign('id_order_detail')->references('id')->on('order_details');
             $table->foreign('id_category')->references('id')->on('categories');
             $table->foreign('id_user')->references('id')->on('users');
             $table->string('cashier')->nullable();

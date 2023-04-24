@@ -24,8 +24,7 @@ add table note_cart(
     note
 )
 
-email belum fix
-backoffice belum fix
+
 
 User
 Outlet
@@ -36,3 +35,9 @@ order
 OrderDetails
 note_cart
 cart
+
+email belum fix
+backoffice belum fix
+ganti products di order detail jadi nama
+kasih paginate
+add id_category on outlet

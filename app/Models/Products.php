@@ -33,10 +33,10 @@ class Products extends Model
         return $this->hasMany(Categories::class, 'id', 'id_category');
     }
 
-    public function order_detail()
-    {
-        return $this->belongsTo(Order_detail::class);
-    }
+    // public function order_detail()
+    // {
+    //     return $this->belongsTo(Order_detail::class);
+    // }
 
     public function cart()
     {

@@ -17,8 +17,8 @@ class OrderDetails extends Seeder
     {
         DB::table('order_details')->insert([
             [
-                'id_product' => 1,
-                'id_order' => 1,
+                'product' => "nabati",
+                // 'id_order' => 2,
                 'quantity' => 2,
                 'price' => 10000,
                 'discount' => 1000,
@@ -27,8 +27,8 @@ class OrderDetails extends Seeder
                 'subtotal' => 3000
             ],
             [
-                'id_product' => 1,
-                'id_order' => 1,
+                'product' => "momogi",
+                // 'id_order' => 2,
                 'quantity' => 3,
                 'price' => 20000,
                 'discount' => 2000,

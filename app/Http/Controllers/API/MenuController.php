@@ -15,15 +15,17 @@ class MenuController extends Controller
     {
         try {
             $product = DB::table('products as p')
+                ->select('p.original_price as price_product', 'p.image as image_product', 'p.name as name_product', 'p.description as description_product', 'o.id as id_outlet', 'p.id as id_product')
                 ->join('categories as c', 'c.id', '=', 'p.id_category')
-                ->join('outlets as o', 'o.id', '=', 'c.id_outlet')
+                ->join('outlets as o', 'o.id_category', '=', 'c.id')
                 ->where('o.id', $tenant)
                 ->get();
-
             if (!empty($product[0])) {
+                // dd($product);
                 $result = array();
                 foreach ($product as $item) {
-                    $item->image = env('APP_URL')  . '/storage/uploads/product/' . $item->image;
+                    unset($item->id);
+                    $item->image_product = env('APP_URL')  . '/storage/uploads/product/' . $item->image_product;
                     array_push($result, $item);
                 }
                 // dd($product, $result);
@@ -56,7 +58,7 @@ class MenuController extends Controller
     public function filterNSort(Request $request)
     {
         try {
-
+            $result = array();
             if ($request->filter && $request->sort) {
                 $validator = Validator::make(
                     $request->all(),
@@ -76,23 +78,30 @@ class MenuController extends Controller
                     }
                     // dd($for_filter_array);
                     $data = DB::table('products as p')
-                        ->select('p.original_price', 'p.image', 'p.name')
+                        ->select('p.original_price as price_product', 'p.image as image_product', 'p.name as name_product', 'p.description as description_product', 'o.id as id_outlet', 'p.id as id_product')
                         ->join('categories as c', 'c.id', '=', 'p.id_category')
-                        ->join('outlets as o', 'o.id', '=', 'c.id_outlet')
+                        ->join('outlets as o', 'o.id_category', '=', 'c.id')
                         ->where('o.id', $request->id_outlet)
-                        ->orderBy('p.original_price', $request->sort)
                         ->whereIn('c.id', $filter)
+                        ->orderBy('p.original_price', $request->sort)
                         ->get();
+
                     // $data = $request->all();
                     // $data = $request->all();
-                    // dd($data);
+                    // dd($data, $filter);
                     if (!empty($data[0])) {
+                        foreach ($data as $item) {
+                            // unset($item->id);
+                            // dd($item);
+                            $item->image_product = env('APP_URL')  . '/storage/uploads/product/' . $item->image_product;
+                            array_push($result, $item);
+                        }
                         return response()->json([
                             'meta' => [
                                 'status' => 'success',
                                 'message' => 'Successfully fetch data'
                             ],
-                            'data' => $data
+                            'data' => $result
                         ], 200);
                     } else {
 
@@ -121,21 +130,27 @@ class MenuController extends Controller
                 );
                 if (!$validator->fails()) {
                     $data = DB::table('products as p')
-                        ->select('p.original_price', 'p.image', 'p.name')
+                        ->select('p.original_price as price_product', 'p.image as image_product', 'p.name as name_product', 'p.description as description_product', 'o.id as id_outlet', 'p.id as id_product')
                         ->join('categories as c', 'c.id', '=', 'p.id_category')
-                        ->join('outlets as o', 'o.id', '=', 'c.id_outlet')
+                        ->join('outlets as o', 'o.id_category', '=', 'c.id')
                         ->where('o.id', $request->id_outlet)
                         ->orderBy('p.original_price', $request->sort)
                         ->get();
                     // $request->sort;
                     // dd($data);
                     if (!empty($data[0])) {
+                        foreach ($data as $item) {
+                            // unset($item->id);
+                            // dd($item);
+                            $item->image_product = env('APP_URL')  . '/storage/uploads/product/' . $item->image_product;
+                            array_push($result, $item);
+                        }
                         return response()->json([
                             'meta' => [
                                 'status' => 'success',
                                 'message' => 'Successfully fetch data'
                             ],
-                            'data' => $data
+                            'data' => $result
                         ], 200);
                     } else {
                         return response()->json([
@@ -168,19 +183,25 @@ class MenuController extends Controller
                         array_push($filter, $item);
                     }
                     $data = DB::table('products as p')
-                        ->select('p.original_price', 'p.image', 'p.name')
+                        ->select('p.original_price as price_product', 'p.image as image_product', 'p.name as name_product', 'p.description as description_product', 'o.id as id_outlet', 'p.id as id_product')
                         ->join('categories as c', 'c.id', '=', 'p.id_category')
-                        ->join('outlets as o', 'o.id', '=', 'c.id_outlet')
+                        ->join('outlets as o', 'o.id_category', '=', 'c.id')
                         ->where('o.id', $request->id_outlet)
                         ->whereIn('c.id', $filter)
                         ->get();
                     if (!empty($data[0])) {
+                        foreach ($data as $item) {
+                            // unset($item->id);
+                            // dd($item);
+                            $item->image_product = env('APP_URL')  . '/storage/uploads/product/' . $item->image_product;
+                            array_push($result, $item);
+                        }
                         return response()->json([
                             'meta' => [
                                 'status' => 'success',
                                 'message' => 'Successfully fetch data'
                             ],
-                            'data' => $data
+                            'data' => $result
                         ], 200);
                     } else {
                         return response()->json([
@@ -219,13 +240,18 @@ class MenuController extends Controller
         // dd($tenant, $value);
     }
 
+    // public function viewFilterNSort(){
+
+    // }
+
     public function viewProduct($tenant, $id)
     {
         try {
             $product = DB::table('products as p')
-                ->select('p.original_price', 'p.image', 'p.name', 'p.description')
+                // ->select('p.original_price', 'p.image', 'p.name', 'p.description')
+                ->select('p.original_price as price_product', 'p.image as image_product', 'p.name as name_product', 'p.description as description_product', 'o.id as id_outlet', 'p.id as id_product')
                 ->join('categories as c', 'c.id', '=', 'p.id_category')
-                ->join('outlets as o', 'o.id', '=', 'c.id_outlet')
+                ->join('outlets as o', 'o.id_category', '=', 'c.id')
                 ->where('o.id', $tenant)
                 ->where('p.id', $id)
                 ->get();
@@ -241,7 +267,7 @@ class MenuController extends Controller
             }
             $result = array();
             foreach ($product as $item) {
-                $item->image = env('APP_URL') . '/storage/uploads/history-detail/' . $item->image;
+                $item->image_product = env('APP_URL') . '/storage/uploads/history-detail/' . $item->image_product;
                 array_push($result, $item);
             }
             return response()->json([

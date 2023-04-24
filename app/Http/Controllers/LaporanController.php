@@ -24,9 +24,9 @@ class LaporanController extends Controller
         $order = DB::table('outlets')
             ->select('o.total', 'p.name', 'o.date_order', 'od.quantity', 'o.proof_of_payment', 'o.id')
             ->join('orders as o', 'o.id_outlet', '=', 'outlets.id')
-            ->join('order_details as od', 'od.id_order', '=', 'o.id')
+            ->join('order_details as od', 'od.id', '=', 'o.id_order')
             ->join('order_status as os', 'os.id', '=', 'o.id_order_status')
-            ->join('products as p', 'od.id_product', '=', 'p.id')
+            ->join('products as p', 'p.name', '=', 'od.product')
             ->where('outlets.id_user', $id)
             // ->groupBy('o.id_outlet')
             ->get();

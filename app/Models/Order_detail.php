@@ -15,7 +15,8 @@ class Order_detail extends Model
 
     protected $fillable = [
         'id_order',
-        'id_product',
+        // 'id_product',
+        'product',
         'quantity',
         'price',
         'discount',
@@ -31,8 +32,8 @@ class Order_detail extends Model
         return $this->hasMany(Orders::class, 'id', 'id_order');
     }
 
-    public function product()
-    {
-        return $this->hasMany(Products::class, 'id', 'id_product');
-    }
+    // public function product()
+    // {
+    //     return $this->hasMany(Products::class, 'id', 'id_product');
+    // }
 }

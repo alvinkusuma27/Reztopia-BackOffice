@@ -19,8 +19,9 @@ class Orders extends Seeder
         $date = $tgl->toDateString();
         DB::table('orders')->insert([
             [
-                'id_outlet' => 1,
+                'id_outlet' => 2,
                 'id_order_status' => 1,
+                'id_order_detail' => 1,
                 'id_category' => 1,
                 'id_user' => 3,
                 'cashier' => 'Indra',
@@ -34,8 +35,9 @@ class Orders extends Seeder
                 'date_order' => $date,
             ],
             [
-                'id_outlet' => 1,
+                'id_outlet' => 2,
                 'id_order_status' => 1,
+                'id_order_detail' => 2,
                 'id_category' => 1,
                 'id_user' => 3,
                 'cashier' => 'Yanti',
