@@ -3,7 +3,7 @@
 
 @section('container')
     <div class="page-heading">
-        <h3>Welcome Tenant {{ empty($outlet[0]) ? 'Nan' : $outlet[0]->name }}</h3>
+        <h3>Welcome Tenant {{ empty($outlet[0]) ? 'Nan' : $tenant_name }}</h3>
         <p>All System are running smothly! you have 3 unread <span style="color:aqua">alert!</span> </p>
     </div>
     <div class="page-content">
@@ -59,7 +59,7 @@
                                         <h6 class="text-muted font-semibold">
                                             Number of Category
                                         </h6>
-                                        {{-- <h6 class="font-extrabold mb-0">{{ $today_order }}</h6> --}}
+                                        <h6 class="font-extrabold mb-0">{{ $total_category }}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -76,7 +76,7 @@
                                     </div>
                                     <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                                         <h6 class="text-muted font-semibold">Number of Menu</h6>
-                                        {{-- <h6 class="font-extrabold mb-0">{{ $total_order }}</h6> --}}
+                                        <h6 class="font-extrabold mb-0">{{ $total_menu }}</h6>
                                     </div>
                                 </div>
                             </div>

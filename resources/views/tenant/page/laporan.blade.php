@@ -5,6 +5,19 @@
         .color-card {
             background-color: rgb(14, 12, 27);
         }
+
+        .img-container {
+            /* position: relative; */
+            /* padding-top: 100%; */
+        }
+
+        img {
+            /* position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                    width: 100%; */
+            max-width: 500px;
+        }
     </style>
 @endpush
 
@@ -93,79 +106,31 @@
     </div>
 
     @foreach ($order as $item)
-        <div class="modal fade" id="modalToggle{{ $item->id }}" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal fade text-left w-100" id="modalToggle{{ $item->id }}" tabindex="-1" role="dialog"
+            aria-labelledby="myModalLabel20" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-full" role="document">
                 <div class="modal-content">
-                    <div class="modal-header d-flex justify-content-center">
-                        <h5 class="modal-title" id="exampleModalScrollableTitle">
-                            Tambah Kategori {{ $item->proof_of_payment }}</h5>
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel20">
+                            Proof of Payment
+                        </h4>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <i data-feather="x"></i>
+                        </button>
                     </div>
-                    <div class="modal-body">
-                        <div class="form-group mb-3">
-                            <label for="basicInput">Nama Kategori</label>
-                            <input type="text" class="form-control mt-3" id="basicInput" name="kategori">
-                        </div>
-                        <label for="basicInput">Pilih Makanan dan Minuman</label>
-                        <div class="row mt-3">
-                            <div class="col-4">
-                                <div class="card">
-                                    <div class="card-content">
-                                        <div class="card-body color-card">
-                                            <input type="checkbox" class="custom-control-input" id="ck2a">
-                                            <label class="custom-control-label" for="ck2a">
-                                                <img src="assets/images/samples/motorcycle.jpg"
-                                                    class="card-img-top img-fluid" alt="singleminded" alt="#"
-                                                    class="img-fluid">
-                                                <h5 class="card-title mt-3">
-                                                    Ayam Goreng
-                                                </h5>
-                                                <p class="card-text mt-2 mb-3">
-                                                    Makanan
-                                                </p>
-                                                <p class="card-text">
-                                                    Rp.12000
-                                                </p>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="card">
-                                    <div class="card-content">
-                                        <div class="card-body color-card">
-                                            <input type="checkbox" class="custom-control-input" id="ck1a">
-                                            <label class="custom-control-label" for="ck1a">
-                                                <img src="assets/images/samples/motorcycle.jpg"
-                                                    class="card-img-top img-fluid" alt="singleminded" alt="#"
-                                                    class="img-fluid">
-                                                <h5 class="card-title mt-3">
-                                                    Ayam Goreng
-                                                </h5>
-                                                <p class="card-text mt-2 mb-3">
-                                                    Makanan
-                                                </p>
-                                                <p class="card-text">
-                                                    Rp.12000
-                                                </p>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="modal-body img-container d-flex justify-content-center">
+                        <img src="{{ asset('storage/uploads/orders/' . $item->proof_of_payment) }}" alt="">
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                        <i class="bx bx-x d-block d-sm-none"></i>
-                        <span class="d-none d-sm-block">Close</span>
-                    </button>
-                    <button type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
-                        <i class="bx bx-check d-block d-sm-none"></i>
-                        <span class="d-none d-sm-block">Accept</span>
-                    </button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                            <i class="bx bx-x d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Close</span>
+                        </button>
+                        <button type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+                            <i class="bx bx-check d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Accept</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

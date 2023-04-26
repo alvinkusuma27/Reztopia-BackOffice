@@ -66,6 +66,8 @@ Route::group(
         Route::post('tenant', [TenantController::class, 'store'])->name('tenant.store');
         Route::post('tenant/{id}', [TenantController::class, 'update'])->name('tenant.update');
         Route::get('tenant/{id}', [TenantController::class, 'destroy'])->name('tenant.destroy');
+        Route::get('tenant-control', [TenantController::class, 'tenantControl'])->name('tenant-control');
+        Route::get('tenant-control/{id}', [TenantController::class, 'changeActiveTenant'])->name('changeActiveTenant');
         // Route::get('menu', [MenuController::class, 'index'])->name('menu');
         Route::get('laporan', [LaporanController::class, 'index'])->name('laporan');
         Route::get('profile', [ProfileController::class, 'index'])->name('profile');

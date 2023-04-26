@@ -31,7 +31,7 @@ class TenantController extends Controller
             $results_categories = array();
             foreach ($categories as $item) {
                 $item->image = env('APP_URL') . '/storage/uploads/categories/' . $item->image;
-                $item->link = route('tenant.menu', $item->id);
+                $item->link = route('menu.index', $item->id);
                 array_push($results_categories, $item);
             }
             return response()->json([
@@ -59,30 +59,39 @@ class TenantController extends Controller
     {
 
         try {
-            $search = DB::table('products as p')
-                ->select('p.name as nama_produk', 'o.name as tenant_name', 'c.name as category_name')
-                ->join('categories as c', 'c.id', '=', 'p.id_category')
-                ->join('outlets as o', 'o.id', '=', 'c.id_outlet')
-                ->where('o.name', 'LIKE', '%' . $value . '%')
-                ->orWhere('c.name', 'LIKE', '%' . $value . '%')
-                ->orWhere('p.name', 'LIKE', '%' . $value . '%')
-                ->get();
+            if (!empty($value)) {
+                $search = DB::table('products as p')
+                    ->select('p.name as nama_produk', 'o.name as tenant_name', 'c.name as category_name')
+                    ->join('categories as c', 'c.id', '=', 'p.id_category')
+                    ->join('outlets as o', 'o.id', '=', 'c.id_outlet')
+                    ->where('o.name', 'LIKE', '%' . $value . '%')
+                    ->orWhere('c.name', 'LIKE', '%' . $value . '%')
+                    ->orWhere('p.name', 'LIKE', '%' . $value . '%')
+                    ->get();
 
-            if (empty($search[0])) {
+                if (empty($search[0])) {
+                    return response()->json([
+                        'meta' => [
+                            'status' => 'failed',
+                            'message' => 'Data Not Found'
+                        ]
+                    ], 400);
+                }
+                return response()->json([
+                    'meta' => [
+                        'status' => 'success',
+                        'message' => 'Data Successfully Fetch',
+                    ],
+                    'data' => $search
+                ], 200);
+            } else {
                 return response()->json([
                     'meta' => [
                         'status' => 'failed',
-                        'message' => 'Data Not Found'
-                    ]
+                        'message' => 'Bad Request'
+                    ],
                 ], 400);
             }
-            return response()->json([
-                'meta' => [
-                    'status' => 'success',
-                    'message' => 'Data Successfully Fetch',
-                ],
-                'data' => $search
-            ], 200);
         } catch (Exception $error) {
             return response()->json([
                 'meta' => [

@@ -17,9 +17,10 @@ class MenuController extends Controller
             $product = DB::table('products as p')
                 ->select('p.original_price as price_product', 'p.image as image_product', 'p.name as name_product', 'p.description as description_product', 'o.id as id_outlet', 'p.id as id_product')
                 ->join('categories as c', 'c.id', '=', 'p.id_category')
-                ->join('outlets as o', 'o.id_category', '=', 'c.id')
+                ->join('outlets as o', 'o.id', '=', 'c.id_outlet')
                 ->where('o.id', $tenant)
                 ->get();
+            // dd($product);
             if (!empty($product[0])) {
                 // dd($product);
                 $result = array();
@@ -78,9 +79,9 @@ class MenuController extends Controller
                     }
                     // dd($for_filter_array);
                     $data = DB::table('products as p')
-                        ->select('p.original_price as price_product', 'p.image as image_product', 'p.name as name_product', 'p.description as description_product', 'o.id as id_outlet', 'p.id as id_product')
+                        ->select('p.original_price as price_product', 'p.image as image_product', 'p.name as name_product', 'p.description as description_product', 'o.id as id_outlet', 'p.id as id_product', 'c.name as name_category')
                         ->join('categories as c', 'c.id', '=', 'p.id_category')
-                        ->join('outlets as o', 'o.id_category', '=', 'c.id')
+                        ->join('outlets as o', 'o.id', '=', 'c.id_outlet')
                         ->where('o.id', $request->id_outlet)
                         ->whereIn('c.id', $filter)
                         ->orderBy('p.original_price', $request->sort)
@@ -130,9 +131,9 @@ class MenuController extends Controller
                 );
                 if (!$validator->fails()) {
                     $data = DB::table('products as p')
-                        ->select('p.original_price as price_product', 'p.image as image_product', 'p.name as name_product', 'p.description as description_product', 'o.id as id_outlet', 'p.id as id_product')
+                        ->select('p.original_price as price_product', 'p.image as image_product', 'p.name as name_product', 'p.description as description_product', 'o.id as id_outlet', 'p.id as id_product', 'c.name as name_category')
                         ->join('categories as c', 'c.id', '=', 'p.id_category')
-                        ->join('outlets as o', 'o.id_category', '=', 'c.id')
+                        ->join('outlets as o', 'o.id', '=', 'c.id_outlet')
                         ->where('o.id', $request->id_outlet)
                         ->orderBy('p.original_price', $request->sort)
                         ->get();
@@ -183,9 +184,9 @@ class MenuController extends Controller
                         array_push($filter, $item);
                     }
                     $data = DB::table('products as p')
-                        ->select('p.original_price as price_product', 'p.image as image_product', 'p.name as name_product', 'p.description as description_product', 'o.id as id_outlet', 'p.id as id_product')
+                        ->select('p.original_price as price_product', 'p.image as image_product', 'p.name as name_product', 'p.description as description_product', 'o.id as id_outlet', 'p.id as id_product', 'c.name as name_category')
                         ->join('categories as c', 'c.id', '=', 'p.id_category')
-                        ->join('outlets as o', 'o.id_category', '=', 'c.id')
+                        ->join('outlets as o', 'o.id', '=', 'c.id_outlet')
                         ->where('o.id', $request->id_outlet)
                         ->whereIn('c.id', $filter)
                         ->get();
@@ -251,7 +252,7 @@ class MenuController extends Controller
                 // ->select('p.original_price', 'p.image', 'p.name', 'p.description')
                 ->select('p.original_price as price_product', 'p.image as image_product', 'p.name as name_product', 'p.description as description_product', 'o.id as id_outlet', 'p.id as id_product')
                 ->join('categories as c', 'c.id', '=', 'p.id_category')
-                ->join('outlets as o', 'o.id_category', '=', 'c.id')
+                ->join('outlets as o', 'o.id', '=', 'c.id_outlet')
                 ->where('o.id', $tenant)
                 ->where('p.id', $id)
                 ->get();

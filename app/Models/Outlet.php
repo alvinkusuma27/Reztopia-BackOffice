@@ -16,11 +16,13 @@ class Outlet extends Model
     protected $fillable = [
         'name',
         'id_user',
+        // 'id_category',
         'slug',
         'phone',
         'address',
         'image',
         'link',
+        'active',
         'created_by',
         'created_at',
         'updated_at'
@@ -33,7 +35,7 @@ class Outlet extends Model
 
     public function categories()
     {
-        return $this->belongsTo(Categories::class);
+        return $this->hasMany(Categories::class, 'id', 'id_category');
     }
 
     public function order()

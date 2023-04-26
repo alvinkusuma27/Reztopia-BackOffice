@@ -29,7 +29,7 @@ class Order_detail extends Model
 
     public function order()
     {
-        return $this->hasMany(Orders::class, 'id', 'id_order');
+        return $this->belongsTo(Orders::class);
     }
 
     // public function product()

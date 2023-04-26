@@ -36,6 +36,7 @@ OrderDetails
 note_cart
 cart
 
+status active user
 email belum fix
 backoffice belum fix
 ganti products di order detail jadi nama

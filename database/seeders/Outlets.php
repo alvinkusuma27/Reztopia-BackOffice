@@ -16,34 +16,37 @@ class Outlets extends Seeder
         DB::table('outlets')->insert([
             [
                 'id_user' => 1,
-                'id_category' => 1,
+                // 'id_category' => 1,
                 'name' => 'Primarasa',
                 'slug' => 'enak',
                 'phone' => '08123818883',
                 'address' => 'surabaya',
                 'created_by' => 0,
-                'active' => 'active'
+                'active' => 'active',
+                'image' => 'tenant.png'
             ],
+
             [
                 'id_user' => 2,
-                'id_category' => 2,
+                // 'id_category' => 2,
                 'name' => 'Rasajawa',
                 'slug' => 'enak',
                 'phone' => '08123818883',
                 'address' => 'surabaya',
                 'created_by' => 0,
-                'active' => 'active'
+                'active' => 'active',
+                'image' => 'tenant.png'
             ],
-            [
-                'id_user' => 3,
-                'id_category' => 2,
-                'name' => 'Rajarasa',
-                'slug' => 'enak',
-                'phone' => '08123818883',
-                'address' => 'surabaya',
-                'created_by' => 0,
-                'active' => 'deactive'
-            ],
+            // [
+            // 'id_user' => 3,
+            // 'id_category' => 2,
+            // 'name' => 'Rajarasa',
+            // 'slug' => 'enak',
+            // 'phone' => '08123818883',
+            // 'address' => 'surabaya',
+            // 'created_by' => 0,
+            // 'active' => 'deactive'
+            // ],
         ]);
     }
 }

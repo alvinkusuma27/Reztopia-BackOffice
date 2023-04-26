@@ -13,18 +13,18 @@ return new class extends Migration
     {
         Schema::create('outlets', function (Blueprint $table) {
             $table->id();
+            // $table->unsignedBigInteger('id_category')->nullable();
+            // $table->foreign('id_category')->references('id')->on('categories');
             $table->unsignedBigInteger('id_user')->nullable();
-            $table->unsignedBigInteger('id_category')->nullable();
             $table->foreign('id_user')->references('id')->on('users');
-            $table->foreign('id_category')->references('id')->on('categories');
             $table->string('name');
             $table->string('slug');
             $table->string('phone');
             $table->string('address');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->string('active')->default('active');
             $table->text('link')->nullable();
-            $table->string('created_by');
+            $table->string('created_by')->nullable();
             $table->timestamps();
         });
     }

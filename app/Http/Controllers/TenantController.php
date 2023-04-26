@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Outlet;
 use App\Models\User;
+use Exception;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -129,5 +130,49 @@ class TenantController extends Controller
         // dd($outlet->delete(), $user->delete());
         Alert::toast('Success Delete Account', 'success');
         return back();
+    }
+
+    public function tenantControl()
+    {
+        // dd($id);
+        try {
+            $active = 'tenant-control';
+            // $user = User::select('id')->latest()->get();
+            // dd($user);
+            // $id = Auth::user()->id;
+            // id, nama, tenant
+            $outlet = Outlet::with('user')->where('id_user', '!=', '1')->get();
+            // dd($outlet);
+            return view('tenant.page.tenant-control', compact('active', 'outlet'));
+        } catch (Exception $error) {
+            dd($error->getMessage());
+        }
+    }
+
+    public function changeActiveTenant($id)
+    {
+        // dd($id);
+        try {
+            // dd($id);
+            $tenant = Outlet::findOrFail($id);
+            // dd($tenant);
+            if ($tenant->active == 'active') {
+
+                $tenant->update([
+                    'active' => 'deactive'
+                ]);
+                Alert::success('Succes Deactive');
+                return back();
+            } else {
+                $tenant->update([
+                    'active' => 'active'
+                ]);
+                Alert::success('Succes Activated');
+                return back();
+            }
+            return back();
+        } catch (Exception $error) {
+            dd($error->getMessage());
+        }
     }
 }

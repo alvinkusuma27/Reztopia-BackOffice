@@ -15,13 +15,13 @@ class Categories extends Seeder
     {
         DB::table('categories')->insert([
             [
-                // 'id_outlet' => 1,
+                'id_outlet' => 2,
                 'name' => 'Jawa',
                 'slug' => 'enak',
                 'image' => 'jawa.png',
             ],
             [
-                // 'id_outlet' => 1,
+                'id_outlet' => 2,
                 'name' => 'Rasajawa',
                 'slug' => 'enak',
                 'image' => 'jawa.png',

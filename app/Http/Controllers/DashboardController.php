@@ -7,33 +7,74 @@ use App\Models\Orders;
 use App\Models\Outlet;
 use App\Models\Products;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class DashboardController extends Controller
 {
+    // public function __construct()
+    // {
+    //     // dd(Auth::user());
+    //     // $active = Outlet::where('id_user', Auth::user()->id)->select('active')->get();
+    //     // if ($active[0]->active != "active") {
+    //     //     Session::flash('your tenant is deactived', 'contact admin to activate the outlet');
+    //     //     return redirect()->route('login');
+    //     // }
+    //     $this->middleware(function ($request, $next) {
+    //         $this->user = Auth::user();
+
+    //         // return $next($request);
+    //         if($)
+    //     });
+    //     // dd(Auth::user());
+    // }
+
+
     public function index()
     {
+        $active_tenant = Outlet::where('id_user', Auth::user()->id)->select('active')->get();
+        if ($active_tenant[0]->active != 'active') {
+            Auth::logout();
+            Alert::error('Tenant is Deactived', 'Please Contact the Admin to Activate the Tenant');
+            return redirect()->route('login');
+        }
+
         $active = 'dashboard';
         $tgl = Carbon::now();
         $date = $tgl->month;
         $id = Auth::user()->id;
+        // dd($id);
 
-        $outlet = Outlet::with('user')->where('id_user', $id)->get();
+        // $outlet = Outlet::with('user')->where('id_user', $id)->get();
+        $outlet = DB::table('outlets as o')
+            ->select('o.name as tenant_name', 'c.id as id_category', 'p.name as name_product')
+            ->join('categories as c', 'c.id_outlet', 'o.id')
+            ->join('products as p', 'p.id_category', '=', 'c.id')
+            ->where('o.id_user', $id)
+            ->get();
 
         $data = DB::table('orders')
             ->join('outlets', 'outlets.id', '=', 'orders.id_outlet')
+            ->join('categories as c', 'c.id_outlet', '=', 'outlets.id')
             ->where('outlets.id_user', $id)
             // ->where('MONTH(orders.date_order)', $date)
             ->whereMonth('orders.date_order', $date)
+            ->groupBy('orders.id')
             // ->groupBy('orders.date_order')
             // ->orderBy('orders.date_order', 'asc')
             ->get();
+        // CATEGORY, MENU
         // dd($data);
+
 
         $total_order = $data->sum('total');
         $today_order = $data->count('id');
+        $total_category = $outlet->unique('id_category')->count();
+        $total_menu = $outlet->unique('name_product')->count();
+        $tenant_name = $outlet[0]->tenant_name;
         // dd($outlet);
         //         SELECT * FROM products
         // JOIN categories ON products.id_category = categories.id
@@ -81,7 +122,7 @@ class DashboardController extends Controller
         // dd($top_product);
 
 
-        return view('tenant.page.dashboard', compact('active', 'today_order', 'total_order', 'top_product', 'outlet', 'total_product'));
+        return view('tenant.page.dashboard', compact('active', 'today_order', 'total_order', 'top_product', 'outlet', 'total_product', 'total_category', 'total_menu', 'tenant_name'));
     }
 }
 

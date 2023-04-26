@@ -16,6 +16,7 @@ class Orders extends Model
     protected $fillable = [
         'id_outlet',
         'id_order_status',
+        'id_order_detail',
         'id_category',
         'id_user',
         'cashier',
@@ -42,7 +43,7 @@ class Orders extends Model
 
     public function order_detail()
     {
-        return $this->belongsTo(Order_detail::class);
+        return $this->hasMany(Order_detail::class, 'id', 'id_order_detail');
     }
 
     public function categories()

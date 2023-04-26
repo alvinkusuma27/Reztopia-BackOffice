@@ -55,6 +55,12 @@
                         <span>Tenant</span>
                     </a>
                 </li>
+                <li class="sidebar-item {{ $active == 'tenant-control' ? 'active' : '' }}">
+                    <a href="{{ route('tenant-control') }}" class="sidebar-link">
+                        <i class="bi bi-person-badge"></i>
+                        <span>Tenant Control</span>
+                    </a>
+                </li>
                 {{-- <li class="sidebar-item {{ $active == 'menu' ? 'active' : '' }}">
                     <a href="{{ route('menu') }}" class="sidebar-link">
                         <i class="bi bi-cart-check-fill"></i>

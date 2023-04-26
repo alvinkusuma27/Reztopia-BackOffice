@@ -25,7 +25,7 @@ class Categories extends Model
 
     public function outlet()
     {
-        return $this->hasMany(Outlet::class, 'id', 'id_outlet');
+        return $this->belongsTo(Outlet::class);
     }
 
     public function product()

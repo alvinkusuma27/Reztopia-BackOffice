@@ -1,12 +1,5 @@
 @extends('tenant.components.master')
 @section('title', 'TENANT')
-@push('head')
-    <style>
-        .color-card {
-            background-color: rgb(14, 12, 27);
-        }
-    </style>
-@endpush
 
 @push('scripts')
     <script>
