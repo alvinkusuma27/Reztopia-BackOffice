@@ -58,7 +58,7 @@ Route::group(
 
 Route::group(
     [
-        'middleware' => 'auth', 'CheckRole:admin,kantin'
+        'middleware' => 'auth', 'CheckRole:admin'
     ],
     function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
