@@ -16,8 +16,7 @@ class LaporanController extends Controller
         $active = 'laporan';
         $id = Auth::user()->id;
         $tgl = Carbon::now();
-        // $date = $tgl->toDateString();
-        $date = "2023-04-16";
+        $date = $tgl->day;
 
 
         // omzet_today, omzet total, nam product, tanggal, jumlah,
@@ -28,28 +27,32 @@ class LaporanController extends Controller
             ->join('order_status as os', 'os.id', '=', 'o.id_order_status')
             ->join('products as p', 'p.name', '=', 'od.product')
             ->where('outlets.id_user', $id)
+            ->whereDay('o.date_order', $date)
             // ->groupBy('o.id_outlet')
             ->get();
-        $cona = Orders::all();
+        // $cona = Orders::all();
         // dd($order);
-        $today = array();
-        $total = array();
-        $data = $order->where('date_order', $date);
-        foreach ($data as $item) {
-            $all = $item->total;
-            array_push($today, $all);
-        }
+        $today_omzet = array();
+        $today_order = array();
+        // $data = $order->where('date_order', $date);
         foreach ($order as $item) {
             $all = $item->total;
-            array_push($total, $all);
+            // dd($all);
+            array_push($today_omzet, $all);
         }
-        $omzet_today = array_sum($today);
-        $omzet_total = array_sum($total);
+        foreach ($order as $item) {
+            $all = $item->id;
+            // dd($all);
+            array_push($today_order, $all);
+        }
+        $omzet_today = array_sum($today_omzet);
+        $order_today = count($today_order);
+        // dd($omzet_today, $omzet_total);
         // dd($omzet_total);
 
         // $omzet_today =
         // $omzet_total
 
-        return view('tenant.page.laporan', compact('active', 'omzet_total', 'omzet_today', 'order'));
+        return view('tenant.page.laporan', compact('active', 'order_today', 'omzet_today', 'order'));
     }
 }

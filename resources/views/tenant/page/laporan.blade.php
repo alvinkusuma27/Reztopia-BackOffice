@@ -13,9 +13,9 @@
 
         img {
             /* position: absolute;
-                                    top: 0;
-                                    left: 0;
-                                    width: 100%; */
+                                                                    top: 0;
+                                                                    left: 0;
+                                                                    width: 100%; */
             max-width: 500px;
         }
     </style>
@@ -35,9 +35,9 @@
                             <div class="card-body px-4 py-4-5">
                                 <div class="row">
                                     <h6 class="text-muted font-semibold">
-                                        Omzet Today
+                                        Today's Order
                                     </h6>
-                                    <h6 class="font-extrabold mb-0">Rp.{{ number_format($omzet_today) }}</h6>
+                                    <h6 class="font-extrabold mb-0">{{ $order_today }}</h6>
                                 </div>
                             </div>
                         </div>
@@ -47,9 +47,9 @@
                             <div class="card-body px-4 py-4-5">
                                 <div class="row">
                                     <h6 class="text-muted font-semibold">
-                                        Omzet
+                                        Today's Omzet
                                     </h6>
-                                    <h6 class="font-extrabold mb-0">Rp.{{ number_format($omzet_total) }}</h6>
+                                    <h6 class="font-extrabold mb-0">Rp.{{ number_format($omzet_today) }}</h6>
                                 </div>
                             </div>
                         </div>

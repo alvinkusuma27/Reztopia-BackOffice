@@ -15,9 +15,9 @@ class CheckRole
      */
     public function handle($request, Closure $next, ...$roles)
     {
-        if (in_array($request->user()->level, $roles)) {
+        if (in_array($request->user()->roles, $roles)) {
             return $next($request);
         }
-        return view('tenant.auth.login');
+        return response()->view('tenant.auth.login');
     }
 }

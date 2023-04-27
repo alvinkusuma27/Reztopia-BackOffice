@@ -15,24 +15,6 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class DashboardController extends Controller
 {
-    // public function __construct()
-    // {
-    //     // dd(Auth::user());
-    //     // $active = Outlet::where('id_user', Auth::user()->id)->select('active')->get();
-    //     // if ($active[0]->active != "active") {
-    //     //     Session::flash('your tenant is deactived', 'contact admin to activate the outlet');
-    //     //     return redirect()->route('login');
-    //     // }
-    //     $this->middleware(function ($request, $next) {
-    //         $this->user = Auth::user();
-
-    //         // return $next($request);
-    //         if($)
-    //     });
-    //     // dd(Auth::user());
-    // }
-
-
     public function index()
     {
         $active_tenant = Outlet::where('id_user', Auth::user()->id)->select('active')->get();
@@ -61,7 +43,7 @@ class DashboardController extends Controller
             ->join('categories as c', 'c.id_outlet', '=', 'outlets.id')
             ->where('outlets.id_user', $id)
             // ->where('MONTH(orders.date_order)', $date)
-            ->whereMonth('orders.date_order', $date)
+            // ->whereMonth('orders.date_order', $date)
             ->groupBy('orders.id')
             // ->groupBy('orders.date_order')
             // ->orderBy('orders.date_order', 'asc')
@@ -74,7 +56,6 @@ class DashboardController extends Controller
         $today_order = $data->count('id');
         $total_category = $outlet->unique('id_category')->count();
         $total_menu = $outlet->unique('name_product')->count();
-        $tenant_name = $outlet[0]->tenant_name;
         // dd($outlet);
         //         SELECT * FROM products
         // JOIN categories ON products.id_category = categories.id
@@ -122,7 +103,7 @@ class DashboardController extends Controller
         // dd($top_product);
 
 
-        return view('tenant.page.dashboard', compact('active', 'today_order', 'total_order', 'top_product', 'outlet', 'total_product', 'total_category', 'total_menu', 'tenant_name'));
+        return view('tenant.page.dashboard', compact('active', 'today_order', 'total_order', 'top_product', 'outlet', 'total_product', 'total_category', 'total_menu'));
     }
 }
 
