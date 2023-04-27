@@ -74,7 +74,8 @@ class DashboardController extends Controller
         $today_order = $data->count('id');
         $total_category = $outlet->unique('id_category')->count();
         $total_menu = $outlet->unique('name_product')->count();
-        $tenant_name = $outlet[0]->tenant_name;
+        // dd($outlet);
+        // $tenant_name = $outlet[0]->tenant_name;
         // dd($outlet);
         //         SELECT * FROM products
         // JOIN categories ON products.id_category = categories.id
@@ -122,7 +123,7 @@ class DashboardController extends Controller
         // dd($top_product);
 
 
-        return view('tenant.page.dashboard', compact('active', 'today_order', 'total_order', 'top_product', 'outlet', 'total_product', 'total_category', 'total_menu', 'tenant_name'));
+        return view('tenant.page.dashboard', compact('active', 'today_order', 'total_order', 'top_product', 'outlet', 'total_product', 'total_category', 'total_menu'));
     }
 }
 

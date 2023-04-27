@@ -8,6 +8,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +40,12 @@ use Illuminate\Support\Facades\Route;
 // })->name('profile');
 
 // Auth::routes(['verify' => true]);
+Route::get('clear_cache', function () {
+
+    Artisan::call('optimize:clear');
+
+    dd("Cache is cleared");
+});
 Route::redirect('/', 'dashboard');
 Route::get('email', [EmailController::class, 'index']);
 
@@ -58,7 +65,7 @@ Route::group(
 
 Route::group(
     [
-        'middleware' => 'auth', 'CheckRole:admin,kantin'
+        'middleware' => ['auth', 'role:admin']
     ],
     function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -68,7 +75,7 @@ Route::group(
         Route::get('tenant/{id}', [TenantController::class, 'destroy'])->name('tenant.destroy');
         Route::get('tenant-control', [TenantController::class, 'tenantControl'])->name('tenant-control');
         Route::get('tenant-control/{id}', [TenantController::class, 'changeActiveTenant'])->name('changeActiveTenant');
-        // Route::get('menu', [MenuController::class, 'index'])->name('menu');
+        Route::get('menu', [MenuController::class, 'index'])->name('menu');
         Route::get('laporan', [LaporanController::class, 'index'])->name('laporan');
         Route::get('profile', [ProfileController::class, 'index'])->name('profile');
         Route::post('profile/update_profile', [ProfileController::class, 'update_profile'])->name('update_profile');

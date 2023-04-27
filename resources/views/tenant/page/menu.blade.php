@@ -106,7 +106,7 @@
                                                                 {{ $item->type_product }}
                                                             </p>
                                                             <p class="card-text">
-                                                                Rp.{{ number_format($item->price) }}
+                                                                Rp.{{ number_format($item->original_price) }}
                                                             </p>
                                                         </div>
                                                     </button>

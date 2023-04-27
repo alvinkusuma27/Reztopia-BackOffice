@@ -16,7 +16,7 @@ class MenuController extends Controller
         // $categories = Categories::with('outlet')->get();
         $categories = DB::table('categories')
             ->join('outlets as o', 'o.id', '=', 'categories.id_outlet')
-            ->select('categories.name', DB::raw('COUNT(p.id) as jumlah_produk'), 'p.name as nama_makanan', 'p.type_product', 'p.price')
+            ->select('categories.name', DB::raw('COUNT(p.id) as jumlah_produk'), 'p.name as nama_makanan', 'p.type_product', 'p.original_price')
             ->join('products as p', 'p.id_category', '=', 'categories.id')
             ->where('o.id_user', $id)
             ->groupBy('categories.name')
