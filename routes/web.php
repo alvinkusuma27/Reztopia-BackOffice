@@ -52,7 +52,7 @@ Route::get('email', [EmailController::class, 'index']);
 Route::group(
     [
         'prefix' => 'auth'
-        // 'middleware' => 'auth', 'CheckRole:admin'
+        // 'middleware' => 'auth', 'role:admin'
     ],
     function () {
         Route::get('login', [AuthController::class, 'login'])->name('login');
@@ -65,7 +65,7 @@ Route::group(
 
 Route::group(
     [
-        'middleware' => ['auth', 'role:admin']
+        'middleware' => ['auth', 'role:admin,kantin']
     ],
     function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -84,7 +84,7 @@ Route::group(
     }
 );
 
-Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 
 // Route::get('/forgot-password', function () {

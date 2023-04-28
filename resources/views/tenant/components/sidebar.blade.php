@@ -88,7 +88,30 @@
                         </a>
                     </li>
                 @endif
-
+                {{-- <li class="sidebar-item {{ $active == 'menu' ? 'active' : '' }}">
+                    <a href="{{ route('menu') }}" class="sidebar-link">
+                        <i class="bi bi-cart-check-fill"></i>
+                        <span>Menu</span>
+                    </a>
+                </li> --}}
+                <li class="sidebar-item {{ $active == 'menu' ? 'laporan' : '' }}">
+                    <a href="{{ route('laporan') }}" class="sidebar-link">
+                        <i class="bi bi-newspaper"></i>
+                        <span>Laporan</span>
+                    </a>
+                </li>
+                <li class="sidebar-item {{ $active == 'menu' ? 'profile' : '' }}">
+                    <a href="{{ route('profile') }}" class="sidebar-link">
+                        <i class="bi bi-person-badge-fill"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="{{ route('logout') }}" class="sidebar-link">
+                        <i class="bi bi-door-open-fill"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
                 {{-- <li class="sidebar-title">User</li>
 
                 <li class="sidebar-item {{ $active == 'dashboard' ? 'active' : '' }}">
