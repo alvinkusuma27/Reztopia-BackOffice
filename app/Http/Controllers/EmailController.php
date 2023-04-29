@@ -12,7 +12,7 @@ class EmailController extends Controller
     public function index()
     {
         try {
-            Mail::to('cek@cek.com')->send(new SendEmail);
+            Mail::to('admin@reztopia.com')->send(new SendEmail);
             return 'berhasil mengirim email';
         } catch (Exception $error) {
             dd($error->getMessage());

@@ -20,8 +20,8 @@ return new class extends Migration
             // $table->string('slug');
             $table->text('description');
             $table->double('original_price')->default(0);
-            // $table->double('cost_price')->default(0);
-            $table->double('cost')->default(0);
+            $table->double('cost_price')->default(0);
+            // $table->double('cost')->default(0);
             $table->string('active');
             $table->string('image')->nullable();
             $table->string('type_product');
