@@ -13,7 +13,7 @@
         <div class="d-flex justify-content-lg-between">
             <div class="col-lg-12 col-md-6">
                 <div class="flex-start">
-                    <h3>Produk Kantin {{ $categories[0]->name }}</h3>
+                    <h3>Produk Kantin {{ $products[0]->outlet_name != null ? $products[0]->outlet_name : 'nan' }}</h3>
                     <p>Pantau produk kantin dari sini</p>
                 </div>
                 <div class="flex-end">
@@ -25,29 +25,27 @@
                                 Atur Kategori
                             </button>
                             <div class="dropdown-menu">
-                                <button class="dropdown-item" href="#" data-bs-toggle="modal"
+                                <button class="dropdown-item" data-bs-toggle="modal"
                                     data-bs-target="#modalTambahCategory"><i class="bi bi-plus"></i>
                                     <span>Tambah Produk</span></button>
-                                <button class="dropdown-item" href="#" data-bs-toggle="modal"
-                                    data-bs-target="#modalEditCategory"><i class="bi bi-pencil"></i>
+                                <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalEditCategory"><i
+                                        class="bi bi-pencil"></i>
                                     <span>Edit Produk</span></button>
-                                <button class="dropdown-item" href="#" data-bs-toggle="modal"
-                                    data-bs-target="#modalHapusCategory"><i class="bi bi-trash"></i>
+                                <button class="dropdown-item" data-bs-toggle="modal"
+                                    data-bs-target="#modalDeleteCategory"><i class="bi bi-trash"></i>
                                     <span>Hapus Produk</span></button>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
-
     </div>
     <div class="page-content">
         <section class="row">
             <div class="col-12 col-lg-12">
                 <div class="row">
-                    @foreach ($categories as $item)
+                    @foreach ($for_categories as $item)
                         <div class="col-6 col-lg-4 col-md-6">
                             <div class="card">
                                 <div class="card-body px-4 py-4-5">
@@ -83,7 +81,7 @@
                                                     data-bs-target="#modalEditProduk"><i class="bi bi-pencil"></i>
                                                     <span>Edit Produk</span></button> --}}
                                                 <button class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                    data-bs-target="#modalHapusProduk"><i class="bi bi-trash"></i>
+                                                    data-bs-target="#modalDeleteProduct"><i class="bi bi-trash"></i>
                                                     <span>Hapus Produk</span></button>
                                             </div>
                                         </div>
@@ -92,18 +90,18 @@
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    @foreach ($categories as $item)
+                                    @foreach ($products as $item)
                                         <div class="col-3">
                                             <div class="card">
                                                 <div class="card-content">
                                                     <button class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                        data-bs-target="#modalEditProduk">
-                                                        <img src="assets/images/samples/motorcycle.jpg"
-                                                            class="card-img-top img-fluid" alt="singleminded">
+                                                        data-bs-target="#modalEditProduk{{ $item->id_product }}">
+                                                        <img src="{{ $item->image_product != null ? asset('storage/uploads/products/' . $item->image_product) : asset('assets/no-image.png') }}"
+                                                            class="card-img-top img-fluid" alt="{{ $item->image_product }}">
                                                         <div class="card-body color-card">
                                                             <h5 class="card-title">{{ $item->nama_makanan }}</h5>
                                                             <p class="card-text">
-                                                                {{ $item->type_product }}
+                                                                {{ $item->description }}
                                                             </p>
                                                             <p class="card-text">
                                                                 Rp.{{ number_format($item->original_price) }}
@@ -120,10 +118,6 @@
                     </div>
                 </div>
             </div>
-            @push('scripts')
-                <script src="{{ asset('assets/extensions/apexcharts/apexcharts.min.js') }}"></script>
-                <script src="{{ asset('assets/js/pages/dashboard.js') }}"></script>
-            @endpush
         </section>
     </div>
 
@@ -133,74 +127,38 @@
         <div class="modal-dialog modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header d-flex justify-content-center">
-                    <h5 class="modal-title" id="exampleModalScrollableTitle">Tambah Kategori</h5>
-                    {{-- <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <i data-feather="x"></i>
-                    </button> --}}
+                    <h5 class="modal-title" id="exampleModalScrollableTitle">Tambah Category</h5>
                 </div>
-                <div class="modal-body">
-                    <div class="form-group mb-3">
-                        <label for="basicInput">Nama Kategori</label>
-                        <input type="text" class="form-control mt-3" id="basicInput" name="kategori">
-                    </div>
-                    <label for="basicInput">Pilih Makanan dan Minuman</label>
-                    <div class="row mt-3">
-                        <div class="col-4">
-                            <div class="card">
-                                <div class="card-content">
-                                    <div class="card-body color-card">
-                                        <input type="checkbox" class="custom-control-input" id="ck2a">
-                                        <label class="custom-control-label" for="ck2a">
-                                            <img src="assets/images/samples/motorcycle.jpg" class="card-img-top img-fluid"
-                                                alt="singleminded" alt="#" class="img-fluid">
-                                            <h5 class="card-title mt-3">
-                                                Ayam Goreng
-                                            </h5>
-                                            <p class="card-text mt-2 mb-3">
-                                                Makanan
-                                            </p>
-                                            <p class="card-text">
-                                                Rp.12000
-                                            </p>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
+                <form action="{{ route('menu.store') }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group mb-3">
+                            <input type="text" hidden name="id_outlet" value="{{ $id_outlet }}">
+                            <label for="basicInput">Nama Category</label>
+                            <input type="text" class="form-control mt-3" id="basicInput"
+                                name="name"value="{{ old('name') }}">
                         </div>
-                        <div class="col-4">
-                            <div class="card">
-                                <div class="card-content">
-                                    <div class="card-body color-card">
-                                        <input type="checkbox" class="custom-control-input" id="ck1a">
-                                        <label class="custom-control-label" for="ck1a">
-                                            <img src="assets/images/samples/motorcycle.jpg" class="card-img-top img-fluid"
-                                                alt="singleminded" alt="#" class="img-fluid">
-                                            <h5 class="card-title mt-3">
-                                                Ayam Goreng
-                                            </h5>
-                                            <p class="card-text mt-2 mb-3">
-                                                Makanan
-                                            </p>
-                                            <p class="card-text">
-                                                Rp.12000
-                                            </p>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="form-group mb-3">
+                            <label for="basicInput">Deskripsi</label>
+                            <input type="text" class="form-control mt-3" id="basicInput" name="description"
+                                value="{{ old('description') }}">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="basicInput">Upload Foto Category</label>
+                            <input class="form-control mt-2" type="file" name="image" id="formFile">
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                    <i class="bx bx-x d-block d-sm-none"></i>
-                    <span class="d-none d-sm-block">Close</span>
-                </button>
-                <button type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
-                    <i class="bx bx-check d-block d-sm-none"></i>
-                    <span class="d-none d-sm-block">Accept</span>
-                </button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                            <i class="bx bx-x d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Close</span>
+                        </button>
+                        <button type="submit" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+                            <i class="bx bx-check d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Accept</span>
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -212,373 +170,365 @@
             <div class="modal-content">
                 <div class="modal-header d-flex justify-content-center">
                     <h5 class="modal-title" id="exampleModalScrollableTitle">Edit Kategori</h5>
-                    {{-- <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <i data-feather="x"></i>
-                    </button> --}}
                 </div>
                 <div class="modal-body">
-                    <div class="form-group mb-3">
-                        <label for="basicInput">Edit Nama Kategori</label>
-                        <input type="text" class="form-control mt-3" id="basicInput" name="kategori" value="Soto">
-                    </div>
-                    <label for="basicInput">Pilih Makanan dan Minuman</label>
-                    <div class="row mt-3">
-                        <div class="col-4">
-                            <div class="card">
-                                <div class="card-content">
-                                    <div class="card-body color-card">
-                                        <input type="checkbox" class="custom-control-input" id="ck3a">
-                                        <label class="custom-control-label" for="ck3a">
-                                            <img src="assets/images/samples/motorcycle.jpg" class="card-img-top img-fluid"
-                                                alt="singleminded" alt="#" class="img-fluid">
-                                            <h5 class="card-title mt-3">
-                                                Ayam Goreng
-                                            </h5>
-                                            <p class="card-text mt-2 mb-3">
-                                                Makanan
-                                            </p>
-                                            <p class="card-text">
-                                                Rp.12000
-                                            </p>
-                                        </label>
+                    <div class="row">
+                        @foreach ($categories as $item)
+                            <div class="col-4">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <button class="dropdown-item" href="#" data-bs-toggle="modal"
+                                            data-bs-target="#modalEditDetailCategory{{ $item->id }}">
+                                            <div class="card-body color-card">
+                                                <img src="{{ $item->image != null ? asset('storage/uploads/categories/' . $item->image) : asset('assets/no-image.png') }}"
+                                                    class="card-img-top img-fluid" alt="{{ $item->image }}">
+                                                <h5 class="card-title text-center mt-2">{{ $item->name }}</h5>
+                                                <p class="card-title text-center mt-2">{{ $item->description }}</p>
+                                            </div>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="card">
-                                <div class="card-content">
-                                    <div class="card-body color-card">
-                                        <input type="checkbox" class="custom-control-input" id="ck4a">
-                                        <label class="custom-control-label" for="ck4a">
-                                            <img src="assets/images/samples/motorcycle.jpg" class="card-img-top img-fluid"
-                                                alt="singleminded" alt="#" class="img-fluid">
-                                            <h5 class="card-title mt-3">
-                                                Ayam Goreng
-                                            </h5>
-                                            <p class="card-text mt-2 mb-3">
-                                                Makanan
-                                            </p>
-                                            <p class="card-text">
-                                                Rp.12000
-                                            </p>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                    <i class="bx bx-x d-block d-sm-none"></i>
-                    <span class="d-none d-sm-block">Close</span>
-                </button>
-                <button type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
-                    <i class="bx bx-check d-block d-sm-none"></i>
-                    <span class="d-none d-sm-block">Accept</span>
-                </button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                        <i class="bx bx-x d-block d-sm-none"></i>
+                        <span class="d-none d-sm-block">Close</span>
+                    </button>
+                    <button type="submit" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+                        <i class="bx bx-check d-block d-sm-none"></i>
+                        <span class="d-none d-sm-block">Accept</span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
+    {{-- MODAL EDIT DETAIL CATEGORY --}}
+    @foreach ($categories as $item)
+        <div class="modal fade" id="modalEditDetailCategory{{ $item->id }}" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header d-flex justify-content-center">
+                        <h5 class="modal-title" id="exampleModalScrollableTitle">Edit Category</h5>
+                    </div>
+                    <form action="{{ route('menu.update', $item->id) }}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <div class="modal-body">
+                            <div class="form-group mb-3">
+                                <input type="text" hidden name="id_outlet" value="{{ $id_outlet }}">
+                                <label for="basicInput">Nama Category</label>
+                                <input type="text" class="form-control mt-3" id="basicInput"
+                                    name="name"value="{{ $item->name }}">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="basicInput">Deskripsi</label>
+                                <input type="text" class="form-control mt-3" id="basicInput" name="description"
+                                    value="{{ $item->description }}">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="basicInput">Upload Foto Category</label>
+                                <input class="form-control mt-2" type="file" name="image" id="formFile">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Close</span>
+                            </button>
+                            <button type="submit" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+                                <i class="bx bx-check d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Accept</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endforeach
 
-    {{-- MODAL HAPUS Category --}}
-    <div class="modal fade" id="modalHapusCategory" tabindex="-1" role="dialog"
+    {{-- MODAL HAPUS CATEGORY --}}
+    <div class="modal fade" id="modalDeleteCategory" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header d-flex justify-content-center">
-                    <h5 class="modal-title" id="exampleModalScrollableTitle">HAPUS Kategori</h5>
-                    {{-- <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <i data-feather="x"></i>
-                    </button> --}}
+                    <h5 class="modal-title" id="exampleModalScrollableTitle">HAPUS Category</h5>
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-4">
-                            <div class="card">
-                                <div class="card-content">
-                                    <div class="card-body color-card">
-                                        <input type="checkbox" class="custom-control-input" id="ck5a">
-                                        <label class="custom-control-label" for="ck5a">
-                                            <h5 class="card-title text-center mt-3">
-                                                Ayam Goreng
-                                            </h5>
-                                        </label>
+                        @foreach ($categories as $item)
+                            <div class="col-4">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <button class="dropdown-item" href="#" data-bs-toggle="modal"
+                                            data-bs-target="#modalDeleteDetailCategory{{ $item->id }}">
+                                            <div class="card-body color-card">
+                                                <img src="{{ $item->image != null ? asset('storage/uploads/categories/' . $item->image) : asset('assets/no-image.png') }}"
+                                                    class="card-img-top img-fluid" alt="{{ $item->image }}">
+                                                <h5 class="card-title text-center mt-2">{{ $item->name }}</h5>
+                                            </div>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="card">
-                                <div class="card-content">
-                                    <div class="card-body color-card">
-                                        <input type="checkbox" class="custom-control-input" id="ck6a">
-                                        <label class="custom-control-label" for="ck6a">
-                                            <h5 class="card-title text-center mt-3">
-                                                Ayam Goreng
-                                            </h5>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                    <i class="bx bx-x d-block d-sm-none"></i>
-                    <span class="d-none d-sm-block">Close</span>
-                </button>
-                <button type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
-                    <i class="bx bx-check d-block d-sm-none"></i>
-                    <span class="d-none d-sm-block">Accept</span>
-                </button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                        <i class="bx bx-x d-block d-sm-none"></i>
+                        <span class="d-none d-sm-block">Close</span>
+                    </button>
+                    <button type="submit" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+                        <i class="bx bx-check d-block d-sm-none"></i>
+                        <span class="d-none d-sm-block">Accept</span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
+    {{-- MODAL HAPUS DETAIL CATEGORY --}}
+    @foreach ($categories as $item)
+        <div class="modal fade" id="modalDeleteDetailCategory{{ $item->id }}" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header d-flex justify-content-center">
+                        <h5 class="modal-title" id="exampleModalScrollableTitle">Ingin Menghapus Category
+                            {{ $item->name }}?</h5>
+                    </div>
+                    <div class="modal-body d-flex justify-content-center">
+                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                            <i class="bx bx-x d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Close</span>
+                        </button>
+                        <a href="{{ route('menu.destroy', $item->id) }}" class="btn btn-danger ml-1">
+                            <i class="bx bx-check d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Delete</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
 
-    {{-- MODAL TAMBAH PRODUK --}}
+
+    {{-- MODAL TAMBAH PRODUCT --}}
     <div class="modal fade" id="modalTambahProduk" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header d-flex justify-content-center">
                     <h5 class="modal-title" id="exampleModalScrollableTitle">Tambah Produk</h5>
-                    {{-- <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <i data-feather="x"></i>
-                    </button> --}}
                 </div>
-                <div class="modal-body">
-                    <div class="form-group mb-3">
-                        <label for="basicInput">Nama Produk</label>
-                        <input type="text" class="form-control mt-3" id="basicInput" name="nama_produk">
+                <form action="{{ route('menu.store.product') }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group mb-3">
+                            <label for="basicInput">Nama Produk</label>
+                            <input type="text" class="form-control mt-3" id="basicInput" name="name"
+                                value="{{ old('name') }}">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="basicInput">Deskripsi</label>
+                            <textarea type="text" class="form-control mt-3" id="basicInput" name="description">{{ old('description') }}</textarea>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="basicInput">Harga Jual</label>
+                            <input type="number" class="form-control mt-3" id="basicInput" name="original_price"
+                                value="{{ old('original_price') }}">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="basicInput">Harga Modal</label>
+                            <input type="number" class="form-control mt-3" id="basicInput" name="cost_price"
+                                value="{{ old('cost_price') }}">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="basicInput">Kategori</label>
+                            <select class="form-select" name="id_category">
+                                <option {{ old('id_category') == null ? 'selected' : '' }} hidden>Pilih Salah satu kategori
+                                </option>
+                                @foreach ($categories as $item)
+                                    <option value="{{ old('id_category') != null ? old('id_category') : $item->id }}"
+                                        {{ old('id_category') != null ? 'selected' : '' }}>
+                                        {{ $item->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="basicInput">Upload Foto Produk</label>
+                            <input class="form-control mt-2" type="file" name="image" id="formFile">
+                            <p class="text-muted mt-1">ukuran foto maksimal 2mb</p>
+                        </div>
                     </div>
-                    <div class="form-group mb-3">
-                        <label for="basicInput">Deskripsi</label>
-                        <input type="text" class="form-control mt-3" id="basicInput" name="deskripsi">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                            <i class="bx bx-x d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Close</span>
+                        </button>
+                        <button type="submit" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+                            <i class="bx bx-check d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Accept</span>
+                        </button>
                     </div>
-                    <div class="form-group mb-3">
-                        <label for="basicInput">Harga</label>
-                        <input type="number" class="form-control mt-3" id="basicInput" name="harga">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="basicInput">Kategori</label>
-                        <select class="form-select" name="kategori">
-                            <option selected hidden>Pilih Salah satu kategori</option>
-                            <option value="square">Square</option>
-                            <option value="rectangle">Rectangle</option>
-                            <option value="rombo">Rombo</option>
-                            <option value="romboid">Romboid</option>
-                            <option value="trapeze">Trapeze</option>
-                            <option value="traible">Triangle</option>
-                            <option value="polygon">Polygon</option>
-                        </select>
-                        <p class="text-muted mt-1">ukuran foto maksimal 2mb</p>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="basicInput">Upload Foto Produk</label>
-                        <input class="form-control mt-2" type="file" name="photo" id="formFile">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                        <i class="bx bx-x d-block d-sm-none"></i>
-                        <span class="d-none d-sm-block">Close</span>
-                    </button>
-                    <button type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
-                        <i class="bx bx-check d-block d-sm-none"></i>
-                        <span class="d-none d-sm-block">Accept</span>
-                    </button>
-                </div>
+                </form>
             </div>
         </div>
     </div>
 
-    {{-- MODAL EDIT PRODUK --}}
-    <div class="modal fade" id="modalEditProduk" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable" role="document">
-            <div class="modal-content">
-                <div class="modal-header d-flex justify-content-center">
-                    <h5 class="modal-title" id="exampleModalScrollableTitle">Edit Produk</h5>
-                    {{-- <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <i data-feather="x"></i>
-                    </button> --}}
-                </div>
-                <div class="modal-body">
-                    <div class="form-group mb-3">
-                        <label for="basicInput">Nama Produk</label>
-                        <input type="text" class="form-control mt-3" id="basicInput" name="nama_produk">
+    {{-- MODAL EDIT PRODUK BELUM --}}
+    @foreach ($products as $item)
+        <div class="modal fade" id="modalEditProduk{{ $item->id_product }}" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header d-flex justify-content-center">
+                        <h5 class="modal-title" id="exampleModalScrollableTitle">Edit Produk</h5>
                     </div>
-                    <div class="form-group mb-3">
-                        <label for="basicInput">Deskripsi</label>
-                        <input type="text" class="form-control mt-3" id="basicInput" name="deskripsi">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="basicInput">Harga</label>
-                        <input type="number" class="form-control mt-3" id="basicInput" name="harga">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="basicInput">Kategori</label>
-                        <select class="form-select" name="kategori">
-                            <option selected hidden>Pilih Salah satu kategori</option>
-                            <option value="square">Square</option>
-                            <option value="rectangle">Rectangle</option>
-                            <option value="rombo">Rombo</option>
-                            <option value="romboid">Romboid</option>
-                            <option value="trapeze">Trapeze</option>
-                            <option value="traible">Triangle</option>
-                            <option value="polygon">Polygon</option>
-                        </select>
-                        <p class="text-muted mt-1">ukuran foto maksimal 2mb</p>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="basicInput">Upload Foto Produk</label>
-                        <input class="form-control mt-2" type="file" name="photo" id="formFile">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                        <i class="bx bx-x d-block d-sm-none"></i>
-                        <span class="d-none d-sm-block">Close</span>
-                    </button>
-                    <button type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
-                        <i class="bx bx-check d-block d-sm-none"></i>
-                        <span class="d-none d-sm-block">Accept</span>
-                    </button>
+                    <form action="{{ route('menu.update.product', $item->id_product) }}" method="post"
+                        enctype="multipart/form-data">
+                        @csrf
+                        <div class="modal-body">
+                            <div class="form-group mb-3">
+                                <input type="hidden" name="id_product" value="{{ $item->id_product }}">
+                                <label for="basicInput">Nama Produk</label>
+                                <input type="text" class="form-control mt-3" id="basicInput" name="name"
+                                    value="{{ old('name') != null ? old('name') : $item->nama_makanan }}">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="basicInput">Deskripsi</label>
+                                <textarea type="text" class="form-control mt-3" id="basicInput" name="description">{{ old('description') != null ? old('description') : $item->description }}</textarea>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="basicInput">Harga Jual</label>
+                                <input type="number" class="form-control mt-3" id="basicInput" name="original_price"
+                                    value="{{ old('original_price') != null ? old('original_price') : $item->original_price }}">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="basicInput">Harga Modal</label>
+                                <input type="number" class="form-control mt-3" id="basicInput" name="cost_price"
+                                    value="{{ old('cost_price') != null ? old('cost_price') : $item->cost_price }}">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="basicInput">Kategori</label>
+                                <select class="form-select" name="id_category">
+                                    @foreach ($categories as $row)
+                                        @if (old('id_category'))
+                                            <option value="{{ old('id_category') }}"
+                                                {{ old('id_category') == $row->id ? 'selected' : '' }}>
+                                                {{ $row->name }}
+                                            </option>
+                                        @else
+                                            <option value="{{ $row->id }}"
+                                                {{ $item->id_category == $row->id ? 'selected' : '' }}>
+                                                {{ $row->name }}
+                                            </option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="basicInput">Upload Foto Produk</label>
+                                <input class="form-control mt-2" type="file" name="image" id="formFile">
+                                <p class="text-muted mt-1">ukuran foto maksimal 2mb</p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Close</span>
+                            </button>
+                            <button type="submit" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+                                <i class="bx bx-check d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Accept</span>
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-    </div>
+    @endforeach
 
     {{-- MODAL HAPUS PRODUK --}}
-    <div class="modal fade" id="modalHapusProduk" tabindex="-1" role="dialog"
+    <div class="modal fade" id="modalDeleteProduct" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header d-flex justify-content-center">
-                    <h5 class="modal-title" id="exampleModalScrollableTitle">HAPUS PRODUK</h5>
-                    {{-- <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <i data-feather="x"></i>
-                    </button> --}}
+                    <h5 class="modal-title" id="exampleModalScrollableTitle">HAPUS PRODUCT</h5>
                 </div>
-                <div class="modal-body">
-                    <div class="row">
-                        {{-- <div class="col-4">
-                            <div class="card">
-                                <div class="card-content">
-                                    <div class="card-body color-card">
-                                        <input type="checkbox" class="custom-control-input" id="ck5a">
-                                        <label class="custom-control-label" for="ck5a">
-
-                                            <h5 class="card-title text-center mt-3">
-                                                Ayam Goreng
-                                            </h5>
-                                        </label>
+                <form action="{{ route('menu.destroy.product') }}" method="post">
+                    @csrf
+                    <div class="modal-body mx-3">
+                        <div class="row">
+                            @foreach ($products as $item)
+                                <div class="col-4">
+                                    <div class="card">
+                                        <div class="card-content">
+                                            <div class="card-body color-card">
+                                                <div class="custom-control custom-checkbox image-checkbox">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                        name="id_product_{{ $item->id_product }}"
+                                                        id="ck{{ $item->id_product }}" value="{{ $item->id_product }}">
+                                                    <label class="custom-control-label" for="ck{{ $item->id_product }}">
+                                                        <img src="{{ $item->image_product != null ? asset('storage/uploads/products/' . $item->image_product) : asset('assets/no-image.png') }}"
+                                                            alt="#" class="img-fluid">
+                                                        <h5 class="mt-2">{{ $item->nama_makanan }}</h5>
+                                                        <p>{{ $item->description }}</p>
+                                                        <p>Rp.{{ number_format($item->original_price) }}</p>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div> --}}
-                        <div class="col-4">
-                            <div class="card">
-                                <div class="card-content">
-                                    <input type="checkbox" class="custom-control-input" id="aaa">
-                                    <label class="custom-control-label" for="aaa">
-                                        <img src="assets/images/samples/motorcycle.jpg" class="card-img-top img-fluid"
-                                            alt="singleminded">
-                                        <div class="card-body color-card">
-                                            <h5 class="card-title fs-6">Ayam Goreng</h5>
-                                            <p class="card-text fs-6">
-                                                Makanan
-                                            </p>
-                                            <p class="card-text fs-6">
-                                                Rp.12000
-                                            </p>
-                                        </div>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="card">
-                                <div class="card-content">
-                                    <input type="checkbox" class="custom-control-input" id="aaa">
-                                    <label class="custom-control-label" for="aaa">
-                                        <img src="assets/images/samples/motorcycle.jpg" class="card-img-top img-fluid"
-                                            alt="singleminded">
-                                        <div class="card-body color-card">
-                                            <h5 class="card-title fs-6">Ayam Goreng</h5>
-                                            <p class="card-text fs-6">
-                                                Makanan
-                                            </p>
-                                            <p class="card-text fs-6">
-                                                Rp.12000
-                                            </p>
-                                        </div>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="card">
-                                <div class="card-content">
-                                    <input type="checkbox" class="custom-control-input" id="aaa">
-                                    <label class="custom-control-label" for="aaa">
-                                        <img src="assets/images/samples/motorcycle.jpg" class="card-img-top img-fluid"
-                                            alt="singleminded">
-                                        <div class="card-body color-card">
-                                            <h5 class="card-title fs-6">Ayam Goreng</h5>
-                                            <p class="card-text fs-6">
-                                                Makanan
-                                            </p>
-                                            <p class="card-text fs-6">
-                                                Rp.12000
-                                            </p>
-                                        </div>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="card">
-                                <div class="card-content">
-                                    <input type="checkbox" class="custom-control-input" id="aaa">
-                                    <label class="custom-control-label" for="aaa">
-                                        <img src="assets/images/samples/motorcycle.jpg" class="card-img-top img-fluid"
-                                            alt="singleminded">
-                                        <div class="card-body color-card">
-                                            <h5 class="card-title fs-6">Ayam Goreng</h5>
-                                            <p class="card-text fs-6">
-                                                Makanan
-                                            </p>
-                                            <p class="card-text fs-6">
-                                                Rp.12000
-                                            </p>
-                                        </div>
-                                    </label>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                    <i class="bx bx-x d-block d-sm-none"></i>
-                    <span class="d-none d-sm-block">Close</span>
-                </button>
-                <button type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
-                    <i class="bx bx-check d-block d-sm-none"></i>
-                    <span class="d-none d-sm-block">Accept</span>
-                </button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                            <i class="bx bx-x d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Close</span>
+                        </button>
+                        <button type="submit" class="btn btn-danger ml-1" data-bs-dismiss="modal">
+                            <i class="bx bx-check d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Delete</span>
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+
+    {{-- MODAL HAPUS DETAIL --}}
+    {{-- @foreach ($products as $item)
+        <div class="modal fade" id="modalDeleteDetailCategory{{ $item->id }}" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header d-flex justify-content-center">
+                        <h5 class="modal-title" id="exampleModalScrollableTitle">Ingin Menghapus Category
+                            {{ $item->name }}?</h5>
+                    </div>
+                    <div class="modal-body d-flex justify-content-center">
+                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                            <i class="bx bx-x d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Close</span>
+                        </button>
+                        <a href="{{ route('menu.destroy', $item->id) }}" class="btn btn-danger ml-1">
+                            <i class="bx bx-check d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Delete</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach --}}
 
 
 @endsection

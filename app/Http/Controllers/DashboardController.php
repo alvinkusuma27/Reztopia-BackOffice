@@ -42,6 +42,7 @@ class DashboardController extends Controller
             ->join('outlets', 'outlets.id', '=', 'orders.id_outlet')
             ->join('categories as c', 'c.id_outlet', '=', 'outlets.id')
             ->where('outlets.id_user', $id)
+            ->where('orders.id_order_status', 1)
             // ->where('MONTH(orders.date_order)', $date)
             // ->whereMonth('orders.date_order', $date)
             ->groupBy('orders.id')

@@ -17,14 +17,14 @@ class Categories extends Seeder
             [
                 'id_outlet' => 2,
                 'name' => 'Jawa',
-                'slug' => 'enak',
-                'image' => 'jawa.png',
+                'description' => 'enak',
+                // 'image' => 'jawa.png',
             ],
             [
                 'id_outlet' => 2,
                 'name' => 'Rasajawa',
-                'slug' => 'enak',
-                'image' => 'jawa.png',
+                'description' => 'enak',
+                // 'image' => 'jawa.png',
             ],
         ]);
     }

@@ -40,10 +40,10 @@ use Illuminate\Support\Facades\Route;
 // })->name('profile');
 
 // Auth::routes(['verify' => true]);
-Route::get('clear_cache', function () {
+Route::get('clear', function () {
 
     Artisan::call('optimize:clear');
-
+    return back();
     dd("Cache is cleared");
 });
 Route::redirect('/', 'dashboard');
@@ -76,6 +76,12 @@ Route::group(
         Route::get('tenant-control', [TenantController::class, 'tenantControl'])->name('tenant-control');
         Route::get('tenant-control/{id}', [TenantController::class, 'changeActiveTenant'])->name('changeActiveTenant');
         Route::get('menu', [MenuController::class, 'index'])->name('menu');
+        Route::post('menu/category', [MenuController::class, 'store'])->name('menu.store');
+        Route::post('menu/product/delete', [MenuController::class, 'destroy_product'])->name('menu.destroy.product');
+        Route::post('menu/product/store', [MenuController::class, 'store_product'])->name('menu.store.product');
+        Route::post('menu/category/{id}', [MenuController::class, 'update'])->name('menu.update');
+        Route::post('menu/product/{id}', [MenuController::class, 'update_product'])->name('menu.update.product');
+        Route::get('menu/category/{id}', [MenuController::class, 'destroy'])->name('menu.destroy');
         Route::get('laporan', [LaporanController::class, 'index'])->name('laporan');
         Route::get('profile', [ProfileController::class, 'index'])->name('profile');
         Route::post('profile/update_profile', [ProfileController::class, 'update_profile'])->name('update_profile');

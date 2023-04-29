@@ -22,6 +22,7 @@ class Products extends Model
         'cost_price',
         'cost',
         'active',
+        'image',
         'id_category',
         'created_by',
         'created_at',

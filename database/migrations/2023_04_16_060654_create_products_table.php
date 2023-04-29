@@ -17,13 +17,13 @@ return new class extends Migration
             $table->foreign('id_category')->references('id')->on('categories');
             $table->string('name');
             $table->string('sku')->nullable();
-            $table->string('slug');
+            // $table->string('slug');
             $table->text('description');
             $table->double('original_price')->default(0);
-            $table->double('cost_price')->default(0);
+            // $table->double('cost_price')->default(0);
             $table->double('cost')->default(0);
             $table->string('active');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->string('type_product');
             $table->bigInteger('created_by');
             $table->timestamps();

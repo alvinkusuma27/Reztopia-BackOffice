@@ -16,8 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('id_outlet')->nullable();
             $table->foreign('id_outlet')->references('id')->on('outlets');
             $table->string('name');
-            $table->string('slug');
-            $table->string('image');
+            $table->string('description')->nullable();
+            $table->string('image')->nullable();
             $table->text('link')->nullable();
             $table->timestamps();
         });

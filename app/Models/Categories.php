@@ -16,7 +16,7 @@ class Categories extends Model
     protected $fillable = [
         'id_outlet',
         'name',
-        'slug',
+        'description',
         'image',
         'link',
         'created_at',

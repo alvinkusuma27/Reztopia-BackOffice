@@ -28,6 +28,7 @@ class LaporanController extends Controller
             ->join('products as p', 'p.name', '=', 'od.product')
             ->where('outlets.id_user', $id)
             ->whereDay('o.date_order', $date)
+            ->where('os.name', 'sukses')
             // ->groupBy('o.id_outlet')
             ->get();
         // $cona = Orders::all();
