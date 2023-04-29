@@ -64,7 +64,7 @@ class MenuController extends Controller
             // dd($categories);
             return view('tenant.page.menu', compact('categories', 'products', 'active', 'id_outlet', 'for_categories'));
         } catch (Exception $error) {
-            dd($error);
+            dd($error->getMessage());
         }
     }
 
@@ -95,7 +95,7 @@ class MenuController extends Controller
             Alert::toast($validator->messages()->all(), 'error');
             return back()->withInput();
         } catch (Exception $error) {
-            dd($error);
+            dd($error->getMessage());
         }
     }
 
@@ -131,7 +131,7 @@ class MenuController extends Controller
             Alert::toast($validator->messages()->all(), 'error');
             return back()->withInput();
         } catch (Exception $error) {
-            dd($error);
+            dd($error->getMessage());
         }
     }
 
@@ -165,7 +165,7 @@ class MenuController extends Controller
             Alert::toast($validator->messages()->all(), 'error');
             return back();
         } catch (Exception $error) {
-            dd($error);
+            dd($error->getMessage());
         }
     }
 
@@ -225,7 +225,7 @@ class MenuController extends Controller
                 return back()->withInput();
             }
         } catch (Exception $error) {
-            dd($error);
+            dd($error->getMessage());
         }
     }
 
@@ -247,7 +247,7 @@ class MenuController extends Controller
 
             // dd($products[0]);
         } catch (Exception $error) {
-            dd($error);
+            dd($error->getMessage());
         }
         // cart, orders, products['products on other table' => cart,]
     }
@@ -261,7 +261,7 @@ class MenuController extends Controller
             Alert::toast('Success Delete Product', 'success');
             return back();
         } catch (Exception $error) {
-            dd($error);
+            dd($error->getMessage());
         }
     }
 }

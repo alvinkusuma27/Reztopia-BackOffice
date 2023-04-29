@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -50,48 +51,52 @@ class AuthController extends Controller
     public function post_register(Request $request)
     {
         // dd($request->all());
-        $messages = [
-            'photo.required' => 'Foto harus tersedia',
-            'photo.max' => 'ukuran foto maksimal 2mb',
-            'photo.image' => 'yang diupload harus berupa foto',
-            'name.required' => 'nama harus diisi',
-            'username.required' => 'username harus diisi',
-            'sex.required' => 'jenis kelamin harus diisi',
-            'password.required' => 'password harus diisi',
-            'phone.required' => 'nomor telp harus diisi'
-        ];
+        try {
+            $messages = [
+                'photo.required' => 'Foto harus tersedia',
+                'photo.max' => 'ukuran foto maksimal 2mb',
+                'photo.image' => 'yang diupload harus berupa foto',
+                'name.required' => 'nama harus diisi',
+                'username.required' => 'username harus diisi',
+                'sex.required' => 'jenis kelamin harus diisi',
+                'password.required' => 'password harus diisi',
+                'phone.required' => 'nomor telp harus diisi'
+            ];
 
-        $validator = Validator::make($request->all(), [
-            'image' => 'required|image|mimes:png,jpg,jpg|max:2048',
-            'name' => 'required',
-            'username' => 'required',
-            'email' => 'required|email',
-            'sex' => 'required|in:0,1',
-            'password' => 'required|min:8',
-            'phone' => 'required|min:9'
-        ]);
+            $validator = Validator::make($request->all(), [
+                'image' => 'required|image|mimes:png,jpg,jpg|max:2048',
+                'name' => 'required',
+                'username' => 'required',
+                'email' => 'required|email',
+                'sex' => 'required|in:0,1',
+                'password' => 'required|min:8',
+                'phone' => 'required|min:9'
+            ]);
 
 
-        if (!$validator->fails()) {
-            $user = new User();
+            if (!$validator->fails()) {
+                $user = new User();
 
-            $image = $request->file('image');
-            $image_name = time() . 'user-' . $request->username  . $image->getClientOriginalExtension();
-            Storage::putFileAs('public/uploads/user/', $image, $image_name);
-            $user->name = $request->name;
-            $user->username = $request->username;
-            $user->sex = $request->sex;
-            $user->email = $request->email;
-            $user->roles = 'kantin';
-            $user->phone = $request->phone;
-            $user->password = Hash::make($request->password);
-            $user->image = $image_name;
-            $user->save();
-            Alert::success('Register Success', 'Please Login');
-            return redirect()->route('login');
+                $image = $request->file('image');
+                $image_name = time() . 'user-' . $request->username  . $image->getClientOriginalExtension();
+                Storage::putFileAs('public/uploads/user/', $image, $image_name);
+                $user->name = $request->name;
+                $user->username = $request->username;
+                $user->sex = $request->sex;
+                $user->email = $request->email;
+                $user->roles = 'kantin';
+                $user->phone = $request->phone;
+                $user->password = Hash::make($request->password);
+                $user->image = $image_name;
+                $user->save();
+                Alert::success('Register Success', 'Please Login');
+                return redirect()->route('login');
+            }
+            Alert::success('Tes', $validator->messages()->all());
+            return redirect()->route('register')->withInput();
+        } catch (Exception $error) {
+            dd($error->getMessage());
         }
-        Alert::success('Tes', $validator->messages()->all());
-        return redirect()->route('register')->withInput();
     }
 
     public function logout()
