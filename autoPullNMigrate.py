@@ -14,4 +14,4 @@ cek_migrate = input('ingin melakukan migrate ? (y jika iya) ')
 if(cek_migrate == 'y'):
     print(subprocess.call(['php', 'artisan', 'migrate:fresh', '--seed']))
 
-input("Press Enter to exit...")
+input("Press Enter to exiit...")
