@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Categories;
 use App\Models\Orders;
+use App\Models\Outlet;
 use App\Models\Products;
 use Carbon\Carbon;
 use Exception;
@@ -22,7 +23,7 @@ class MenuController extends Controller
         try {
             $active = 'menu';
             $id = Auth::user()->id;
-            // $categories = Categories::with('outlet')->get();
+            $outlet_name = Outlet::where('id_user', $id)->select('name')->get();
             $products = DB::table('categories')
                 ->select(
                     'categories.id as id_category',
@@ -43,6 +44,7 @@ class MenuController extends Controller
                 ->where('o.id_user', $id)
                 ->groupBy('p.id')
                 ->get();
+            // dd($products);
 
             $for_categories =
                 DB::table('categories')
@@ -58,11 +60,12 @@ class MenuController extends Controller
 
             $categories = Categories::where('id_outlet', $id)
                 ->get();
+            // dd($categories);
             $id_outlet = $products[0]->id;
 
             // NAMA KATEGORI, JUMLAH PRODUK, GAMBAR PRODUK, NAMA PRODUK, TIPE PRODUK, HARGA PRODUK
             // dd($categories);
-            return view('tenant.page.menu', compact('categories', 'products', 'active', 'id_outlet', 'for_categories'));
+            return view('tenant.page.menu', compact('categories', 'products', 'active', 'id_outlet', 'for_categories', 'outlet_name'));
         } catch (Exception $error) {
             dd($error->getMessage());
         }
@@ -75,7 +78,7 @@ class MenuController extends Controller
                 'id_outlet' => 'required',
                 'name' => 'required',
                 'description' => 'required',
-                'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
 
             if (!$validator->fails()) {
@@ -137,6 +140,7 @@ class MenuController extends Controller
 
     public function update($id, Request $request)
     {
+        // dd($request->all());
         try {
             $categories = Categories::findOrFail($id);
             if (!$request->hasFile('image')) {
@@ -144,11 +148,19 @@ class MenuController extends Controller
                     'name' => $request->name,
                     'description' => $request->description
                 ]);
+                if ($request->has('id_product')) {
+                    foreach ($request->id_product as $item) {
+                        $products = Products::findOrFail($item);
+                        $products->update([
+                            'id_category' => $request->id_category
+                        ]);
+                    }
+                }
                 Alert::toast('Success Update Categories', 'success');
                 return redirect()->route('menu');
             }
             $validator = Validator::make($request->all(), [
-                'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+                'image' => 'requuired|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
             if (!$validator->fails()) {
                 $image = $request->file('image');
@@ -229,17 +241,19 @@ class MenuController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy(Request $request)
     {
         try {
-            // dd($id);
-            $products = Products::where('id_category', $id)->select('id')->get();
+            // dd($request->all());
+            $products = Products::whereIn('id_category', $request->all())->select('id')->get();
+            // $id = (int) $products[0]->id;
             if (!empty($products[0])) {
+                // dd($products);
                 Cart::where('id_product', $products[0]->id)->delete();
             }
-            Orders::where('id_category', $id)->delete();
-            Products::where('id_category', $id)->delete();
-            Categories::where('id', $id)->delete();
+            Orders::whereIn('id_category', $request->all())->delete();
+            Products::whereIn('id_category', $request->all())->delete();
+            Categories::whereIn('id', $request->all())->delete();
 
             Alert::toast('Success Delete Categories', 'success');
             return redirect()->route('menu');

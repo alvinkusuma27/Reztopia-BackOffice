@@ -13,7 +13,8 @@
         <div class="d-flex justify-content-lg-between">
             <div class="col-lg-12 col-md-6">
                 <div class="flex-start">
-                    <h3>Produk Kantin {{ $products[0]->outlet_name != null ? $products[0]->outlet_name : 'nan' }}</h3>
+                    {{-- <h3>Produk Kantin {{ $products[0]->outlet_name != null ? $products[0]->outlet_name : 'nan' }}</h3> --}}
+                    <h3>Produk Kantin {{ $outlet_name[0]->name != null ? $outlet_name[0]->name : 'nan' }}</h3>
                     <p>Pantau produk kantin dari sini</p>
                 </div>
                 <div class="flex-end">
@@ -22,18 +23,18 @@
                             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
                                 <i class="bi bi-pencil"></i>
-                                Atur Kategori
+                                Atur Category
                             </button>
                             <div class="dropdown-menu">
                                 <button class="dropdown-item" data-bs-toggle="modal"
                                     data-bs-target="#modalTambahCategory"><i class="bi bi-plus"></i>
-                                    <span>Tambah Produk</span></button>
+                                    <span>Tambah Category</span></button>
                                 <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalEditCategory"><i
                                         class="bi bi-pencil"></i>
-                                    <span>Edit Produk</span></button>
+                                    <span>Edit Category</span></button>
                                 <button class="dropdown-item" data-bs-toggle="modal"
                                     data-bs-target="#modalDeleteCategory"><i class="bi bi-trash"></i>
-                                    <span>Hapus Produk</span></button>
+                                    <span>Hapus Category</span></button>
                             </div>
                         </div>
                     </div>
@@ -183,7 +184,7 @@
                                                 <img src="{{ $item->image != null ? asset('storage/uploads/categories/' . $item->image) : asset('assets/no-image.png') }}"
                                                     class="card-img-top img-fluid" alt="{{ $item->image }}">
                                                 <h5 class="card-title text-center mt-2">{{ $item->name }}</h5>
-                                                <p class="card-title text-center mt-2">{{ $item->description }}</p>
+                                                {{-- <p class="card-title text-center mt-2">{{ $item->description }}</p> --}}
                                             </div>
                                         </button>
                                     </div>
@@ -220,18 +221,36 @@
                         <div class="modal-body">
                             <div class="form-group mb-3">
                                 <input type="text" hidden name="id_outlet" value="{{ $id_outlet }}">
+                                <input type="text" hidden name="id_category" value="{{ $item->id }}">
                                 <label for="basicInput">Nama Category</label>
                                 <input type="text" class="form-control mt-3" id="basicInput"
                                     name="name"value="{{ $item->name }}">
                             </div>
-                            <div class="form-group mb-3">
-                                <label for="basicInput">Deskripsi</label>
-                                <input type="text" class="form-control mt-3" id="basicInput" name="description"
-                                    value="{{ $item->description }}">
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="basicInput">Upload Foto Category</label>
-                                <input class="form-control mt-2" type="file" name="image" id="formFile">
+                            <p>Pilih Makanan dan Minuman</p>
+                            <div class="row">
+                                @foreach ($products as $item)
+                                    <div class="col-4">
+                                        <div class="card">
+                                            <div class="card-content">
+                                                <div class="card-body color-card">
+                                                    <div class="custom-control custom-checkbox image-checkbox">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            name="id_product[]" id="ck{{ $item->id_product }}"
+                                                            value="{{ $item->id_product }}">
+                                                        <label class="custom-control-label"
+                                                            for="ck{{ $item->id_product }}">
+                                                            <img src="{{ $item->image_product != null ? asset('storage/uploads/products/' . $item->image_product) : asset('assets/no-image.png') }}"
+                                                                alt="#" class="img-fluid">
+                                                            <h5 class="mt-2">{{ $item->nama_makanan }}</h5>
+                                                            <p>{{ $item->description }}</p>
+                                                            <p>Rp.{{ number_format($item->original_price) }}</p>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -258,42 +277,49 @@
                 <div class="modal-header d-flex justify-content-center">
                     <h5 class="modal-title" id="exampleModalScrollableTitle">HAPUS Category</h5>
                 </div>
-                <div class="modal-body">
-                    <div class="row">
-                        @foreach ($categories as $item)
-                            <div class="col-4">
-                                <div class="card">
-                                    <div class="card-content">
-                                        <button class="dropdown-item" href="#" data-bs-toggle="modal"
-                                            data-bs-target="#modalDeleteDetailCategory{{ $item->id }}">
+                <form action="{{ route('menu.destroy') }}" method="post">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            @foreach ($categories as $item)
+                                <div class="col-4">
+                                    <div class="card">
+                                        <div class="card-content">
                                             <div class="card-body color-card">
-                                                <img src="{{ $item->image != null ? asset('storage/uploads/categories/' . $item->image) : asset('assets/no-image.png') }}"
-                                                    class="card-img-top img-fluid" alt="{{ $item->image }}">
-                                                <h5 class="card-title text-center mt-2">{{ $item->name }}</h5>
+                                                <div class="custom-control custom-checkbox image-checkbox">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                        name="id_product_{{ $item->id }}" id="ck{{ $item->id }}"
+                                                        value="{{ $item->id }}">
+                                                    <label class="custom-control-label" for="ck{{ $item->id }}">
+                                                        <h5 class="mt-2">{{ $item->name }}</h5>
+                                                    </label>
+                                                </div>
                                             </div>
-                                        </button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                        <i class="bx bx-x d-block d-sm-none"></i>
-                        <span class="d-none d-sm-block">Close</span>
-                    </button>
-                    <button type="submit" class="btn btn-primary ml-1" data-bs-dismiss="modal">
-                        <i class="bx bx-check d-block d-sm-none"></i>
-                        <span class="d-none d-sm-block">Accept</span>
-                    </button>
-                </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                            <i class="bx bx-x d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Close</span>
+                        </button>
+                        <button type="submit" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+                            <i class="bx bx-check d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Accept</span>
+                        </button>
+                    </div>
+                </form>
+
             </div>
         </div>
     </div>
 
     {{-- MODAL HAPUS DETAIL CATEGORY --}}
-    @foreach ($categories as $item)
+    {{-- @foreach ($categories as $item)
         <div class="modal fade" id="modalDeleteDetailCategory{{ $item->id }}" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable" role="document">
@@ -315,7 +341,7 @@
                 </div>
             </div>
         </div>
-    @endforeach
+    @endforeach --}}
 
 
     {{-- MODAL TAMBAH PRODUCT --}}
