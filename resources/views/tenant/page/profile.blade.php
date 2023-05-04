@@ -69,22 +69,24 @@
                                     </div>
 
                                 </div>
-                                <div class="flex-end">
-                                    <div class="card p-3">
-                                        <div class="card-content">
-                                            <h5 class="fs-5 text-muted">Kantin Cowok</h5>
-                                            <p class="fs-4">
-                                                {{ $outlet[0]->name }}
-                                            </p>
-                                            <p class="fs-5 text-muted">
-                                                Berlangganan pada
-                                            </p>
-                                            <p class="fs-6">
-                                                {{ $outlet[0]->created_at != null ? $outlet[0]->created_at : 'Nan' }}
-                                            </p>
+                                @if (auth()->user()->roles == 'kantin')
+                                    <div class="flex-end">
+                                        <div class="card p-3">
+                                            <div class="card-content">
+                                                <h5 class="fs-5 text-muted">Kantin Cowok</h5>
+                                                <p class="fs-4">
+                                                    {{ $outlet[0]->name }}
+                                                </p>
+                                                <p class="fs-5 text-muted">
+                                                    Berlangganan pada
+                                                </p>
+                                                <p class="fs-6">
+                                                    {{ $outlet[0]->created_at != null ? $outlet[0]->created_at : 'Nan' }}
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                @endif
                             </div>
                             <div class="card p-3">
                                 <div class="card-content">

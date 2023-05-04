@@ -85,9 +85,35 @@ class HistoryController extends Controller
                 ->where('or.id_user', Auth::user()->id)
                 ->where('or.id', $id)
                 ->get();
+
+            $data2 = DB::table('orders as or')
+                ->select(
+                    'ot.id as id_outlet',
+                    'p.name as product_name',
+                    'p.image as image_product',
+                    // 'od.price as price_total_product',
+                    'p.original_price as price_product',
+                    'os.name as status_order',
+                    'or.date_order',
+                    'od.quantity as quantity_order',
+                    'or.payment_code as payment_code_order',
+                    'u.name as name_user_order',
+                    'or.table_number as table_number_order',
+                    'ot.name as tenant_name_order',
+                    'or.payment_method as payment_method_order',
+                    'od.price as total_order',
+                    'c.type_order'
+                )
+                ->join('outlets as ot', 'ot.id', '=', 'or.id_outlet')
+                ->join('order_status as os', 'os.id', '=', 'or.id_order_status')
+                ->join('order_details as od', 'od.id', '=', 'or.id_order_detail')
+                ->join('products as p', 'p.name', '=', 'od.product')
+                ->join('cart as c', 'c.id_product', '=', 'p.id')
+                ->join('users as u', 'u.id', '=', 'or.id_user')
+                ->where('or.id_user', Auth::user()->id)
+                ->where('or.id', $id)
+                ->get();
             // array_push($data_history, $data);
-            define('data_history', $data);
-            $data_history = data_history;
             // dd($data, $data_history);
             // $data = Orders::join('outlets as ot', 'ot.id', '=', 'orders.id_outlet')
             //     ->join('order_status as os', 'os.id', '=', 'orders.id_order_status')
@@ -104,19 +130,24 @@ class HistoryController extends Controller
             // dd($data_history);
             if (!empty($data[0])) {
                 $result_product = array();
-                // $result_history = array();
+                $result_history = array();
 
                 // dd($data);
                 foreach ($data as $item) {
                     // dd($item->id);
-                    // unset($item->status_order);
+                    unset($item->status_order);
                     // unset($item->quantity_order);
-                    // unset($item->payment_code_order);
-                    // unset($item->name_user_order);
-                    // unset($item->table_number_order);
-                    // unset($item->tenant_name_order);
-                    // unset($item->id);
-                    // unset($item->id);
+                    unset($item->payment_code_order);
+                    unset($item->name_user_order);
+                    unset($item->table_number_order);
+                    unset($item->tenant_name_order);
+                    unset($item->id);
+                    unset($item->id_outlet);
+                    unset($item->price_total_product);
+                    unset($item->date_order);
+                    unset($item->payment_method_order);
+                    unset($item->total_order);
+
                     // unset($item->id);
                     $item->image_product = env('APP_URL') . '/storage/uploads/history-detail/' . $item->image_product;
                     array_push($result_product, $item);
@@ -127,17 +158,20 @@ class HistoryController extends Controller
                 //     $result_history
                 // );
 
-                // foreach ($data_history as $item) {
-                //     // set()
+                foreach ($data2 as $item) {
+                    // set()
 
-                //     unset($item->product_name);
-                //     unset($item->image_product);
-                //     unset($item->price_product);
-                //     // unset($item->status_order);
-                //     unset($item->product_name);
-                //     array_push($result_history, $item);
-                //     break;
-                // }
+                    unset($item->product_name);
+                    unset($item->image_product);
+                    unset($item->price_product);
+                    // unset($item->status_order);
+                    unset($item->product_name);
+                    unset($item->id_outlet);
+                    unset($item->quantity_order);
+
+                    array_push($result_history, $item);
+                    break;
+                }
 
 
                 return response()->json([
@@ -146,7 +180,7 @@ class HistoryController extends Controller
                         'message' => 'Successfully fetch data'
                     ], 'data' => [
                         'product' => $result_product,
-                        // 'history' => $result_history
+                        'history' => $result_history
                     ]
                 ], 200);
             } else {

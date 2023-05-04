@@ -63,19 +63,23 @@
             <h3>Laporan Keuangan</h3>
             <p>Laporan Keuangan Resto Bawah Tanah</p>
         </div>
-        <div class="flex-end">
-            <a class="nav-link dropdown-toggle " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Pilih Kantin
-            </a>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{{ route('laporan') }}">All</a>
-                </li>
-                @foreach ($kantin as $item)
-                    <li><a class="dropdown-item" href="{{ route('laporan_admin', $item->id_user) }}">{{ $item->name }}</a>
+        @if (auth()->user()->roles == 'admin')
+            <div class="flex-end">
+                <a class="nav-link dropdown-toggle " href="#" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Pilih Kantin
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{{ route('laporan') }}">All</a>
                     </li>
-                @endforeach
-            </ul>
-        </div>
+                    @foreach ($kantin as $item)
+                        <li><a class="dropdown-item"
+                                href="{{ route('laporan_admin', $item->id_user) }}">{{ $item->name }}</a>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
     </div>
     <div class="page-content">
         <section class="row">
