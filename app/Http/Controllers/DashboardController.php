@@ -39,18 +39,9 @@ class DashboardController extends Controller
                 ->join('products as p', 'p.id_category', '=', 'c.id')
                 ->where('o.id_user', $id)
                 ->get();
+            // dd(empty($outlet[0]));
 
-            $data = DB::table('orders')
-                ->join('outlets', 'outlets.id', '=', 'orders.id_outlet')
-                ->join('categories as c', 'c.id_outlet', '=', 'outlets.id')
-                ->where('outlets.id_user', $id)
-                ->where('orders.id_order_status', 1)
-                // ->where('MONTH(orders.date_order)', $date)
-                // ->whereMonth('orders.date_order', $date)
-                ->groupBy('orders.id')
-                // ->groupBy('orders.date_order')
-                // ->orderBy('orders.date_order', 'asc')
-                ->get();
+
             // CATEGORY, MENU
             $grafik = DB::table('orders')
                 ->select(DB::raw('COUNT(orders.id) as id_order'), 'orders.date_order')
@@ -72,73 +63,117 @@ class DashboardController extends Controller
                 array_push($bulan_grafik, $item->date_order);
             }
             // dd($order_grafik, $bulan_grafik, $grafik);
+            if (Auth::user()->roles == 'kantin') {
+                $data = DB::table('orders')
+                    ->join('outlets', 'outlets.id', '=', 'orders.id_outlet')
+                    ->join('categories as c', 'c.id_outlet', '=', 'outlets.id')
+                    ->where('outlets.id_user', $id)
+                    ->where('orders.id_order_status', 1)
+                    // ->where('MONTH(orders.date_order)', $date)
+                    // ->whereMonth('orders.date_order', $date)
+                    ->groupBy('orders.id')
+                    // ->groupBy('orders.date_order')
+                    // ->orderBy('orders.date_order', 'asc')
+                    ->get();
+                $total_order = $data->sum('total');
+                $today_order = $data->count('id');
+                // $total_category = $outlet->unique('id_category')->count();
+                $total_category = Categories::where('id_outlet', $outlet[0]->id)->count();
+                $total_menu = $outlet->unique('name_product')->count();
+                // dd($outlet);
+                // $tenant_name = $outlet[0]->tenant_name;
+                // dd($outlet);
+                //         SELECT * FROM products
+                // JOIN categories ON products.id_category = categories.id
+                // JOIN outlets ON outlets.id = categories.id_outlet
+                // JOIN users ON users.id = outlets.id_user
 
-            $total_order = $data->sum('total');
-            $today_order = $data->count('id');
-            // $total_category = $outlet->unique('id_category')->count();
-            $total_category = Categories::where('id_outlet', $outlet[0]->id)->count();
-            $total_menu = $outlet->unique('name_product')->count();
-            // dd($outlet);
-            // $tenant_name = $outlet[0]->tenant_name;
-            // dd($outlet);
-            //         SELECT * FROM products
-            // JOIN categories ON products.id_category = categories.id
-            // JOIN outlets ON outlets.id = categories.id_outlet
-            // JOIN users ON users.id = outlets.id_user
+                $data_product = DB::table('products')
+                    ->join('categories as c', 'c.id', '=', 'products.id_category')
+                    ->join('orders as or', 'or.id_category', '=', 'c.id')
+                    ->join('outlets as o', 'o.id', '=', 'or.id_outlet')
+                    ->get();
+                // dd($data);
+                // $order = Orders::with('categories')->get();
+                $top_product = DB::table('orders')
+                    ->select('p.name', 'p.original_price', 'od.quantity as total')
+                    // ->select('p.name', 'p.original_price', 'od.quantity as total')
+                    // ->distinct('total')
+                    ->join('categories as c', 'c.id', '=', 'orders.id_category')
+                    ->join('outlets as o', 'o.id', '=', 'orders.id_outlet')
+                    ->join('order_details as od', 'od.id', '=', 'orders.id_order_detail')
+                    ->join('products as p', 'p.name', '=', 'od.product')
+                    ->orderBy('total')
+                    ->groupBy('p.name')
+                    // ->groupBy('od.id_product')
+                    // ->groupBy('total')
+                    ->where('o.id_user', $id)
+                    // ->where('od.id_product', 1)
+                    ->get();
 
-            $data_product = DB::table('products')
-                ->join('categories as c', 'c.id', '=', 'products.id_category')
-                ->join('orders as or', 'or.id_category', '=', 'c.id')
-                ->join('outlets as o', 'o.id', '=', 'or.id_outlet')
-                ->get();
-            // dd($data);
-            // $order = Orders::with('categories')->get();
-            $top_product = DB::table('orders')
-                ->select('p.name', 'p.original_price', 'od.quantity as total')
-                // ->select('p.name', 'p.original_price', 'od.quantity as total')
-                // ->distinct('total')
-                ->join('categories as c', 'c.id', '=', 'orders.id_category')
-                ->join('outlets as o', 'o.id', '=', 'orders.id_outlet')
-                ->join('order_details as od', 'od.id', '=', 'orders.id_order_detail')
-                ->join('products as p', 'p.name', '=', 'od.product')
-                ->orderBy('total')
-                ->groupBy('p.name')
-                // ->groupBy('od.id_product')
-                // ->groupBy('total')
-                ->where('o.id_user', $id)
-                // ->where('od.id_product', 1)
-                ->get();
-
-            $total_product = DB::table('orders')
-                ->select('od.quantity as total')
-                // ->select(DB::raw('distinct(od.quantity) as total'))
-                ->join('categories as c', 'c.id', '=', 'orders.id_category')
-                // ->join('products as p', 'p.id_category', '=', 'c.id')
-                ->join('outlets as o', 'o.id', '=', 'orders.id_outlet')
-                ->join('order_details as od', 'od.id', '=', 'orders.id_order_detail')
-                ->join('products as p', 'p.name', '=', 'od.product')
-                // ->orderBy('p.id')
-                // ->groupBy('p.name')
-                ->groupBy('total')
-                ->where('o.id_user', $id)
-                ->get();
-            // dd($total_product);
-            // $categ = Categories::all();
-            // dd($top_product);
+                $total_product = DB::table('orders')
+                    ->select('od.quantity as total')
+                    // ->select(DB::raw('distinct(od.quantity) as total'))
+                    ->join('categories as c', 'c.id', '=', 'orders.id_category')
+                    // ->join('products as p', 'p.id_category', '=', 'c.id')
+                    ->join('outlets as o', 'o.id', '=', 'orders.id_outlet')
+                    ->join('order_details as od', 'od.id', '=', 'orders.id_order_detail')
+                    ->join('products as p', 'p.name', '=', 'od.product')
+                    // ->orderBy('p.id')
+                    // ->groupBy('p.name')
+                    ->groupBy('total')
+                    ->where('o.id_user', $id)
+                    ->get();
+                // dd($total_product);
+                // $categ = Categories::all();
+                // dd($top_product);
 
 
-            return view('tenant.page.dashboard', compact(
-                'active',
-                'today_order',
-                'total_order',
-                'top_product',
-                'outlet',
-                'total_product',
-                'total_category',
-                'total_menu',
-                'order_grafik',
-                'bulan_grafik'
-            ));
+                return view('tenant.page.dashboard', compact(
+                    'active',
+                    'today_order',
+                    'total_order',
+                    'top_product',
+                    'outlet',
+                    'total_product',
+                    'total_category',
+                    'total_menu',
+                    'order_grafik',
+                    'bulan_grafik'
+                ));
+            } else if (Auth::user()->roles == 'admin') {
+                $data = DB::table('orders')
+                    ->join('outlets', 'outlets.id', '=', 'orders.id_outlet')
+                    ->join('categories as c', 'c.id_outlet', '=', 'outlets.id')
+                    ->where('orders.id_order_status', 1)
+                    // ->where('MONTH(orders.date_order)', $date)
+                    // ->whereMonth('orders.date_order', $date)
+                    ->groupBy('orders.id')
+                    // ->groupBy('orders.date_order')
+                    // ->orderBy('orders.date_order', 'asc')
+                    ->get();
+                $tenant = Outlet::select('active')->get();
+                $active_tenant = $tenant->where('active', 'active')->count();
+                $inactive_tenant = $tenant->where('active', 'deactive')->count();
+                $total_order = $data->sum('total');
+                $today_order = $data->count('id');
+
+                $top_tenant = DB::table('orders as o')
+                    ->select('ot.name', DB::raw('COUNT(o.id_outlet) as total_order'))
+                    ->join('outlets as ot', 'ot.id', '=', 'o.id_outlet')
+                    ->groupBy('ot.name')
+                    ->get();
+                // dd($top_tenant);
+                return view('tenant.page.dashboard', compact(
+                    'active',
+                    'outlet',
+                    'total_order',
+                    'today_order',
+                    'active_tenant',
+                    'inactive_tenant',
+                    'top_tenant'
+                ));
+            }
         } catch (Exception $error) {
             dd($error->getMessage());
         }

@@ -10,6 +10,7 @@
         <section class="row">
             <div class="col-12 col-lg-12">
                 <div class="row">
+                    {{-- @if (auth()->user()->roles == 'kantin') --}}
                     <div class="col-6 col-lg-3 col-md-6">
                         <div class="card">
                             <div class="card-body px-4 py-4-5">
@@ -23,7 +24,8 @@
                                         <h6 class="text-muted font-semibold">
                                             Number of Omzet
                                         </h6>
-                                        <h6 class="font-extrabold mb-0">{{ number_format($total_order, 2, ',', '.') }}</h6>
+                                        <h6 class="font-extrabold mb-0">{{ number_format($total_order, 2, ',', '.') }}
+                                        </h6>
                                     </div>
                                 </div>
                             </div>
@@ -57,9 +59,10 @@
                                     </div>
                                     <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                                         <h6 class="text-muted font-semibold">
-                                            Number of Category
+                                            {{ auth()->user()->roles == 'kantin' ? 'Number of Category' : 'Number of active tenants' }}
                                         </h6>
-                                        <h6 class="font-extrabold mb-0">{{ $total_category }}</h6>
+                                        <h6 class="font-extrabold mb-0">
+                                            {{ auth()->user()->roles == 'kantin' ? $total_category : $active_tenant }}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -75,13 +78,17 @@
                                         </div>
                                     </div>
                                     <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                        <h6 class="text-muted font-semibold">Number of Menu</h6>
-                                        <h6 class="font-extrabold mb-0">{{ $total_menu }}</h6>
+                                        <h6 class="text-muted font-semibold">
+                                            {{ auth()->user()->roles == 'kantin' ? 'Number of Menu' : 'Number of inactive tenants' }}
+                                        </h6>
+                                        <h6 class="font-extrabold mb-0">
+                                            {{ auth()->user()->roles == 'kantin' ? $total_menu : $inactive_tenant }}</h6>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    {{-- @endif --}}
                     {{-- <div class="col-6 col-lg-3 col-md-6">
                         <div class="card">
                             <div class="card-body px-4 py-4-5">
@@ -188,43 +195,72 @@
                     </div>
                     <div class="col-12 col-xl-6">
                         <div class="card">
+
                             <div class="card-header">
-                                <h4>Top Product</h4>
+                                <h4>{{ auth()->user()->roles == 'kantin' ? 'Top Product' : 'Top Tenant' }}</h4>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-hover table-lg">
-                                        <thead>
-                                            <tr>
-                                                <th>Product</th>
-                                                <th>Price</th>
-                                                <th>Order</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($top_product as $item)
-                                                {{-- @foreach ($total_product as $row) --}}
+                                        @if (auth()->user()->roles == 'kantin')
+                                            <thead>
                                                 <tr>
-                                                    <td class="col-3">
-                                                        <div class="d-flex align-items-center">
-                                                            <p class="font-bold ms-3 mb-0">{{ $item->name }}</p>
-                                                        </div>
-                                                    </td>
-                                                    <td class="col-auto">
-                                                        <p class="mb-0">
-                                                            Rp.{{ number_format($item->original_price) }}
-                                                        </p>
-                                                    </td>
-                                                    <td>
-                                                        <div class="col-auto">
-                                                            <p class="mb-0">{{ $item->total }}</p>
-                                                        </div>
-                                                    </td>
+                                                    <th>Product</th>
+                                                    <th>Price</th>
+                                                    <th>Order</th>
                                                 </tr>
-                                                {{-- @endforeach --}}
-                                            @endforeach
-                                        </tbody>
+                                            </thead>
+                                            <tbody>
+                                                {{-- @foreach ($total_product as $row) --}}
+                                                @foreach ($top_product as $item)
+                                                    <tr>
+                                                        <td class="col-3">
+                                                            <div class="d-flex align-items-center">
+                                                                <p class="font-bold ms-3 mb-0">{{ $item->name }}</p>
+                                                            </div>
+                                                        </td>
+                                                        <td class="col-auto">
+                                                            <p class="mb-0">
+                                                                Rp.{{ number_format($item->original_price) }}
+                                                            </p>
+                                                        </td>
+                                                        <td>
+                                                            <div class="col-auto">
+                                                                <p class="mb-0">{{ $item->total }}</p>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    {{-- @endforeach --}}
+                                                @endforeach
+                                            </tbody>
+                                        @else
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Total Order</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {{-- @foreach ($total_product as $row) --}}
+                                                @foreach ($top_tenant as $item)
+                                                    <tr>
+                                                        <td class="col-3">
+                                                            <div class="col-auto">
+                                                                <p class="font-bold mb-0">{{ $item->name }}</p>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="col-auto">
+                                                                <p class="mb-0">{{ $item->total_order }}</p>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    {{-- @endforeach --}}
+                                                @endforeach
+                                            </tbody>
+                                        @endif
                                     </table>
+
                                 </div>
                             </div>
                         </div>
@@ -237,44 +273,46 @@
             @push('scripts')
                 <script src="{{ asset('assets/extensions/apexcharts/apexcharts.min.js') }}"></script>
                 {{-- <script src="{{ asset('assets/js/pages/dashboard.js') }}"></script> --}}
-                <script>
-                    // console.log(json_encode($order_grafik), json_encode($bulan_grafik))
-                    var areaOptions = {
-                        series: [{
-                                name: "Order",
-                                // data: {!! json_encode($bulan_grafik) !!},
-                                data: {!! json_encode($order_grafik) !!},
+                @if (auth()->user()->roles == 'kantin')
+                    <script>
+                        // console.log(json_encode($order_grafik), json_encode($bulan_grafik))
+                        var areaOptions = {
+                            series: [{
+                                    name: "Order",
+                                    // data: {!! json_encode($bulan_grafik) !!},
+                                    data: {!! json_encode($order_grafik) !!},
+                                },
+                                // {
+                                //     name: "series2",
+                                //     data: [11, 32, 45, 32, 34, 52, 41],
+                                // },
+                            ],
+                            chart: {
+                                height: 350,
+                                type: "area",
                             },
-                            // {
-                            //     name: "series2",
-                            //     data: [11, 32, 45, 32, 34, 52, 41],
-                            // },
-                        ],
-                        chart: {
-                            height: 350,
-                            type: "area",
-                        },
-                        dataLabels: {
-                            enabled: false,
-                        },
-                        stroke: {
-                            curve: "smooth",
-                        },
-                        xaxis: {
-                            type: "datetime",
-                            categories: {!! json_encode($bulan_grafik) !!},
-                        },
-                        tooltip: {
-                            x: {
-                                format: "dd/MM/yy HH:mm",
+                            dataLabels: {
+                                enabled: false,
                             },
-                        },
-                    };
+                            stroke: {
+                                curve: "smooth",
+                            },
+                            xaxis: {
+                                type: "datetime",
+                                categories: {!! json_encode($bulan_grafik) !!},
+                            },
+                            tooltip: {
+                                x: {
+                                    format: "dd/MM/yy HH:mm",
+                                },
+                            },
+                        };
 
-                    var area = new ApexCharts(document.querySelector("#chart-order"), areaOptions);
+                        var area = new ApexCharts(document.querySelector("#chart-order"), areaOptions);
 
-                    area.render();
-                </script>
+                        area.render();
+                    </script>
+                @endif
             @endpush
         </section>
     </div>

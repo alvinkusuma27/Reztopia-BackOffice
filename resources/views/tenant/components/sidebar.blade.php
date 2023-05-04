@@ -62,6 +62,12 @@
                             <span>Tenant Control</span>
                         </a>
                     </li>
+                    <li class="sidebar-item">
+                        <a href="{{ route('logout') }}" class="sidebar-link">
+                            <i class="bi bi-door-open-fill"></i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
                 @else
                     <li class="sidebar-item {{ $active == 'menu' ? 'active' : '' }}">
                         <a href="{{ route('menu') }}" class="sidebar-link">
