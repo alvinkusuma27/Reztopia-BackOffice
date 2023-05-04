@@ -62,6 +62,18 @@
                             <span>Tenant Control</span>
                         </a>
                     </li>
+                    <li class="sidebar-item {{ $active == 'laporan' ? 'active' : '' }}">
+                        <a href="{{ route('laporan') }}" class="sidebar-link">
+                            <i class="bi bi-newspaper"></i>
+                            <span>Laporan</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item {{ $active == 'profile' ? 'active' : '' }}">
+                        <a href="{{ route('profile') }}" class="sidebar-link">
+                            <i class="bi bi-person-badge-fill"></i>
+                            <span>Profile</span>
+                        </a>
+                    </li>
                     <li class="sidebar-item">
                         <a href="{{ route('logout') }}" class="sidebar-link">
                             <i class="bi bi-door-open-fill"></i>

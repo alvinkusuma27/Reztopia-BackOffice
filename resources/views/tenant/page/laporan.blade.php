@@ -15,19 +15,179 @@
             max-width: 500px;
         }
     </style>
+    <style>
+        .cards-wrapper {
+            display: flex;
+            justify-content: center;
+        }
+
+        .card img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .card {
+            margin: 0 0.5em;
+            box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
+            border: none;
+            border-radius: 0;
+        }
+
+        .carousel-inner {
+            padding: 1em;
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            background-color: #e1e1e1;
+            width: 5vh;
+            height: 5vh;
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        @media (min-width: 768px) {
+            .card img {
+                height: 11em;
+            }
+        }
+    </style>
     <link rel="stylesheet" href="{{ asset('assets/extensions/simple-datatables/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/pages/simple-datatables.css') }}">
 @endpush
 
 @section('container')
-    <div class="page-heading">
-        <h3>Laporan Keuangan</h3>
-        <p>Laporan Keuangan Resto Bawah Tanah</p>
+    <div class="page-heading d-flex justify-content-between">
+        <div class="flex-start">
+            <h3>Laporan Keuangan</h3>
+            <p>Laporan Keuangan Resto Bawah Tanah</p>
+        </div>
+        <div class="flex-end">
+            <a class="nav-link dropdown-toggle " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Pilih Kantin
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{{ route('laporan') }}">All</a>
+                </li>
+                @foreach ($kantin as $item)
+                    <li><a class="dropdown-item" href="{{ route('laporan_admin', $item->id_user) }}">{{ $item->name }}</a>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
     </div>
     <div class="page-content">
         <section class="row">
             <div class="col-12 col-lg-12">
                 <div class="row">
+                    {{-- <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <div class="cards-wrapper">
+                                    <div class="card">
+                                        <img src="..." class="card-img-top" alt="...">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Card title</h5>
+                                            <p class="card-text">Some quick example text to build on the card title and make
+                                                up the bulk of the card's content.</p>
+                                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                                        </div>
+                                    </div>
+                                    <div class="card d-none d-md-block">
+                                        <img src="..." class="card-img-top" alt="...">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Card title</h5>
+                                            <p class="card-text">Some quick example text to build on the card title and make
+                                                up the bulk of the card's content.</p>
+                                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                                        </div>
+                                    </div>
+                                    <div class="card d-none d-md-block">
+                                        <img src="..." class="card-img-top" alt="...">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Card title</h5>
+                                            <p class="card-text">Some quick example text to build on the card title and make
+                                                up the bulk of the card's content.</p>
+                                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="cards-wrapper">
+                                    <div class="card">
+                                        <img src="..." class="card-img-top" alt="...">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Card title</h5>
+                                            <p class="card-text">Some quick example text to build on the card title and make
+                                                up the bulk of the card's content.</p>
+                                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                                        </div>
+                                    </div>
+                                    <div class="card d-none d-md-block">
+                                        <img src="..." class="card-img-top" alt="...">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Card title</h5>
+                                            <p class="card-text">Some quick example text to build on the card title and make
+                                                up the bulk of the card's content.</p>
+                                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                                        </div>
+                                    </div>
+                                    <div class="card d-none d-md-block">
+                                        <img src="..." class="card-img-top" alt="...">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Card title</h5>
+                                            <p class="card-text">Some quick example text to build on the card title and make
+                                                up the bulk of the card's content.</p>
+                                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="cards-wrapper">
+                                    <div class="card">
+                                        <img src="..." class="card-img-top" alt="...">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Card title</h5>
+                                            <p class="card-text">Some quick example text to build on the card title and make
+                                                up the bulk of the card's content.</p>
+                                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                                        </div>
+                                    </div>
+                                    <div class="card d-none d-md-block">
+                                        <img src="..." class="card-img-top" alt="...">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Card title</h5>
+                                            <p class="card-text">Some quick example text to build on the card title and make
+                                                up the bulk of the card's content.</p>
+                                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                                        </div>
+                                    </div>
+                                    <div class="card d-none d-md-block">
+                                        <img src="..." class="card-img-top" alt="...">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Card title</h5>
+                                            <p class="card-text">Some quick example text to build on the card title and make
+                                                up the bulk of the card's content.</p>
+                                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
+                            data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleControls" role="button"
+                            data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div> --}}
                     <div class="col-6 col-lg-6 col-md-6">
                         <div class="card">
                             <div class="card-body px-4 py-4-5">
@@ -60,9 +220,10 @@
                                 <form action="{{ route('filter_date') }}" method="post" id="filter_date">
                                     @csrf
                                     <input type="date" name="date" class="btn btn-primary mr-4">
+                                    <input type="text" name="id_user" value="{{ $id }}" hidden>
                                     <button type="submit" class="btn btn-outline-secondary">Filter</button>
                                 </form>
-                                <a href="{{ route('print', $day) }}" class="btn btn-primary"><i
+                                <a href="{{ url('print_laporan/' . $day . '/' . $id) }}" class="btn btn-primary"><i
                                         class="bi bi-printer"></i>&nbsp
                                     Print</a>
                             </div>
@@ -139,8 +300,17 @@
     <script>
         $(document).ready(function() {
             $('#tableLaporan').DataTable();
-        });
+        }); <
+        script src = "https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity = "sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin = "anonymous" >
     </script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script> --}}
     <script src="{{ asset('assets/extensions/simple-datatables/umd/simple-datatables.js') }}"></script>
     <script src="{{ asset('assets/js/pages/simple-datatables.js') }}"></script>
     {{-- <script type="text/javascript">

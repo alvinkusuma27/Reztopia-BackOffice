@@ -1,6 +1,10 @@
 @extends('tenant.components.master')
 @section('title', 'TENANT')
 
+@push('head')
+    <link rel="stylesheet" href="{{ asset('assets/extensions/simple-datatables/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/pages/simple-datatables.css') }}">
+@endpush
 
 @section('container')
     <div class="page-heading">
@@ -25,8 +29,8 @@
                             </div> --}}
                             <div class="card-content">
                                 <div class="table-responsive">
-                                    <table class="table mb-0">
-                                        <thead class="thead-dark">
+                                    <table class="table table-striped" id="table1">
+                                        <thead>
                                             <tr>
                                                 <th>Nomor</th>
                                                 <th>Nama</th>
@@ -53,6 +57,32 @@
                                             @endforeach
                                         </tbody>
                                     </table>
+                                    {{-- <table class="table mb-0">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>Nomor</th>
+                                                <th>Nama</th>
+                                                <th>Tenant</th>
+                                                <th>Pengaturan</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($outlet as $item)
+                                                <tr>
+                                                    <td class="text-bold-500">{{ $item->user[0]->id }}</td>
+                                                    <td>{{ $item->user[0]->name }}</td>
+                                                    <td class="text-bold-500">{{ $item->name }}</td>
+                                                    <td>
+                                                        <a href="" data-bs-toggle="modal"
+                                                            class="btn {{ $item->active == 'active' ? 'btn-outline-success' : 'btn-outline-danger' }} ml-1"
+                                                            data-bs-target="#modal{{ $item->id }}">
+                                                            {{ $item->active == 'active' ? 'active' : 'deactive' }}
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table> --}}
                                 </div>
                             </div>
                         </div>
@@ -98,4 +128,11 @@
 
 @push('scripts')
     <script src="{{ asset('assets/extensions/choices.js/public/assets/scripts/choices.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#tableLaporan').DataTable();
+        });
+    </script>
+    <script src="{{ asset('assets/extensions/simple-datatables/umd/simple-datatables.js') }}"></script>
+    <script src="{{ asset('assets/js/pages/simple-datatables.js') }}"></script>
 @endpush

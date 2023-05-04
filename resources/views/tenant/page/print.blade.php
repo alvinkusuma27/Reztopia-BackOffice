@@ -459,11 +459,11 @@
     <table>
         <tr>
             <td>ID TENANT </td>
-            <td>: {{ $order[0]->id }}</td>
+            <td>: {{ empty($order[0]->id) != true ? $order[0]->id : 'Nan' }}</td>
         </tr>
         <tr>
             <td>NAMA TENANT </td>
-            <td>: {{ $order[0]->name }}</td>
+            <td>: {{ empty($order[0]->name) != true ? $order[0]->name : 'Nan' }}</td>
         </tr>
     </table>
 

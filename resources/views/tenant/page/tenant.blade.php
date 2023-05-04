@@ -13,6 +13,10 @@
         }
     </script>
 @endpush
+@push('head')
+    <link rel="stylesheet" href="{{ asset('assets/extensions/simple-datatables/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/pages/simple-datatables.css') }}">
+@endpush
 
 @section('container')
     <div class="page-heading">
@@ -51,51 +55,42 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-header">
-                                <div class="d-flex justify-content-lg-between">
-                                    <div class="flex-start">
-                                        {{-- <input type="date" class="btn btn-primary"> --}}
-                                        <input type="text" class="btn btn-outline-dark text-start ml-5">
-                                    </div>
-                                    <button class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#modalCreate">Tambah</button>
-
-                                </div>
+                            <div class="card-header d-flex justify-content-end">
+                                <button class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#modalCreate">Tambah</button>
                             </div>
-                            <div class="card-content">
-                                <div class="table-responsive">
-                                    <table class="table mb-0">
-                                        <thead class="thead-dark">
+                            <div class="card-body">
+                                <table class="table table-striped" id="table1">
+                                    <thead>
+                                        <tr>
+                                            <th>Nomor</th>
+                                            <th>Nama</th>
+                                            <th>Tenant</th>
+                                            <th>Pengaturan</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($outlet as $item)
                                             <tr>
-                                                <th>Nomor</th>
-                                                <th>Nama</th>
-                                                <th>Tenant</th>
-                                                <th>Pengaturan</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($outlet as $item)
-                                                <tr>
-                                                    <td class="text-bold-500">{{ $item->user[0]->id }}</td>
-                                                    <td>{{ $item->user[0]->name }}</td>
-                                                    <td class="text-bold-500">{{ $item->name }}</td>
-                                                    <td>
-                                                        <button class="btn btn-outline-primary rounded-pill"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#modalEdit{{ $item->id }}">Edit</button>
-                                                        {{-- <button
+                                                <td class="text-bold-500">{{ $item->user[0]->id }}</td>
+                                                <td>{{ $item->user[0]->name }}</td>
+                                                <td class="text-bold-500">{{ $item->name }}</td>
+                                                <td>
+                                                    <button class="btn btn-outline-primary rounded-pill"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#modalEdit{{ $item->id }}">Edit</button>
+                                                    {{-- <button
                                                             class="btn btn-outline-primary rounded-pill mx-1">Atur</button> --}}
-                                                        <a href="{{ route('tenant.destroy', $item->id) }}"
-                                                            data-bs-toggle="modal" class="btn btn-outline-danger ml-1"
-                                                            data-bs-target="#modalDelete{{ $item->id }}">
-                                                            <i class="bi bi-trash-fill"></i>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
+                                                    <a href="{{ route('tenant.destroy', $item->id) }}"
+                                                        data-bs-toggle="modal" class="btn btn-outline-danger ml-1"
+                                                        data-bs-target="#modalDelete{{ $item->id }}">
+                                                        <i class="bi bi-trash-fill"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -254,4 +249,11 @@
 
 @push('scripts')
     <script src="{{ asset('assets/extensions/choices.js/public/assets/scripts/choices.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#tableLaporan').DataTable();
+        });
+    </script>
+    <script src="{{ asset('assets/extensions/simple-datatables/umd/simple-datatables.js') }}"></script>
+    <script src="{{ asset('assets/js/pages/simple-datatables.js') }}"></script>
 @endpush
