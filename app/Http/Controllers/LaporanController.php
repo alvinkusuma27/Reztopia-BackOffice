@@ -9,6 +9,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class LaporanController extends Controller
 {
@@ -18,7 +19,64 @@ class LaporanController extends Controller
             $active = 'laporan';
             $id = Auth::user()->id;
             $tgl = Carbon::now();
-            $date = $tgl->day;
+            $day = bin2hex($tgl->toDateTimeString());
+            // $day = Carbon::createFromFormat('d/m/Y',  $tgl1);
+            // dd($tgl1);
+
+
+            // omzet_today, omzet total, nam product, tanggal, jumlah,
+            $order = DB::table('outlets')
+                ->select('o.total', 'p.name', 'o.date_order', 'od.quantity', 'o.proof_of_payment', 'o.id')
+                ->join('orders as o', 'o.id_outlet', '=', 'outlets.id')
+                ->join('order_details as od', 'od.id', '=', 'o.id_order_detail')
+                ->join('order_status as os', 'os.id', '=', 'o.id_order_status')
+                ->join('products as p', 'p.name', '=', 'od.product')
+                ->where('outlets.id_user', $id)
+                ->whereDay('o.date_order', $tgl)
+                ->where('os.name', 'sukses')
+                // ->groupBy('o.id_outlet')
+                ->get();
+            // $cona = Orders::all();
+            // dd($order);
+            $today_omzet = array();
+            $today_order = array();
+            // $data = $order->where('date_order', $date);
+            foreach ($order as $item) {
+                $all = $item->total;
+                // dd($all);
+                array_push($today_omzet, $all);
+            }
+            foreach ($order as $item) {
+                $all = $item->id;
+                // dd($all);
+                array_push($today_order, $all);
+            }
+            $omzet_today = array_sum($today_omzet);
+            $order_today = count($today_order);
+            // dd($omzet_today, $omzet_total);
+            // dd($omzet_total);
+
+            // $omzet_today =
+            // $omzet_total
+
+            return view('tenant.page.laporan', compact('active', 'order_today', 'omzet_today', 'order', 'day'));
+        } catch (Exception $error) {
+            dd($error->getMessage());
+        }
+    }
+
+    public function filter_date(Request $request)
+    {
+        // dd(
+        //     $request->all()
+        // );
+        try {
+            $active = 'laporan';
+            $id = Auth::user()->id;
+            $date_filter = Carbon::parse($request->date('date'))->format('d/m/Y');
+            $date = Carbon::createFromFormat('d/m/Y',  $date_filter);
+            $day = bin2hex($date->toDateTimeString());
+            // dd($request->date);
 
 
             // omzet_today, omzet total, nam product, tanggal, jumlah,
@@ -56,9 +114,47 @@ class LaporanController extends Controller
             // $omzet_today =
             // $omzet_total
 
-            return view('tenant.page.laporan', compact('active', 'order_today', 'omzet_today', 'order'));
+            return view('tenant.page.laporan', compact('active', 'order_today', 'omzet_today', 'order', 'day'));
         } catch (Exception $error) {
             dd($error->getMessage());
         }
     }
+
+    public function print($date)
+    {
+        try {
+            //code...
+        } catch (Exception $error) {
+            dd($error->getMessage());
+        }
+        // dd(urldecode($date));
+        $date_2 = hex2bin($date);
+        $date_filter = Carbon::parse($date_2)->format('d/m/Y');
+        $date_3 = Carbon::createFromFormat('d/m/Y',  $date_filter);
+        // dd($deee);
+
+        $id = Auth::user()->id;
+        $order = DB::table('outlets')
+            ->select('o.total', 'p.name as product_name', 'o.date_order', 'od.quantity', 'o.proof_of_payment', 'o.id', 'outlets.name')
+            ->join('orders as o', 'o.id_outlet', '=', 'outlets.id')
+            ->join('order_details as od', 'od.id', '=', 'o.id_order_detail')
+            ->join('order_status as os', 'os.id', '=', 'o.id_order_status')
+            ->join('products as p', 'p.name', '=', 'od.product')
+            ->where('outlets.id_user', $id)
+            ->whereDay('o.date_order', $date_3)
+            ->where('os.name', 'sukses')
+            // ->groupBy('o.id_outlet')
+            ->get();
+        // dd($order, $date_2);
+        // $pdf = PDF::loadView('tenant.page.print', compact('order'));
+
+        // return $pdf->stream();
+        $pdf = PDF::loadView('tenant.page.print', [
+            'order' => $order
+        ])->setpaper('a4', 'potrait');
+        return view('tenant.page.print', compact('order'));
+        return $pdf->download('slip-gaji' . '-' . $order[0]->name . '.pdf');
+        // return $pdf->stream();
+    }
 }
+// $date = Carbon::createFromFormat('d/m/Y',  '19/04/2000');

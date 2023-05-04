@@ -34,7 +34,7 @@ class DashboardController extends Controller
 
             // $outlet = Outlet::with('user')->where('id_user', $id)->get();
             $outlet = DB::table('outlets as o')
-                ->select('o.name as tenant_name', 'c.id as id_category', 'p.name as name_product')
+                ->select('o.name as tenant_name', 'c.id as id_category', 'p.name as name_product', 'o.id')
                 ->join('categories as c', 'c.id_outlet', 'o.id')
                 ->join('products as p', 'p.id_category', '=', 'c.id')
                 ->where('o.id_user', $id)
@@ -52,12 +52,31 @@ class DashboardController extends Controller
                 // ->orderBy('orders.date_order', 'asc')
                 ->get();
             // CATEGORY, MENU
-            // dd($data);
+            $grafik = DB::table('orders')
+                ->select(DB::raw('COUNT(orders.id) as id_order'), 'orders.date_order')
+                ->join('outlets', 'outlets.id', '=', 'orders.id_outlet')
+                // ->join('categories as c', 'c.id_outlet', '=', 'outlets.id')
+                ->where('outlets.id_user', $id)
+                ->where('orders.id_order_status', 1)
+                ->groupBy('orders.date_order')
+                ->orderBy('orders.date_order')
+                ->get();
+            // dd($grafik);
 
+            $order_grafik = array();
+            $bulan_grafik = array();
+            foreach ($grafik as $item) {
+                // $x['id_order'] = (int) $item->id_order;
+                // $y['date_order'] = $item->date_order;
+                array_push($order_grafik, $item->id_order);
+                array_push($bulan_grafik, $item->date_order);
+            }
+            // dd($order_grafik, $bulan_grafik, $grafik);
 
             $total_order = $data->sum('total');
             $today_order = $data->count('id');
-            $total_category = $outlet->unique('id_category')->count();
+            // $total_category = $outlet->unique('id_category')->count();
+            $total_category = Categories::where('id_outlet', $outlet[0]->id)->count();
             $total_menu = $outlet->unique('name_product')->count();
             // dd($outlet);
             // $tenant_name = $outlet[0]->tenant_name;
@@ -108,7 +127,18 @@ class DashboardController extends Controller
             // dd($top_product);
 
 
-            return view('tenant.page.dashboard', compact('active', 'today_order', 'total_order', 'top_product', 'outlet', 'total_product', 'total_category', 'total_menu'));
+            return view('tenant.page.dashboard', compact(
+                'active',
+                'today_order',
+                'total_order',
+                'top_product',
+                'outlet',
+                'total_product',
+                'total_category',
+                'total_menu',
+                'order_grafik',
+                'bulan_grafik'
+            ));
         } catch (Exception $error) {
             dd($error->getMessage());
         }

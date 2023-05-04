@@ -133,7 +133,7 @@
                     <div class="col-12 col-xl-6">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Order Details BELUM</h4>
+                                <h4>Order Details</h4>
                                 <p>The total number of sessions within the date range. It is the period time a user is
                                     actively engaged with your website, page or app, etc</p>
                             </div>
@@ -231,9 +231,50 @@
                     </div>
                 </div>
             </div>
+            @php
+                // dd(json_encode($order_grafik), json_encode($bulan_grafik));
+            @endphp
             @push('scripts')
                 <script src="{{ asset('assets/extensions/apexcharts/apexcharts.min.js') }}"></script>
-                <script src="{{ asset('assets/js/pages/dashboard.js') }}"></script>
+                {{-- <script src="{{ asset('assets/js/pages/dashboard.js') }}"></script> --}}
+                <script>
+                    // console.log(json_encode($order_grafik), json_encode($bulan_grafik))
+                    var areaOptions = {
+                        series: [{
+                                name: "Order",
+                                // data: {!! json_encode($bulan_grafik) !!},
+                                data: {!! json_encode($order_grafik) !!},
+                            },
+                            // {
+                            //     name: "series2",
+                            //     data: [11, 32, 45, 32, 34, 52, 41],
+                            // },
+                        ],
+                        chart: {
+                            height: 350,
+                            type: "area",
+                        },
+                        dataLabels: {
+                            enabled: false,
+                        },
+                        stroke: {
+                            curve: "smooth",
+                        },
+                        xaxis: {
+                            type: "datetime",
+                            categories: {!! json_encode($bulan_grafik) !!},
+                        },
+                        tooltip: {
+                            x: {
+                                format: "dd/MM/yy HH:mm",
+                            },
+                        },
+                    };
+
+                    var area = new ApexCharts(document.querySelector("#chart-order"), areaOptions);
+
+                    area.render();
+                </script>
             @endpush
         </section>
     </div>

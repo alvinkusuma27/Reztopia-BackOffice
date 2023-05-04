@@ -83,6 +83,8 @@ Route::group(
         Route::post('menu/category/{id}', [MenuController::class, 'update'])->name('menu.update');
         Route::post('menu/product/{id}', [MenuController::class, 'update_product'])->name('menu.update.product');
         Route::get('laporan', [LaporanController::class, 'index'])->name('laporan');
+        Route::post('laporan/date', [LaporanController::class, 'filter_date'])->name('filter_date');
+        Route::get('print_laporan/{date}', [LaporanController::class, 'print'])->name('print');
         Route::get('profile', [ProfileController::class, 'index'])->name('profile');
         Route::post('profile/update_profile', [ProfileController::class, 'update_profile'])->name('update_profile');
         Route::post('profile/update_image_profile', [ProfileController::class, 'update_image_profile'])->name('update_image_profile');

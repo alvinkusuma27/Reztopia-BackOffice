@@ -12,13 +12,11 @@
         }
 
         img {
-            /* position: absolute;
-                                                                    top: 0;
-                                                                    left: 0;
-                                                                    width: 100%; */
             max-width: 500px;
         }
     </style>
+    <link rel="stylesheet" href="{{ asset('assets/extensions/simple-datatables/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/pages/simple-datatables.css') }}">
 @endpush
 
 @section('container')
@@ -58,44 +56,42 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-header">
-                                <div class="d-flex justify-content-lg-between">
-                                    <div class="flex-start">
-                                        <input type="date" class="btn btn-primary">
-                                        <input type="text" class="btn btn-outline-dark text-start ml-5">
-                                    </div>
-                                    <button class="btn btn-primary">Print</button>
-
-                                </div>
+                            <div class="card-header d-flex justify-content-between">
+                                <form action="{{ route('filter_date') }}" method="post" id="filter_date">
+                                    @csrf
+                                    <input type="date" name="date" class="btn btn-primary mr-4">
+                                    <button type="submit" class="btn btn-outline-secondary">Filter</button>
+                                </form>
+                                <a href="{{ route('print', $day) }}" class="btn btn-primary"><i
+                                        class="bi bi-printer"></i>&nbsp
+                                    Print</a>
                             </div>
-                            <div class="card-content">
-                                <div class="table-responsive">
-                                    <table class="table mb-0">
-                                        <thead class="thead-dark">
+                            <div class="card-body">
+                                <table class="table table-striped" id="table1">
+                                    <thead>
+                                        <tr>
+                                            <th>Tanggal</th>
+                                            <th>Nama</th>
+                                            <th>Jumlah</th>
+                                            <th>Bukti Pembayaran</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($order as $item)
                                             <tr>
-                                                <th>Tanggal</th>
-                                                <th>Nama</th>
-                                                <th>Jumlah</th>
-                                                <th>Bukti Pembayaran</th>
+                                                <td class="text-bold-500">{{ $item->date_order }}</td>
+                                                <td>{{ $item->name }}</td>
+                                                <td class="text-bold-500">{{ $item->quantity }}</td>
+                                                <td>
+                                                    <a href="#" {{-- class="btn" --}} data-bs-toggle="modal"
+                                                        data-bs-target="#modalToggle{{ $item->id }}">
+                                                        <i class="bi bi-eye-fill"></i>
+                                                    </a>
+                                                </td>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($order as $item)
-                                                <tr>
-                                                    <td class="text-bold-500">{{ $item->date_order }}</td>
-                                                    <td>{{ $item->name }}</td>
-                                                    <td class="text-bold-500">{{ $item->quantity }}</td>
-                                                    <td>
-                                                        <a href="#" {{-- class="btn" --}} data-bs-toggle="modal"
-                                                            data-bs-target="#modalToggle{{ $item->id }}">
-                                                            <i class="bi bi-eye-fill"></i>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -140,4 +136,14 @@
 
 @push('scripts')
     <script src="{{ asset('assets/extensions/choices.js/public/assets/scripts/choices.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#tableLaporan').DataTable();
+        });
+    </script>
+    <script src="{{ asset('assets/extensions/simple-datatables/umd/simple-datatables.js') }}"></script>
+    <script src="{{ asset('assets/js/pages/simple-datatables.js') }}"></script>
+    {{-- <script type="text/javascript">
+        document.forms['filter_date'].submit();
+    </script> --}}
 @endpush

@@ -36,16 +36,25 @@ class ProfileController extends Controller
         try {
             // dd($request->all());
             $validator = Validator::make($request->all(), [
-                'email' => 'email',
-                'phone' => 'numeric'
+                'photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
             ]);
             $id = Auth::user()->id;
+            $user_name = Auth::user()->name;
             if (!$validator->fails()) {
                 $user = User::findOrFail($id);
-                $user->update([
-                    'email' => $request->email,
-                    'phone' => $request->phone
-                ]);
+                if ($request->hasFile('image')) {
+                    $image = $request->file('image');
+                    $image_name = time() . '-user-update-' . $user_name . '.' . $image->getClientOriginalExtension();
+                    Storage::putFileAs('public/uploads/user/', $image, $image_name);
+                    $user->update([
+                        'image' => $image_name,
+                        'position' => $request->position,
+                    ]);
+                } else {
+                    $user->update([
+                        'position' => $request->position,
+                    ]);
+                }
                 Alert::toast("Data Successfully Updated", 'success');
                 return back();
             }
@@ -102,7 +111,7 @@ class ProfileController extends Controller
                 $user->update([
                     'password' => Hash::make($request->passNew)
                 ]);
-                Alert::toast('old password does not match', 'success');
+                Alert::toast('Reset Password Successfully', 'success');
                 return back()->withInput();
             }
             Alert::toast($validator->messages()->all(), 'error');

@@ -51,7 +51,7 @@
                                 {{ empty($outlet[0]) ? '' : $outlet[0]->user[0]->username }}
                             </h5>
                             <h6>
-                                {{ empty($outlet[0]) ? '' : $outlet[0]->name }}
+                                {{ empty($outlet[0]) ? '' : $outlet[0]->user[0]->position . ' kantin ' . $outlet[0]->name }}
                             </h6>
                             <div class="d-flex justify-content-between mt-4">
                                 <div class="flex-start">
@@ -69,22 +69,22 @@
                                     </div>
 
                                 </div>
-                                {{-- <div class="flex-end">
+                                <div class="flex-end">
                                     <div class="card p-3">
                                         <div class="card-content">
                                             <h5 class="fs-5 text-muted">Kantin Cowok</h5>
                                             <p class="fs-4">
-                                                Baril
+                                                {{ $outlet[0]->name }}
                                             </p>
                                             <p class="fs-5 text-muted">
                                                 Berlangganan pada
                                             </p>
                                             <p class="fs-6">
-                                                2006
+                                                {{ $outlet[0]->created_at != null ? $outlet[0]->created_at : 'Nan' }}
                                             </p>
                                         </div>
                                     </div>
-                                </div> --}}
+                                </div>
                             </div>
                             <div class="card p-3">
                                 <div class="card-content">
@@ -115,18 +115,16 @@
                         <i data-feather="x"></i>
                     </button> --}}
                         </div>
-                        <form action="{{ route('update_profile') }}" method="post">
+                        <form action="{{ route('update_profile') }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="modal-body">
                                 <div class="form-group mb-3">
-                                    <label for="basicInput">Nomor Telepon</label>
-                                    <input type="number" class="form-control mt-3" id="basicInput" name="phone"
-                                        value="{{ empty($outlet[0]) ? '' : $outlet[0]->user[0]->phone }}">
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label for="basicInput">Email</label>
-                                    <input type="email" class="form-control mt-3" id="basicInput" name="email"
-                                        value="{{ empty($outlet[0]) ? '' : $outlet[0]->user[0]->email }}">
+                                    <label for="basicInput">Position</label>
+                                    <input type="text" class="form-control mt-3" id="basicInput" name="position"
+                                        value="{{ empty($outlet[0]) ? '' : $outlet[0]->user[0]->position }}">
+                                    <label for="basicInput">Profile Image</label>
+                                    <input type="file" class="form-control mt-3" id="basicInput" name="image"
+                                        value="{{ empty($outlet[0]) ? '' : $outlet[0]->user[0]->position }}">
                                 </div>
                             </div>
                             <div class="modal-footer">
