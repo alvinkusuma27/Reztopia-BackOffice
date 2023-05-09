@@ -41,7 +41,8 @@ class LaporanController extends Controller
                         'od.price as total_order',
                         'p.original_price as price_product',
                         // 'c.type_order',
-                        'u.name as name_user'
+                        'u.name as name_user',
+                        'od.id as id_order_detail'
                     )
                     ->join('orders as o', 'o.id_outlet', '=', 'outlets.id')
                     ->join('order_details as od', 'od.id', '=', 'o.id_order_detail')
@@ -52,7 +53,7 @@ class LaporanController extends Controller
                     // ->join('cart as c', 'c.id_product', '=', 'p.id')
                     // ->whereDate('o.date_order', $tgl)
                     ->where('os.name', 'sukses')
-                    // ->groupBy('o.id_outlet')
+                    ->groupBy('od.id')
                     ->get();
                 // $cona = Orders::all();
                 // dd($order);
@@ -93,7 +94,8 @@ class LaporanController extends Controller
                         'od.price as total_order',
                         'p.original_price as price_product',
                         // 'c.type_order',
-                        'u.name as name_user'
+                        'u.name as name_user',
+                        'od.id as id_order_detail'
                     )
                     ->join('orders as o', 'o.id_outlet', '=', 'outlets.id')
                     ->join('order_details as od', 'od.id', '=', 'o.id_order_detail')
@@ -103,7 +105,7 @@ class LaporanController extends Controller
                     // ->join('cart as c', 'c.id_product', '=', 'p.id')
                     // ->whereDate('o.date_order', $tgl)
                     ->where('os.name', 'sukses')
-                    // ->groupBy('o.id_outlet')
+                    ->groupBy('od.id')
                     ->get();
                 // $cona = Orders::all();
                 // dd($order);
@@ -175,7 +177,8 @@ class LaporanController extends Controller
                     'od.price as total_order',
                     'p.original_price as price_product',
                     // 'c.type_order',
-                    'u.name as name_user'
+                    'u.name as name_user',
+                    'od.id as id_order_detail'
                 )
                 ->join('orders as o', 'o.id_outlet', '=', 'outlets.id')
                 ->join('order_details as od', 'od.id', '=', 'o.id_order_detail')
@@ -186,7 +189,7 @@ class LaporanController extends Controller
                 ->where('outlets.id_user', $id)
                 // ->whereDate('o.date_order', $tgl)
                 ->where('os.name', 'sukses')
-                // ->groupBy('o.id_outlet')
+                ->groupBy('od.id')
                 ->get();
 
             $kantin = DB::table('outlets')
@@ -280,7 +283,8 @@ class LaporanController extends Controller
                             'od.price as total_order',
                             'p.original_price as price_product',
                             // 'c.type_order',
-                            'u.name as name_user'
+                            'u.name as name_user',
+                            'od.id as id_order_detail'
                         )
                         ->join('orders as o', 'o.id_outlet', '=', 'outlets.id')
                         ->join('order_details as od', 'od.id', '=', 'o.id_order_detail')
@@ -291,7 +295,7 @@ class LaporanController extends Controller
                         // ->whereDate('o.date_order', $date)
                         ->whereBetween('o.date_order', [$date_from, $date_to])
                         ->where('os.name', 'sukses')
-                        // ->groupBy('o.id_outlet')
+                        ->groupBy('od.id')
                         ->get();
                     // dd($request->id_user, $order);
                 } else {
@@ -308,7 +312,8 @@ class LaporanController extends Controller
                             'od.price as total_order',
                             'p.original_price as price_product',
                             // 'c.type_order',
-                            'u.name as name_user'
+                            'u.name as name_user',
+                            'od.id as id_order_detail'
                         )
                         ->join('orders as o', 'o.id_outlet', '=', 'outlets.id')
                         ->join('order_details as od', 'od.id', '=', 'o.id_order_detail')
@@ -320,7 +325,7 @@ class LaporanController extends Controller
                         ->whereBetween('o.date_order', [$date_from, $date_to])
                         ->where('outlets.id_user', $id)
                         ->where('os.name', 'sukses')
-                        // ->groupBy('o.id_outlet')
+                        ->groupBy('od.id')
                         ->get();
                     // dd($request->id_user, $order);
                 }
@@ -451,7 +456,8 @@ class LaporanController extends Controller
                     'od.price as total_order',
                     'p.original_price as price_product',
                     // 'c.type_order',
-                    'u.name as name_user'
+                    'u.name as name_user',
+                    'od.id as id_order_detail'
                 )
                 ->join(
                     'orders as o',
@@ -467,7 +473,7 @@ class LaporanController extends Controller
                 ->whereDate('o.date_order', $date_3)
                 ->where('outlets.id_user', $id)
                 ->where('os.name', 'sukses')
-                // ->groupBy('o.id_outlet')
+                ->groupBy('od.id')
                 ->get();
             // dd($order, $date_2);
             // $pdf = PDF::loadView('tenant.page.print', compact('order'));

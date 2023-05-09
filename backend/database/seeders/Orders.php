@@ -57,7 +57,7 @@ class Orders extends Seeder
             [
                 'id_outlet' => 2,
                 'id_order_status' => 1,
-                'id_order_detail' => 1,
+                'id_order_detail' => 3,
                 'id_category' => 2,
                 'id_user' => 3,
                 'cashier' => 'Yanti',
@@ -73,7 +73,7 @@ class Orders extends Seeder
             [
                 'id_outlet' => 2,
                 'id_order_status' => 1,
-                'id_order_detail' => 1,
+                'id_order_detail' => 4,
                 'id_category' => 2,
                 'id_user' => 3,
                 'cashier' => 'Yanti',
@@ -89,7 +89,7 @@ class Orders extends Seeder
             [
                 'id_outlet' => 2,
                 'id_order_status' => 1,
-                'id_order_detail' => 1,
+                'id_order_detail' => 5,
                 'id_category' => 2,
                 'id_user' => 3,
                 'cashier' => 'Yanti',

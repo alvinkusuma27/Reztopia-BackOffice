@@ -20,6 +20,14 @@ class DashboardController extends Controller
     {
         try {
             $active_tenant = Outlet::where('id_user', Auth::user()->id)->select('active')->get();
+            // if(empty($active_tenant0))
+
+            if (empty($active_tenant[0])) {
+                Auth::logout();
+                Alert::error('Tenant not found', 'Please Contact the Admin to add Tenant');
+                return redirect()->route('login');
+            }
+
             if ($active_tenant[0]->active != 'active') {
                 Auth::logout();
                 Alert::error('Tenant is Deactived', 'Please Contact the Admin to Activate the Tenant');

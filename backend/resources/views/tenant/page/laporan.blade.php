@@ -14,6 +14,13 @@
         img {
             max-width: 500px;
         }
+
+        body.theme-dark a {
+            /* text-decoration: none !important;
+                                                                                            color: white; */
+            color: inherit;
+            text-decoration: none !important;
+        }
     </style>
     <style>
         .cards-wrapper {
@@ -244,13 +251,12 @@
                                     <thead>
                                         <tr>
                                             <th>Tanggal</th>
-                                            <th>Nama Produk</th>
+                                            <th>Nama Pemesan</th>
                                             <th>Jumlah</th>
                                             <th>Nomor Meja</th>
                                             <th>Payment Method</th>
                                             <th>Total Order</th>
                                             {{-- <th>Type Order</th> --}}
-                                            <th>Nama Pemesan</th>
                                             <th>Bukti Pembayaran</th>
                                         </tr>
                                     </thead>
@@ -258,24 +264,54 @@
                                         @foreach ($order as $item)
                                             <tr>
                                                 <td class="text-bold-500">
-                                                    {{ empty($item->date_order) == false ? $item->date_order : '' }}</td>
-                                                <td>{{ $item->name }}</td>
+                                                    <a class="tagA" href="#" data-bs-toggle="modal"
+                                                        data-bs-target="#modalToggleDetail{{ $item->id_order_detail }}">
+
+                                                        {{ empty($item->date_order) == false ? $item->date_order : '' }}
+                                                    </a>
+                                                </td>
+
                                                 <td class="text-bold-500">
-                                                    {{ empty($item->quantity) == false ? $item->quantity : '' }}</td>
-                                                <td class="text-bold-500">
-                                                    {{ empty($item->table_number_order) == false ? $item->table_number_order : '' }}
+                                                    <a class="tagA" href="#" data-bs-toggle="modal"
+                                                        data-bs-target="#modalToggleDetail{{ $item->id_order_detail }}">
+
+                                                        {{ empty($item->name_user) == false ? $item->name_user : '' }}
                                                 </td>
                                                 <td class="text-bold-500">
-                                                    {{ empty($item->payment_method_order) == false ? $item->payment_method_order : '' }}
+                                                    <a class="tagA" href="#" data-bs-toggle="modal"
+                                                        data-bs-target="#modalToggleDetail{{ $item->id_order_detail }}">
+
+                                                        {{ empty($item->quantity) == false ? $item->quantity : '' }}
+                                                </td>
+                                                </a>
+                                                <td class="text-bold-500">
+                                                    <a class="tagA" href="#" data-bs-toggle="modal"
+                                                        data-bs-target="#modalToggleDetail{{ $item->id_order_detail }}">
+
+                                                        {{ empty($item->table_number_order) == false ? $item->table_number_order : '' }}
+                                                    </a>
                                                 </td>
                                                 <td class="text-bold-500">
-                                                    {{ empty($item->total_order) == false ? $item->total_order : '' }}</td>
+                                                    <a class="tagA" href="#" data-bs-toggle="modal"
+                                                        data-bs-target="#modalToggleDetail{{ $item->id_order_detail }}">
+
+                                                        {{ empty($item->payment_method_order) == false ? $item->payment_method_order : '' }}
+                                                    </a>
+                                                </td>
+                                                <td class="text-bold-500">
+                                                    <a class="tagA" href="#" data-bs-toggle="modal"
+                                                        data-bs-target="#modalToggleDetail{{ $item->id_order_detail }}">
+
+                                                        {{ empty($item->total_order) == false ? $item->price_product : '' }}
+                                                </td>
+                                                </a>
                                                 {{-- <td class="text-bold-500">{{ $item->type_order }}</td> --}}
-                                                <td class="text-bold-500">
-                                                    {{ empty($item->name_user) == false ? $item->name_user : '' }}</td>
+
+                                                </a>
                                                 <td>
-                                                    <a href="#" {{-- class="btn" --}} data-bs-toggle="modal"
-                                                        data-bs-target="#modalToggle{{ $item->id }}">
+                                                    <a class="tagA" href="#" {{-- class="btn" --}}
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#modalToggle{{ $item->id_order_detail }}">
                                                         <i class="bi bi-eye-fill"></i>
                                                     </a>
                                                 </td>
@@ -293,7 +329,7 @@
     </div>
 
     @foreach ($order as $item)
-        <div class="modal fade text-left w-100" id="modalToggle{{ $item->id }}" tabindex="-1" role="dialog"
+        <div class="modal fade text-left w-100" id="modalToggle{{ $item->id_order_detail }}" tabindex="-1" role="dialog"
             aria-labelledby="myModalLabel20" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-full" role="document">
                 <div class="modal-content">
@@ -307,6 +343,65 @@
                     </div>
                     <div class="modal-body img-container d-flex justify-content-center">
                         <img src="{{ asset('storage/uploads/orders/' . $item->proof_of_payment) }}" alt="">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                            <i class="bx bx-x d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Close</span>
+                        </button>
+                        <button type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+                            <i class="bx bx-check d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Accept</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+
+    @foreach ($order as $item)
+        <div class="modal fade text-left w-100" id="modalToggleDetail{{ $item->id_order_detail }}" tabindex="-1"
+            role="dialog" aria-labelledby="myModalLabel20" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-full" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel20">
+                            Order Details
+                        </h4>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <i data-feather="x"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body img-container d-flex justify-content-center">
+                        <table class="table table-striped" id="table1">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama Produk</th>
+                                    <th>Jumlah</th>
+                                    <th>Harga</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($order as $item)
+                                    <tr>
+                                        <td class="text-bold-500">
+                                            {{ $loop->iteration }}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            {{ empty($item->name) == false ? $item->name : '' }}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            {{ empty($item->quantity) == false ? $item->quantity : '' }}
+                                        </td>
+                                        <td class="text-bold-500">
+                                            {{ empty($item->price_product) == false ? $item->price_product : '' }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        {{-- <img src="{{ asset('storage/uploads/orders/' . $item->proof_of_payment) }}" alt=""> --}}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
