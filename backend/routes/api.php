@@ -27,6 +27,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::group(
         [
             'prefix' => 'tenant',
+            'middleware' => ['role:mahasiswa']
         ],
         function () {
             Route::get('index', [TenantController::class, 'index'])->name('tenant.index');
@@ -38,6 +39,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::group(
         [
             'prefix' => 'menu',
+            'middleware' => ['role:mahasiswa']
         ],
         function () {
             Route::get('{tenant}', [MenuController::class, 'index'])->name('menu.index');
@@ -52,6 +54,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::group([
         'prefix' => 'history',
+        'middleware' => ['role:mahasiswa']
     ], function () {
         Route::get('index', [HistoryController::class, 'index'])->name('history');
         Route::get('history-detail/{id}', [HistoryController::class, 'history_detail'])->name('history.detail');
@@ -60,7 +63,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::group(
         [
-            'prefix' => 'cart'
+            'prefix' => 'cart',
+            'middleware' => ['role:mahasiswa']
         ],
         function () {
             Route::get('index', [CartController::class, 'index']);
@@ -73,6 +77,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('tes-auth', [UserController::class, 'tes']);
 });
 
-Route::get('tes', [UserController::class, 'tes']);
 Route::post('login', [UserController::class, 'login']);
+
 Route::post('register', [UserController::class, 'register']);
+
+Route::get('tes', [UserController::class, 'tes']);

@@ -4,18 +4,76 @@
 @push('scripts')
     <script>
         function myFunction() {
-            var y = document.getElementById("pass");
-            if (x.type === "password" && y.type == "password") {
-                x.type = "text";
-            } else {
-                x.type = "password";
-            }
+            // var y = document.getElementById("pass");
+            // if (y.type === "password") {
+            //     y.type = "text";
+            //     document.getElementById('pass').type = 'password';
+            //     console.log('password');
+            // } else {
+            //     document.getElementById('pass').type = "text";
+            //     y.type = "password";
+            //     console.log('text');
+            // }
+            const togglePasswordEdit = document.querySelector("#togglePasswordEdit");
+            const passwordEdit = document.querySelector("#passwordEdit");
+            // console.log(togglePassword)
+
+            togglePasswordEdit.addEventListener("click", function() {
+                // toggle the type attribute
+                const type = passwordEdit.getAttribute("type") === "password" ? "text" : "password";
+                passwordEdit.setAttribute("type", type);
+                console.log(type)
+                // toggle the icon
+                // this.classList.toggle("bi-eye");
+            });
+
+            // prevent form submit
+            const form = document.getElementById("formEdit");
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+            });
         }
+
+        const togglePassword = document.querySelector("#togglePassword");
+        const password = document.querySelector("#password");
+        // console.log(togglePassword, password)
+
+        togglePassword.addEventListener("click", function() {
+            // toggle the type attribute
+            const type = password.getAttribute("type") === "password" ? "text" : "password";
+            password.setAttribute("type", type);
+            // console.log(type)
+            // toggle the icon
+            this.classList.toggle("bi-eye");
+        });
+
+        // prevent form submit
+        const form = document.querySelector("form");
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+        });
+
+
+        // const functionEdit = () => {
+
+        //     var temp = document.getElementById("password");
+        //     if (temp.type === "password") {
+        //         temp.type = "text";
+        //     } else {
+        //         temp.type = "password";
+        //     }
+        // }
     </script>
 @endpush
 @push('head')
     <link rel="stylesheet" href="{{ asset('assets/extensions/simple-datatables/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/pages/simple-datatables.css') }}">
+    <style>
+        form i {
+            margin-left: -30px;
+            cursor: pointer;
+        }
+    </style>
 @endpush
 
 @section('container')
@@ -166,9 +224,11 @@
                         </div>
                         <label>Password: </label>
                         <div class="form-group">
-                            <input type="password" placeholder="Password" name="password" id="pass"
+                            {{-- <input type="password" name="password" id="password" class="form-control" /> --}}
+                            {{-- <i class="bi bi-eye-slash" id="togglePassword"></i> --}}
+                            <input type="password" placeholder="Password" name="password" id="password"
                                 class="form-control">
-                            <input type="checkbox" class="ml-3" onclick="myFunction()"> Show Password
+                            <input type="checkbox" class="ml-3" id="togglePassword"> Show Password
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -178,7 +238,7 @@
                         </button>
                         <button type="submit" class="btn btn-primary ml-1" data-bs-dismiss="modal">
                             <i class="bx bx-check d-block d-sm-none"></i>
-                            <span class="d-none d-sm-block">login</span>
+                            <span class="d-none d-sm-block">Tambah</span>
                         </button>
                     </div>
                 </form>
@@ -198,7 +258,7 @@
                             <i data-feather="x"></i>
                         </button>
                     </div>
-                    <form action="{{ route('tenant.update', $item->id) }}" method="post">
+                    <form action="{{ route('tenant.update', $item->id) }}" method="post" id="formEdit">
                         {{-- @method('put') --}}
                         @csrf
                         <div class="modal-body">
@@ -224,9 +284,12 @@
                             </div>
                             <label>Password: </label>
                             <div class="form-group">
-                                <input type="password" placeholder="Password" name="password" id="pass"
+                                {{-- <input type="password" name="password" id="password" class="form-control" /> --}}
+                                {{-- <i class="bi bi-eye-slash" id="togglePassword"></i> --}}
+                                <input type="password" placeholder="Password" name="password" id="passwordEdit"
                                     class="form-control">
-                                <input type="checkbox" class="ml-3 mt-2" onclick="myFunction()"> Show Password
+                                <input type="checkbox" class="ml-3" id="togglePasswordEdit" onclick="myFunction()">
+                                Show Password
                             </div>
                         </div>
                         <div class="modal-footer">
