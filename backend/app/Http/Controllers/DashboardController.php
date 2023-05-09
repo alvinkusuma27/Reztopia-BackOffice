@@ -20,7 +20,7 @@ class DashboardController extends Controller
     {
         try {
             $active_tenant = Outlet::where('id_user', Auth::user()->id)->select('active')->get();
-            // if(empty($active_tenant0))
+            // dd($active_tenant);
 
             if (empty($active_tenant[0])) {
                 Auth::logout();
@@ -41,13 +41,7 @@ class DashboardController extends Controller
             // dd($id);
 
             // $outlet = Outlet::with('user')->where('id_user', $id)->get();
-            $outlet = DB::table('outlets as o')
-                ->select('o.name as tenant_name', 'c.id as id_category', 'p.name as name_product', 'o.id')
-                ->join('categories as c', 'c.id_outlet', 'o.id')
-                ->join('products as p', 'p.id_category', '=', 'c.id')
-                ->where('o.id_user', $id)
-                ->get();
-            // dd(empty($outlet[0]));
+
 
 
             // CATEGORY, MENU
@@ -72,6 +66,19 @@ class DashboardController extends Controller
             }
             // dd($order_grafik, $bulan_grafik, $grafik);
             if (Auth::user()->roles == 'kantin') {
+                $outlet = DB::table('outlets as o')
+                    ->select(
+                        'o.name as tenant_name',
+                        'c.id as id_category',
+                        // 'p.name as name_product',
+                        'o.id'
+                    )
+                    ->join('categories as c', 'c.id_outlet', 'o.id')
+                    // ->join('products as p', 'p.id_category', '=', 'c.id')
+                    ->where('o.id_user', $id)
+                    ->get();
+                // dd(empty($outlet[0]));
+
                 $data = DB::table('orders')
                     ->join('outlets', 'outlets.id', '=', 'orders.id_outlet')
                     ->join('categories as c', 'c.id_outlet', '=', 'outlets.id')
@@ -86,8 +93,13 @@ class DashboardController extends Controller
                 $total_order = $data->sum('total');
                 $today_order = $data->count('id');
                 // $total_category = $outlet->unique('id_category')->count();
-                $total_category = Categories::where('id_outlet', $outlet[0]->id)->count();
-                $total_menu = $outlet->unique('name_product')->count();
+                if (!empty($outlet[0])) {
+                    $total_category = Categories::where('id_outlet', $outlet[0]->id)->count();
+                    $total_menu = $outlet->unique('name_product')->count();
+                } else {
+                    $total_category = 0;
+                    $total_menu = 0;
+                }
                 // dd($outlet);
                 // $tenant_name = $outlet[0]->tenant_name;
                 // dd($outlet);

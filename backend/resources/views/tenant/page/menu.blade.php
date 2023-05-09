@@ -47,6 +47,7 @@
             <div class="col-12 col-lg-12">
                 <div class="row">
                     @foreach ($for_categories as $item)
+                        {{-- @foreach ($categories as $row) --}}
                         <div class="col-6 col-lg-4 col-md-6">
                             <div class="card">
                                 <div class="card-body px-4 py-4-5">
@@ -59,6 +60,7 @@
                                 </div>
                             </div>
                         </div>
+                        {{-- @endforeach --}}
                     @endforeach
                 </div>
                 <div class="row">

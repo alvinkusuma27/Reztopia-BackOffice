@@ -25,7 +25,8 @@
                                             <h6 class="text-muted font-semibold">
                                                 Number of Omzet
                                             </h6>
-                                            <h6 class="font-extrabold mb-0">{{ number_format($total_order, 2, ',', '.') }}
+                                            <h6 class="font-extrabold mb-0">
+                                                {{ !empty($total_order) ? number_format($total_order, 2, ',', '.') : 'Nan' }}
                                             </h6>
                                         </div>
                                     </div>
@@ -68,7 +69,7 @@
                                                 {{ auth()->user()->roles == 'kantin' ? 'Number of Category' : 'Number of active tenants' }}
                                             </h6>
                                             <h6 class="font-extrabold mb-0">
-                                                {{ auth()->user()->roles == 'kantin' ? $total_category : $active_tenant }}
+                                                {{ (auth()->user()->roles == 'kantin' ? (empty($total_category) ? 'Nan' : $total_category) : empty($active_tenant)) ? 'Nan' : $active_tenant }}
                                             </h6>
                                         </div>
                                     </div>
@@ -91,7 +92,7 @@
                                                 {{ auth()->user()->roles == 'kantin' ? 'Number of Menu' : 'Number of inactive tenants' }}
                                             </h6>
                                             <h6 class="font-extrabold mb-0">
-                                                {{ auth()->user()->roles == 'kantin' ? $total_menu : $inactive_tenant }}
+                                                {{ (auth()->user()->roles == 'kantin' ? (empty($total_menu) ? 'Nan' : $total_menu) : empty($inactive_tenant)) ? 'Nan' : $inactive_tenant }}
                                             </h6>
                                         </div>
                                     </div>

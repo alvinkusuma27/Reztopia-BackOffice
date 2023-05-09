@@ -20,55 +20,60 @@ class MenuController extends Controller
 {
     public function index()
     {
-        try {
-            $active = 'menu';
-            $id = Auth::user()->id;
-            $outlet_name = Outlet::where('id_user', $id)->select('name')->get();
-            $products = DB::table('categories')
-                ->select(
-                    'categories.id as id_category',
-                    'categories.image',
-                    'categories.name',
-                    DB::raw('COUNT(p.id) as jumlah_produk'),
-                    'p.name as nama_makanan',
-                    'p.description',
-                    'p.original_price',
-                    'p.cost_price',
-                    'o.id',
-                    'p.image as image_product',
-                    'o.name as outlet_name',
-                    'p.id as id_product'
-                )
-                ->join('outlets as o', 'o.id', '=', 'categories.id_outlet')
-                ->join('products as p', 'p.id_category', '=', 'categories.id')
-                ->where('o.id_user', $id)
-                ->groupBy('p.id')
-                ->get();
-            // dd($products);
+        // try {
+        $active = 'menu';
+        $id = Auth::user()->id;
+        $outlet_name = Outlet::where('id_user', $id)->select('name')->get();
+        $products = DB::table('categories')
+            ->select(
+                'categories.id as id_category',
+                'categories.image',
+                'categories.name',
+                DB::raw('COUNT(p.id) as jumlah_produk'),
+                'p.name as nama_makanan',
+                'p.description',
+                'p.original_price',
+                'p.cost_price',
+                'o.id',
+                'p.image as image_product',
+                'o.name as outlet_name',
+                'p.id as id_product'
+            )
+            ->join('outlets as o', 'o.id', '=', 'categories.id_outlet')
+            ->join('products as p', 'p.id_category', '=', 'categories.id')
+            ->where('o.id_user', $id)
+            ->groupBy('p.id')
+            ->get();
+        // dd($products);
 
-            $for_categories =
-                DB::table('categories')
-                ->select(
-                    'categories.name',
-                    DB::raw('COUNT(p.id) as jumlah_produk'),
-                )
-                ->join('outlets as o', 'o.id', '=', 'categories.id_outlet')
-                ->join('products as p', 'p.id_category', '=', 'categories.id')
-                ->where('o.id_user', $id)
-                ->groupBy('categories.name')
-                ->get();
+        $for_categories =
+            DB::table('categories')
+            ->select(
+                'categories.name',
+                DB::raw('COUNT(p.id) as jumlah_produk'),
+            )
+            ->join('outlets as o', 'o.id', '=', 'categories.id_outlet')
+            ->join('products as p', 'categories.id', '=', 'p.id_category')
+            ->where('o.id_user', $id)
+            ->groupBy('categories.name')
+            ->get();
 
-            $categories = Categories::where('id_outlet', $id)
-                ->get();
-            // dd($categories);
-            $id_outlet = $products[0]->id;
+        $id_outlet_by_user = Outlet::where('id_user', $id)
+            ->select('id')
+            ->get();
+        $id_outlet = $id_outlet_by_user[0]->id;
+        $categories = Categories::where('id_outlet', $id_outlet)
+            // ->select('name', 'id')
+            ->get();
+        // dd($categories);
+        // dd($id_outlet);
 
-            // NAMA KATEGORI, JUMLAH PRODUK, GAMBAR PRODUK, NAMA PRODUK, TIPE PRODUK, HARGA PRODUK
-            // dd($categories);
-            return view('tenant.page.menu', compact('categories', 'products', 'active', 'id_outlet', 'for_categories', 'outlet_name'));
-        } catch (Exception $error) {
-            dd($error->getMessage());
-        }
+        // NAMA KATEGORI, JUMLAH PRODUK, GAMBAR PRODUK, NAMA PRODUK, TIPE PRODUK, HARGA PRODUK
+        // dd($categories);
+        return view('tenant.page.menu', compact('categories', 'products', 'active', 'id_outlet', 'for_categories', 'outlet_name'));
+        // } catch (Exception $error) {
+        //     dd($error->getMessage());
+        // }
     }
 
     public function store(Request $request)
@@ -111,7 +116,7 @@ class MenuController extends Controller
                 'original_price' => 'required|numeric',
                 'cost_price' => 'required|numeric',
                 'id_category' => 'required',
-                // 'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
 
             if (!$validator->fails()) {
@@ -121,10 +126,10 @@ class MenuController extends Controller
                 $products->original_price = $request->original_price;
                 $products->cost_price = $request->cost_price;
                 $products->id_category = $request->id_category;
-                // $image = $request->file('image');
-                // $image_name = time() . '-products-' . $request->name . '.' . $image->getClientOriginalExtension();
-                // Storage::putFileAs('public/uploads/products/', $image, $image_name);
-                // $products->image = $image_name;
+                $image = $request->file('image');
+                $image_name = time() . '-products-' . $request->name . '.' . $image->getClientOriginalExtension();
+                Storage::putFileAs('public/uploads/products/', $image, $image_name);
+                $products->image = $image_name;
                 $products->active = 1;
                 $products->created_by = Auth::user()->id;
                 $products->save();

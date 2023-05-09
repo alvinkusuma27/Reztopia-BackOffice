@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categories;
 use App\Models\Outlet;
 use App\Models\User;
 use Exception;
@@ -56,6 +57,7 @@ class TenantController extends Controller
                 $outlet->id_user = $user->id;
                 $outlet->phone = $request->phone;
                 $outlet->save();
+
 
                 Alert::toast('Success Created Account', 'success');
                 return back();
