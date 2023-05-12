@@ -186,7 +186,7 @@ class DashboardController extends Controller
                 // dd($top_tenant);
                 return view('tenant.page.dashboard', compact(
                     'active',
-                    'outlet',
+                    // 'outlet',
                     'total_order',
                     'today_order',
                     'active_tenant',

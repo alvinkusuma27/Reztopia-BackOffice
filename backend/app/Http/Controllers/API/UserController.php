@@ -41,6 +41,15 @@ class UserController extends Controller
                     ], 500);
                 }
 
+                if (Auth::user()->roles != 'mahasiswa') {
+                    Auth::logout();
+                    return response()->json([
+                        'meta' => [
+                            'message' => 'User roles are not allowed'
+                        ]
+                    ], 400);
+                }
+
                 $user = User::where('email', $request->email)->first();
                 if (!Hash::check($request->password,  $user->password, [])) {
                     throw new \Exception('Invalid Credentials');

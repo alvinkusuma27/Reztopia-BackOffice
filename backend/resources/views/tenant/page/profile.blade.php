@@ -47,48 +47,59 @@
                     </div>
                     <div class="col-md-6">
                         <div class="profile-head">
-                            <h5>
-                                {{ empty($outlet[0]) ? '' : $outlet[0]->user[0]->name }}
-                            </h5>
-                            <h6>
-                                {{ empty($outlet[0]) ? '' : $outlet[0]->user[0]->position . ' kantin ' . $outlet[0]->name }}
-                            </h6>
-                            <div class="d-flex justify-content-between mt-4">
+                            <div class="d-flex justify-content-between  mb-4">
                                 <div class="flex-start">
+                                    <h5>
+                                        {{ empty($outlet[0]) ? '' : $outlet[0]->user[0]->name }}
+                                    </h5>
+                                    <h6>
+                                        {{ empty($outlet[0]) ? '' : $outlet[0]->user[0]->position . ' kantin ' . $outlet[0]->name }}
+                                    </h6>
+                                </div>
+                                <div class="flex-end">
+                                    <div class="col-md-2">
+                                        <button class="btn btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#modalEditProfile"><i class="bi bi-pencil-fill"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            {{-- <div class="d-flex justify-content-around mt-4"> --}}
+                            <div class="flex-start">
+                                <div class="card p-3">
+                                    <div class="card-content">
+                                        <p>
+                                            <i class="bi bi-telephone-fill"></i>
+                                            <span>{{ empty($outlet[0]) ? '' : $outlet[0]->phone }}</span>
+                                        </p>
+                                        <p>
+                                            <i class="bi bi-mailbox2"></i>
+                                            <span>{{ empty($outlet[0]) ? '' : $outlet[0]->user[0]->email }}</span>
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </div>
+                            @if (auth()->user()->roles == 'kantin')
+                                <div class="flex-end">
                                     <div class="card p-3">
                                         <div class="card-content">
-                                            <p>
-                                                <i class="bi bi-telephone-fill"></i>
-                                                <span>{{ empty($outlet[0]) ? '' : $outlet[0]->phone }}</span>
+                                            <h5 class="text-muted">Kantin Cowok</h5>
+                                            <p class="">
+                                                {{ $outlet[0]->name }}
                                             </p>
-                                            <p>
-                                                <i class="bi bi-mailbox2"></i>
-                                                <span>{{ empty($outlet[0]) ? '' : $outlet[0]->user[0]->email }}</span>
+                                            <p class="text-muted">
+                                                Berlangganan pada
+                                            </p>
+                                            <p class="">
+                                                {{ $outlet[0]->created_at != null ? $outlet[0]->created_at : 'Nan' }}
                                             </p>
                                         </div>
                                     </div>
-
                                 </div>
-                                @if (auth()->user()->roles == 'kantin')
-                                    <div class="flex-end">
-                                        <div class="card p-3">
-                                            <div class="card-content">
-                                                <h5 class="fs-5 text-muted">Kantin Cowok</h5>
-                                                <p class="fs-4">
-                                                    {{ $outlet[0]->name }}
-                                                </p>
-                                                <p class="fs-5 text-muted">
-                                                    Berlangganan pada
-                                                </p>
-                                                <p class="fs-6">
-                                                    {{ $outlet[0]->created_at != null ? $outlet[0]->created_at : 'Nan' }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endif
-                            </div>
-                            <div class="card p-3">
+                            @endif
+                            {{-- </div> --}}
+                            <div class="card p-3 ml-5">
                                 <div class="card-content">
                                     <p>
                                         Perusahaan: <span>PT. Telkom Indonesia</span>
@@ -99,10 +110,10 @@
                                 data-bs-target="#modalChangePassword">Atur Kata Sandi</button>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    {{-- <div class="col-md-2">
                         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEditProfile">Edit
                             Profile</button>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
 
@@ -113,9 +124,6 @@
                     <div class="modal-content">
                         <div class="modal-header d-flex justify-content-center">
                             <h5 class="modal-title" id="exampleModalScrollableTitle">Edit Profile</h5>
-                            {{-- <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <i data-feather="x"></i>
-                    </button> --}}
                         </div>
                         <form action="{{ route('update_profile') }}" method="post" enctype="multipart/form-data">
                             @csrf
@@ -133,10 +141,10 @@
                                         value="{{ empty($outlet[0]) ? '' : $outlet[0]->user[0]->position }}">
 
                                 </div>
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                     <label for="basicInput">Profile Image</label>
                                     <input type="file" class="form-control mt-3" id="basicInput" name="image">
-                                </div>
+                                </div> --}}
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">

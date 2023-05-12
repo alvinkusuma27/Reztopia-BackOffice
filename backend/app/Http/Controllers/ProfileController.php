@@ -39,33 +39,34 @@ class ProfileController extends Controller
                 'photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
             ]);
             $id = Auth::user()->id;
-            $user_name = Auth::user()->name;
             if (!$validator->fails()) {
                 $user = User::findOrFail($id);
-                if ($request->hasFile('image')) {
-                    $image = $request->file('image');
-                    $image_name = time() . '-user-update-' . $user_name . '.' . $image->getClientOriginalExtension();
-                    Storage::putFileAs('public/uploads/user/', $image, $image_name);
-                    if (Auth::user()->roles == 'kantin') {
-                        $user->update([
-                            'image' => $image_name,
-                            'position' => $request->position,
-                            'name' => $request->name
-                        ]);
-                    } elseif (Auth::user()->roles == 'admin') {
-                    }
-                } else {
-                    if (Auth::user()->roles == 'kantin') {
-                        $user->update([
-                            'position' => $request->position,
-                            'name' => $request->name
-                        ]);
-                    } elseif (Auth::user()->roles == 'admin') {
-                        $user->update([
-                            'position' => $request->position,
-                        ]);
-                    }
+                // $user_name = Auth::user()->name;
+                // if ($request->hasFile('image')) {
+                //     $image = $request->file('image');
+                //     $image_name = time() . '-user-update-' . $user_name . '.' . $image->getClientOriginalExtension();
+                //     Storage::putFileAs('public/uploads/user/', $image, $image_name);
+                //     if (Auth::user()->roles == 'kantin') {
+                //         $user->update([
+                //             'image' => $image_name,
+                //             'position' => $request->position,
+                //             'name' => $request->name
+                //         ]);
+                //     } elseif (Auth::user()->roles == 'admin') {
+                //     }
+                // } else {
+
+                if (Auth::user()->roles == 'kantin') {
+                    $user->update([
+                        'position' => $request->position,
+                        'name' => $request->name
+                    ]);
+                } elseif (Auth::user()->roles == 'admin') {
+                    $user->update([
+                        'position' => $request->position,
+                    ]);
                 }
+                // }
                 Alert::toast("Data Successfully Updated", 'success');
                 return back();
             }

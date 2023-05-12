@@ -42,3 +42,9 @@ backoffice belum fix
 ganti products di order detail jadi nama
 kasih paginate
 add id_category on outlet
+
+
+-------------------------------------------------------------------
+Detail laporan {
+    ditaruh di mata
+}
