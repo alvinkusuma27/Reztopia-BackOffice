@@ -17,7 +17,7 @@
 
         body.theme-dark a {
             /* text-decoration: none !important;
-                                                                                            color: white; */
+                                                                                                                                color: white; */
             color: inherit;
             text-decoration: none !important;
         }
@@ -258,62 +258,43 @@
                                             <th>Total Order</th>
                                             {{-- <th>Type Order</th> --}}
                                             <th>Bukti Pembayaran</th>
+                                            <th>Detail</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($order as $item)
                                             <tr>
                                                 <td class="text-bold-500">
-                                                    <a class="tagA" href="#" data-bs-toggle="modal"
-                                                        data-bs-target="#modalToggleDetail{{ $item->id_order_detail }}">
-
-                                                        {{ empty($item->date_order) == false ? $item->date_order : '' }}
-                                                    </a>
+                                                    {{ empty($item->date_order) == false ? $item->date_order : '' }}
                                                 </td>
 
                                                 <td class="text-bold-500">
-                                                    <a class="tagA" href="#" data-bs-toggle="modal"
-                                                        data-bs-target="#modalToggleDetail{{ $item->id_order_detail }}">
-
-                                                        {{ empty($item->name_user) == false ? $item->name_user : '' }}
+                                                    {{ empty($item->name_user) == false ? $item->name_user : '' }}
                                                 </td>
                                                 <td class="text-bold-500">
-                                                    <a class="tagA" href="#" data-bs-toggle="modal"
-                                                        data-bs-target="#modalToggleDetail{{ $item->id_order_detail }}">
-
-                                                        {{ empty($item->quantity) == false ? $item->quantity : '' }}
-                                                </td>
-                                                </a>
-                                                <td class="text-bold-500">
-                                                    <a class="tagA" href="#" data-bs-toggle="modal"
-                                                        data-bs-target="#modalToggleDetail{{ $item->id_order_detail }}">
-
-                                                        {{ empty($item->table_number_order) == false ? $item->table_number_order : '' }}
-                                                    </a>
+                                                    {{ empty($item->quantity) == false ? $item->quantity : '' }}
                                                 </td>
                                                 <td class="text-bold-500">
-                                                    <a class="tagA" href="#" data-bs-toggle="modal"
-                                                        data-bs-target="#modalToggleDetail{{ $item->id_order_detail }}">
-
-                                                        {{ empty($item->payment_method_order) == false ? $item->payment_method_order : '' }}
-                                                    </a>
+                                                    {{ empty($item->table_number_order) == false ? $item->table_number_order : '' }}
                                                 </td>
                                                 <td class="text-bold-500">
-                                                    <a class="tagA" href="#" data-bs-toggle="modal"
-                                                        data-bs-target="#modalToggleDetail{{ $item->id_order_detail }}">
-
-                                                        {{ empty($item->total_order) == false ? $item->price_product : '' }}
+                                                    {{ empty($item->payment_method_order) == false ? $item->payment_method_order : '' }}
                                                 </td>
-                                                </a>
-                                                {{-- <td class="text-bold-500">{{ $item->type_order }}</td> --}}
-
-                                                </a>
+                                                <td class="text-bold-500">
+                                                    {{ empty($item->total_order) == false ? $item->price_product : '' }}
+                                                </td>
                                                 <td>
                                                     <a class="tagA" href="#" {{-- class="btn" --}}
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#modalToggle{{ $item->id_order_detail }}">
                                                         <i class="bi bi-eye-fill"></i>
                                                     </a>
+                                                </td>
+                                                <td>
+                                                    <button class="tagA btn btn-primary" href="#"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#modalToggleDetail{{ $item->id_order_detail }}">Detail
+                                                    </button>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -407,10 +388,6 @@
                         <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
                             <i class="bx bx-x d-block d-sm-none"></i>
                             <span class="d-none d-sm-block">Close</span>
-                        </button>
-                        <button type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
-                            <i class="bx bx-check d-block d-sm-none"></i>
-                            <span class="d-none d-sm-block">Accept</span>
                         </button>
                     </div>
                 </div>

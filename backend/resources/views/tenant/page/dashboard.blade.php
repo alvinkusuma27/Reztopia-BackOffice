@@ -3,7 +3,7 @@
 
 @section('container')
     <div class="page-heading">
-        <h3>Welcome Tenant {{ empty($outlet[0]) ? 'Nan' : $outlet[0]->tenant_name }}</h3>
+        <h3>Welcome Tenant {{ empty($outlet[0]) ? '0' : $outlet[0]->tenant_name }}</h3>
         <p>All System are running smothly! you have 3 unread <span style="color:aqua">alert!</span> </p>
     </div>
     <div class="page-content">
@@ -26,7 +26,7 @@
                                                 Number of Omzet
                                             </h6>
                                             <h6 class="font-extrabold mb-0">
-                                                {{ !empty($total_order) ? number_format($total_order, 2, ',', '.') : 'Nan' }}
+                                                {{ !empty($total_order) ? number_format($total_order, 2, ',', '.') : '0' }}
                                             </h6>
                                         </div>
                                     </div>
@@ -69,7 +69,7 @@
                                                 {{ auth()->user()->roles == 'kantin' ? 'Number of Category' : 'Number of active tenants' }}
                                             </h6>
                                             <h6 class="font-extrabold mb-0">
-                                                {{ (auth()->user()->roles == 'kantin' ? (empty($total_category) ? 'Nan' : $total_category) : empty($active_tenant)) ? 'Nan' : $active_tenant }}
+                                                {{ (auth()->user()->roles == 'kantin' ? (empty($total_category) ? '0' : $total_category) : empty($active_tenant)) ? '0' : $active_tenant }}
                                             </h6>
                                         </div>
                                     </div>
@@ -92,7 +92,7 @@
                                                 {{ auth()->user()->roles == 'kantin' ? 'Number of Menu' : 'Number of inactive tenants' }}
                                             </h6>
                                             <h6 class="font-extrabold mb-0">
-                                                {{ (auth()->user()->roles == 'kantin' ? (empty($total_menu) ? 'Nan' : $total_menu) : empty($inactive_tenant)) ? 'Nan' : $inactive_tenant }}
+                                                {{ (auth()->user()->roles == 'kantin' ? (empty($total_menu) ? '0' : $total_menu) : empty($inactive_tenant)) ? '0' : $inactive_tenant }}
                                             </h6>
                                         </div>
                                     </div>
