@@ -377,6 +377,11 @@
                                 value="{{ old('cost_price') }}">
                         </div>
                         <div class="form-group mb-3">
+                            <label for="basicInput">Diskon</label>
+                            <input type="number" class="form-control mt-3" id="basicInput" name="discount"
+                                value="{{ old('discount') }}">
+                        </div>
+                        <div class="form-group mb-3">
                             <label for="basicInput">Kategori</label>
                             <select class="form-select" name="id_category">
                                 <option {{ old('id_category') == null ? 'selected' : '' }} hidden>Pilih Salah satu kategori
@@ -441,6 +446,11 @@
                                 <label for="basicInput">Harga Modal</label>
                                 <input type="number" class="form-control mt-3" id="basicInput" name="cost_price"
                                     value="{{ old('cost_price') != null ? old('cost_price') : $item->cost_price }}">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="basicInput">Diskon</label>
+                                <input type="number" class="form-control mt-3" id="basicInput" name="discount"
+                                    value="{{ old('discount') != null ? old('discount') : $item->discount }}">
                             </div>
                             <div class="form-group mb-3">
                                 <label for="basicInput">Kategori</label>

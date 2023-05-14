@@ -25,8 +25,8 @@ class DatabaseSeeder extends Seeder
             Categories::class,
             Products::class,
             OrderStatus::class,
-            OrderDetails::class,
             Orders::class,
+            OrderDetails::class,
             // note_cart::class,
             Cart::class,
         ]);

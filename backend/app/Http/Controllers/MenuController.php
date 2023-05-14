@@ -34,6 +34,7 @@ class MenuController extends Controller
                 'p.description',
                 'p.original_price',
                 'p.cost_price',
+                'p.discount',
                 'o.id',
                 'p.image as image_product',
                 'o.name as outlet_name',
@@ -126,6 +127,7 @@ class MenuController extends Controller
                 $products->original_price = $request->original_price;
                 $products->cost_price = $request->cost_price;
                 $products->id_category = $request->id_category;
+                $products->discount = $request->discount;
                 $image = $request->file('image');
                 $image_name = time() . '-products-' . $request->name . '.' . $image->getClientOriginalExtension();
                 Storage::putFileAs('public/uploads/products/', $image, $image_name);
@@ -206,7 +208,8 @@ class MenuController extends Controller
                         'description' => $request->description,
                         'original_price' => $request->original_price,
                         'cost_price' => $request->cost_price,
-                        'id_category' => $request->id_category
+                        'id_category' => $request->id_category,
+                        'discount' => $request->discount
                     ]);
                     Alert::toast('Success Update Product', 'success');
                     return back();
@@ -233,6 +236,7 @@ class MenuController extends Controller
                         'original_price' => $request->original_price,
                         'cost_price' => $request->cost_price,
                         'id_category' => $request->id_category,
+                        'discount' => $request->discount,
                         'image' => $image_name
                     ]);
                     Alert::toast('Success Update Product', 'success');

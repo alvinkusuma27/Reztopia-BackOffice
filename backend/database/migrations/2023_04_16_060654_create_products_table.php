@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text('description');
             $table->double('original_price')->default(0);
             $table->double('cost_price')->default(0);
+            $table->double('discount')->default(0)->nullable();
             // $table->double('cost')->default(0);
             $table->string('active');
             $table->string('image')->nullable();

@@ -17,54 +17,34 @@ class OrderDetails extends Seeder
     {
         DB::table('order_details')->insert([
             [
-                'product' => "nabati",
-                // 'id_order' => 2,
+                'id_product' => 1,
+                'id_order' => 1,
                 'quantity' => 2,
-                'price' => 10000,
-                'discount' => 1000,
-                'add_on_price' => 1000,
-                'varian_price' => 1000,
-                'subtotal' => 3000
+                'type_order' => 'dine_in'
             ],
             [
-                'product' => "momogi",
-                // 'id_order' => 2,
+                'id_product' => 2,
+                'id_order' => 1,
                 'quantity' => 3,
-                'price' => 20000,
-                'discount' => 2000,
-                'add_on_price' => 2000,
-                'varian_price' => 2000,
-                'subtotal' => 6000
+                'type_order' => 'dine_in'
             ],
             [
-                'product' => "nabati",
-                // 'id_order' => 2,
+                'id_product' => 1,
+                'id_order' => 2,
                 'quantity' => 2,
-                'price' => 10000,
-                'discount' => 1000,
-                'add_on_price' => 1000,
-                'varian_price' => 1000,
-                'subtotal' => 3000
+                'type_order' => 'dine_in'
             ],
             [
-                'product' => "momogi",
-                // 'id_order' => 2,
+                'id_product' => 1,
+                'id_order' => 2,
                 'quantity' => 3,
-                'price' => 20000,
-                'discount' => 2000,
-                'add_on_price' => 2000,
-                'varian_price' => 2000,
-                'subtotal' => 6000
+                'type_order' => 'dine_in'
             ],
             [
-                'product' => "nabati",
-                // 'id_order' => 2,
+                'id_product' => 1,
+                'id_order' => 2,
                 'quantity' => 2,
-                'price' => 10000,
-                'discount' => 1000,
-                'add_on_price' => 1000,
-                'varian_price' => 1000,
-                'subtotal' => 3000
+                'type_order' => 'dine_in'
             ],
         ]);
     }

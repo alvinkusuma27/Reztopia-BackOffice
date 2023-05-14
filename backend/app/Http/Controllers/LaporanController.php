@@ -38,16 +38,16 @@ class LaporanController extends Controller
                         'o.id',
                         'o.table_number as table_number_order',
                         'o.payment_method as payment_method_order',
-                        'od.price as total_order',
+                        'o.total as total_order',
                         'p.original_price as price_product',
                         // 'c.type_order',
                         'u.name as name_user',
                         'od.id as id_order_detail'
                     )
                     ->join('orders as o', 'o.id_outlet', '=', 'outlets.id')
-                    ->join('order_details as od', 'od.id', '=', 'o.id_order_detail')
+                    ->join('order_details as od', 'od.id_order', '=', 'o.id')
                     ->join('order_status as os', 'os.id', '=', 'o.id_order_status')
-                    ->join('products as p', 'p.name', '=', 'od.product')
+                    ->join('products as p', 'p.id', '=', 'od.id_product')
                     ->join('users as u', 'u.id', '=', 'o.id_user')
                     ->where('outlets.id_user', $id)
                     // ->join('cart as c', 'c.id_product', '=', 'p.id')
@@ -91,16 +91,16 @@ class LaporanController extends Controller
                         'o.id',
                         'o.table_number as table_number_order',
                         'o.payment_method as payment_method_order',
-                        'od.price as total_order',
+                        'o.total as total_order',
                         'p.original_price as price_product',
                         // 'c.type_order',
                         'u.name as name_user',
                         'od.id as id_order_detail'
                     )
                     ->join('orders as o', 'o.id_outlet', '=', 'outlets.id')
-                    ->join('order_details as od', 'od.id', '=', 'o.id_order_detail')
+                    ->join('order_details as od', 'od.id_order', '=', 'o.id')
                     ->join('order_status as os', 'os.id', '=', 'o.id_order_status')
-                    ->join('products as p', 'p.name', '=', 'od.product')
+                    ->join('products as p', 'p.id', '=', 'od.id_product')
                     ->join('users as u', 'u.id', '=', 'o.id_user')
                     // ->join('cart as c', 'c.id_product', '=', 'p.id')
                     // ->whereDate('o.date_order', $tgl)
@@ -125,9 +125,9 @@ class LaporanController extends Controller
                         'o.id'
                     )
                     ->join('orders as o', 'o.id_outlet', '=', 'outlets.id')
-                    ->join('order_details as od', 'od.id', '=', 'o.id_order_detail')
+                    ->join('order_details as od', 'od.id_order', '=', 'o.id')
                     ->join('order_status as os', 'os.id', '=', 'o.id_order_status')
-                    ->join('products as p', 'p.name', '=', 'od.product')
+                    ->join('products as p', 'p.id', '=', 'od.id_product')
                     // ->where('outlets.id_user', $id)
                     // ->whereDate('o.date_order', $tgl)
                     ->where('os.name', 'sukses')
@@ -174,16 +174,16 @@ class LaporanController extends Controller
                     'o.id',
                     'o.table_number as table_number_order',
                     'o.payment_method as payment_method_order',
-                    'od.price as total_order',
+                    'o.total as total_order',
                     'p.original_price as price_product',
                     // 'c.type_order',
                     'u.name as name_user',
                     'od.id as id_order_detail'
                 )
                 ->join('orders as o', 'o.id_outlet', '=', 'outlets.id')
-                ->join('order_details as od', 'od.id', '=', 'o.id_order_detail')
+                ->join('order_details as od', 'od.id_order', '=', 'o.id')
                 ->join('order_status as os', 'os.id', '=', 'o.id_order_status')
-                ->join('products as p', 'p.name', '=', 'od.product')
+                ->join('products as p', 'p.id', '=', 'od.id_product')
                 ->join('users as u', 'u.id', '=', 'o.id_user')
                 // ->join('cart as c', 'c.id_product', '=', 'p.id')
                 ->where('outlets.id_user', $id)
@@ -208,15 +208,15 @@ class LaporanController extends Controller
                     'o.id',
                     'o.table_number as table_number_order',
                     'o.payment_method as payment_method_order',
-                    'od.price as total_order',
+                    'o.total as total_order',
                     'p.original_price as price_product',
                     // 'c.type_order',
                     'u.name as name_user'
                 )
                 ->join('orders as o', 'o.id_outlet', '=', 'outlets.id')
-                ->join('order_details as od', 'od.id', '=', 'o.id_order_detail')
+                ->join('order_details as od', 'od.id_order', '=', 'o.id')
                 ->join('order_status as os', 'os.id', '=', 'o.id_order_status')
-                ->join('products as p', 'p.name', '=', 'od.product')
+                ->join('products as p', 'p.id', '=', 'od.id_product')
                 ->join('users as u', 'u.id', '=', 'o.id_user')
                 // ->join('cart as c', 'c.id_product', '=', 'p.id')
                 // ->where('outlets.id_user', $id)
@@ -280,16 +280,16 @@ class LaporanController extends Controller
                             'o.id',
                             'o.table_number as table_number_order',
                             'o.payment_method as payment_method_order',
-                            'od.price as total_order',
+                            'o.total as total_order',
                             'p.original_price as price_product',
                             // 'c.type_order',
                             'u.name as name_user',
                             'od.id as id_order_detail'
                         )
                         ->join('orders as o', 'o.id_outlet', '=', 'outlets.id')
-                        ->join('order_details as od', 'od.id', '=', 'o.id_order_detail')
+                        ->join('order_details as od', 'od.id_order', '=', 'o.id')
                         ->join('order_status as os', 'os.id', '=', 'o.id_order_status')
-                        ->join('products as p', 'p.name', '=', 'od.product')
+                        ->join('products as p', 'p.id', '=', 'od.id_product')
                         ->join('users as u', 'u.id', '=', 'o.id_user')
                         // ->join('cart as c', 'c.id_product', '=', 'p.id')
                         // ->whereDate('o.date_order', $date)
@@ -309,16 +309,16 @@ class LaporanController extends Controller
                             'o.id',
                             'o.table_number as table_number_order',
                             'o.payment_method as payment_method_order',
-                            'od.price as total_order',
+                            'o.total as total_order',
                             'p.original_price as price_product',
                             // 'c.type_order',
                             'u.name as name_user',
                             'od.id as id_order_detail'
                         )
                         ->join('orders as o', 'o.id_outlet', '=', 'outlets.id')
-                        ->join('order_details as od', 'od.id', '=', 'o.id_order_detail')
+                        ->join('order_details as od', 'od.id_order', '=', 'o.id')
                         ->join('order_status as os', 'os.id', '=', 'o.id_order_status')
-                        ->join('products as p', 'p.name', '=', 'od.product')
+                        ->join('products as p', 'p.id', '=', 'od.id_product')
                         ->join('users as u', 'u.id', '=', 'o.id_user')
                         // ->join('cart as c', 'c.id_product', '=', 'p.id')
                         // ->whereDate('o.date_order', $date)
@@ -351,15 +351,15 @@ class LaporanController extends Controller
                 //         'o.id',
                 //         'o.table_number as table_number_order',
                 //         'o.payment_method as payment_method_order',
-                //         'od.price as total_order',
+                //         'o.total as total_order',
                 //         'p.original_price as price_product',
                 //         'c.type_order',
                 //         'u.name as name_user'
                 //     )
                 //     ->join('orders as o', 'o.id_outlet', '=', 'outlets.id')
-                //     ->join('order_details as od', 'od.id', '=', 'o.id_order_detail')
+                //     ->join('order_details as od', 'od.id_order', '=', 'o.id')
                 //     ->join('order_status as os', 'os.id', '=', 'o.id_order_status')
-                //     ->join('products as p', 'p.name', '=', 'od.product')
+                //     ->join('products as p', 'p.id', '=', 'od.id_product')
                 //     ->join('users as u', 'u.id', '=', 'o.id_user')
                 //     ->join('cart as c', 'c.id_product', '=', 'p.id')
                 //     ->where('outlets.id_user', $id)
@@ -384,15 +384,15 @@ class LaporanController extends Controller
                         'o.id',
                         'o.table_number as table_number_order',
                         'o.payment_method as payment_method_order',
-                        'od.price as total_order',
+                        'o.total as total_order',
                         'p.original_price as price_product',
                         'c.type_order',
                         'u.name as name_user'
                     )
                     ->join('orders as o', 'o.id_outlet', '=', 'outlets.id')
-                    ->join('order_details as od', 'od.id', '=', 'o.id_order_detail')
+                    ->join('order_details as od', 'od.id_order', '=', 'o.id')
                     ->join('order_status as os', 'os.id', '=', 'o.id_order_status')
-                    ->join('products as p', 'p.name', '=', 'od.product')
+                    ->join('products as p', 'p.id', '=', 'od.id_product')
                     ->join('users as u', 'u.id', '=', 'o.id_user')
                     ->join('cart as c', 'c.id_product', '=', 'p.id')
                     // ->where('outlets.id_user', $id)
@@ -453,7 +453,7 @@ class LaporanController extends Controller
                     'o.id',
                     'o.table_number as table_number_order',
                     'o.payment_method as payment_method_order',
-                    'od.price as total_order',
+                    'o.total as total_order',
                     'p.original_price as price_product',
                     // 'c.type_order',
                     'u.name as name_user',
@@ -465,9 +465,9 @@ class LaporanController extends Controller
                     '=',
                     'outlets.id'
                 )
-                ->join('order_details as od', 'od.id', '=', 'o.id_order_detail')
+                ->join('order_details as od', 'od.id_order', '=', 'o.id')
                 ->join('order_status as os', 'os.id', '=', 'o.id_order_status')
-                ->join('products as p', 'p.name', '=', 'od.product')
+                ->join('products as p', 'p.id', '=', 'od.id_product')
                 ->join('users as u', 'u.id', '=', 'o.id_user')
                 // ->join('cart as c', 'c.id_product', '=', 'p.id')
                 ->whereDate('o.date_order', $date_3)

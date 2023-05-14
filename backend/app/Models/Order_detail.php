@@ -15,14 +15,16 @@ class Order_detail extends Model
 
     protected $fillable = [
         'id_order',
-        // 'id_product',
-        'product',
+        'id_product',
+        // 'product',
         'quantity',
-        'price',
-        'discount',
-        'add_on_price',
-        'varian_on_price',
-        'subtotal',
+        'type_order',
+        'note',
+        // 'price',
+        // 'discount',
+        // 'add_on_price',
+        // 'varian_on_price',
+        // 'subtotal',
         'created_at',
         'updated_at',
     ];

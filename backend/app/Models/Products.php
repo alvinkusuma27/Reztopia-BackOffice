@@ -20,6 +20,7 @@ class Products extends Model
         'description',
         'original_price',
         'cost_price',
+        'discount',
         'cost',
         'active',
         'image',
