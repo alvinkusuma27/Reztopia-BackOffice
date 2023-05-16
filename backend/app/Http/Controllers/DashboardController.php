@@ -70,11 +70,11 @@ class DashboardController extends Controller
                     ->select(
                         'o.name as tenant_name',
                         'c.id as id_category',
-                        // 'p.name as name_product',
+                        'p.name as name_product',
                         'o.id'
                     )
                     ->join('categories as c', 'c.id_outlet', 'o.id')
-                    // ->join('products as p', 'p.id_category', '=', 'c.id')
+                    ->join('products as p', 'p.id_category', '=', 'c.id')
                     ->where('o.id_user', $id)
                     ->get();
                 // dd(empty($outlet[0]));
@@ -93,8 +93,9 @@ class DashboardController extends Controller
                 $total_order = $data->sum('total');
                 $today_order = $data->count('id');
                 // $total_category = $outlet->unique('id_category')->count();
+                $total_category = Categories::where('id_outlet', $outlet[0]->id)->count();
+                // dd($outlet);
                 if (!empty($outlet[0])) {
-                    $total_category = Categories::where('id_outlet', $outlet[0]->id)->count();
                     $total_menu = $outlet->unique('name_product')->count();
                 } else {
                     $total_category = 0;

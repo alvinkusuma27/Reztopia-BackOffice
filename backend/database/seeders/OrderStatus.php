@@ -25,7 +25,11 @@ class OrderStatus extends Seeder
             [
                 'name' => 'cart',
                 'created_by' => 0
-            ]
+            ],
+            [
+                'name' => 'proses',
+                'created_by' => 0
+            ],
         ]);
     }
 }

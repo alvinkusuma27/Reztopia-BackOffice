@@ -22,6 +22,7 @@ class Products extends Model
         'cost_price',
         'discount',
         'cost',
+        'price_final',
         'active',
         'image',
         'id_category',
@@ -43,5 +44,10 @@ class Products extends Model
     public function cart()
     {
         return $this->belongsTo(Cart::class);
+    }
+
+    public function order_detail()
+    {
+        return $this->belongsTo(Order_detail::class);
     }
 }

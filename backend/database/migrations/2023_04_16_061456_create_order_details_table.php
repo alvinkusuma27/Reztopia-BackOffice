@@ -19,9 +19,9 @@ return new class extends Migration
             $table->foreign('id_product')->references('id')->on('products');
             // $table->string('product');
             $table->double('quantity');
-            $table->string('type_order');
+            // $table->string('type_order');
             $table->string('note')->nullable();
-            // $table->double('price');
+            $table->double('price')->nullable();
             // $table->double('discount');
             // $table->double('add_on_price')->nullable();
             // $table->double('varian_price')->nullable();

@@ -25,7 +25,7 @@ return new class extends Migration
             $table->foreign('id_user')->references('id')->on('users');
             $table->string('cashier')->nullable();
             $table->string('payment_method')->nullable();
-            // $table->string('order_type')->nullable();
+            $table->string('order_type')->nullable();
             $table->string('payment_code')->nullable();
             $table->string('table_number')->nullable();
             $table->double('total')->nullable();

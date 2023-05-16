@@ -69,7 +69,13 @@
                                                 {{ auth()->user()->roles == 'kantin' ? 'Number of Category' : 'Number of active tenants' }}
                                             </h6>
                                             <h6 class="font-extrabold mb-0">
-                                                {{ (auth()->user()->roles == 'kantin' ? (empty($total_category) ? '0' : $total_category) : empty($active_tenant)) ? '0' : $active_tenant }}
+                                                @if (auth()->user()->roles == 'kantin')
+                                                    {{ empty($total_category) ? '0' : $total_category }}
+                                                @else
+                                                    empty($active_tenant)
+                                                    ? '0'
+                                                    : $active_tenant
+                                                @endif
                                             </h6>
                                         </div>
                                     </div>
@@ -92,7 +98,9 @@
                                                 {{ auth()->user()->roles == 'kantin' ? 'Number of Menu' : 'Number of inactive tenants' }}
                                             </h6>
                                             <h6 class="font-extrabold mb-0">
-                                                {{ (auth()->user()->roles == 'kantin' ? (empty($total_menu) ? '0' : $total_menu) : empty($inactive_tenant)) ? '0' : $inactive_tenant }}
+                                                @if (auth()->user()->roles == 'kantin')
+                                                    {{ empty($total_menu) ? '0' : $total_menu }}
+                                                @endif
                                             </h6>
                                         </div>
                                     </div>

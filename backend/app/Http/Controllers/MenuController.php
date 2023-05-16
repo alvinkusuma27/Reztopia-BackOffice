@@ -35,6 +35,7 @@ class MenuController extends Controller
                 'p.original_price',
                 'p.cost_price',
                 'p.discount',
+                'p.price_final',
                 'o.id',
                 'p.image as image_product',
                 'o.name as outlet_name',
@@ -128,6 +129,7 @@ class MenuController extends Controller
                 $products->cost_price = $request->cost_price;
                 $products->id_category = $request->id_category;
                 $products->discount = $request->discount;
+                $products->price_final = $request->original_price - $request->discount;
                 $image = $request->file('image');
                 $image_name = time() . '-products-' . $request->name . '.' . $image->getClientOriginalExtension();
                 Storage::putFileAs('public/uploads/products/', $image, $image_name);
@@ -203,13 +205,15 @@ class MenuController extends Controller
                 ]);
                 if (!$validator->fails()) {
                     $products = Products::findOrFail($request->id_product);
+                    // dd($request->original_price, $request->discount, $request->original_price - $request->discount);
                     $products->update([
                         'name' => $request->name,
                         'description' => $request->description,
                         'original_price' => $request->original_price,
                         'cost_price' => $request->cost_price,
                         'id_category' => $request->id_category,
-                        'discount' => $request->discount
+                        'discount' => $request->discount,
+                        'price_final' => $request->original_price - $request->discount,
                     ]);
                     Alert::toast('Success Update Product', 'success');
                     return back();
@@ -237,6 +241,7 @@ class MenuController extends Controller
                         'cost_price' => $request->cost_price,
                         'id_category' => $request->id_category,
                         'discount' => $request->discount,
+                        'price_final' => $request->original_price - $request->discount,
                         'image' => $image_name
                     ]);
                     Alert::toast('Success Update Product', 'success');

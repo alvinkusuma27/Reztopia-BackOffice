@@ -107,7 +107,7 @@
                                                                 {{ $item->description }}
                                                             </p>
                                                             <p class="card-text">
-                                                                Rp.{{ number_format($item->original_price) }}
+                                                                Rp.{{ number_format($item->price_final) }}
                                                             </p>
                                                         </div>
                                                     </button>

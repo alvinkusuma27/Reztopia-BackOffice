@@ -20,7 +20,7 @@ class Order_detail extends Model
         'quantity',
         'type_order',
         'note',
-        // 'price',
+        'price',
         // 'discount',
         // 'add_on_price',
         // 'varian_on_price',
@@ -32,6 +32,11 @@ class Order_detail extends Model
     public function order()
     {
         return $this->belongsTo(Orders::class);
+    }
+
+    public function product()
+    {
+        return $this->hasMany(Products::class, 'id', 'id_product');
     }
 
     // public function product()

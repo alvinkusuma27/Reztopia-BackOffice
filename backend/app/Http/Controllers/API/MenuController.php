@@ -15,7 +15,18 @@ class MenuController extends Controller
     {
         try {
             $product = DB::table('products as p')
-                ->select('p.original_price as price_product', 'p.image as image_product', 'p.name as name_product', 'p.description as description_product', 'o.id as id_outlet', 'p.id as id_product')
+                ->select(
+                    'p.original_price as original_price',
+                    'p.price_final as price_after_discount',
+                    'p.discount as discount',
+                    'p.image as image_product',
+                    'p.name as name_product',
+                    'p.description as description_product',
+                    'o.id as id_outlet',
+                    'p.id as id_product',
+                    'c.id as id_category',
+                    'c.name as name_category'
+                )
                 ->join('categories as c', 'c.id', '=', 'p.id_category')
                 ->join('outlets as o', 'o.id', '=', 'c.id_outlet')
                 ->where('o.id', $tenant)
@@ -79,7 +90,17 @@ class MenuController extends Controller
                     }
                     // dd($for_filter_array);
                     $data = DB::table('products as p')
-                        ->select('p.original_price as price_product', 'p.image as image_product', 'p.name as name_product', 'p.description as description_product', 'o.id as id_outlet', 'p.id as id_product', 'c.name as name_category')
+                        ->select(
+                            'p.original_price as original_price',
+                            'p.price_final as price_after_discount',
+                            'p.discount as discount',
+                            'p.image as image_product',
+                            'p.name as name_product',
+                            'p.description as description_product',
+                            'o.id as id_outlet',
+                            'p.id as id_product',
+                            'c.name as name_category'
+                        )
                         ->join('categories as c', 'c.id', '=', 'p.id_category')
                         ->join('outlets as o', 'o.id', '=', 'c.id_outlet')
                         ->where('o.id', $request->id_outlet)
@@ -131,7 +152,17 @@ class MenuController extends Controller
                 );
                 if (!$validator->fails()) {
                     $data = DB::table('products as p')
-                        ->select('p.original_price as price_product', 'p.image as image_product', 'p.name as name_product', 'p.description as description_product', 'o.id as id_outlet', 'p.id as id_product', 'c.name as name_category')
+                        ->select(
+                            'p.original_price as original_price',
+                            'p.price_final as price_after_discount',
+                            'p.discount as discount',
+                            'p.image as image_product',
+                            'p.name as name_product',
+                            'p.description as description_product',
+                            'o.id as id_outlet',
+                            'p.id as id_product',
+                            'c.name as name_category'
+                        )
                         ->join('categories as c', 'c.id', '=', 'p.id_category')
                         ->join('outlets as o', 'o.id', '=', 'c.id_outlet')
                         ->where('o.id', $request->id_outlet)
@@ -184,7 +215,17 @@ class MenuController extends Controller
                         array_push($filter, $item);
                     }
                     $data = DB::table('products as p')
-                        ->select('p.original_price as price_product', 'p.image as image_product', 'p.name as name_product', 'p.description as description_product', 'o.id as id_outlet', 'p.id as id_product', 'c.name as name_category')
+                        ->select(
+                            'p.original_price as original_price',
+                            'p.price_final as price_after_discount',
+                            'p.discount as discount',
+                            'p.image as image_product',
+                            'p.name as name_product',
+                            'p.description as description_product',
+                            'o.id as id_outlet',
+                            'p.id as id_product',
+                            'c.name as name_category'
+                        )
                         ->join('categories as c', 'c.id', '=', 'p.id_category')
                         ->join('outlets as o', 'o.id', '=', 'c.id_outlet')
                         ->where('o.id', $request->id_outlet)
@@ -250,7 +291,16 @@ class MenuController extends Controller
         try {
             $product = DB::table('products as p')
                 // ->select('p.original_price', 'p.image', 'p.name', 'p.description')
-                ->select('p.original_price as price_product', 'p.image as image_product', 'p.name as name_product', 'p.description as description_product', 'o.id as id_outlet', 'p.id as id_product')
+                ->select(
+                    'p.original_price as original_price',
+                    'p.price_final as price_after_discount',
+                    'p.discount as discount',
+                    'p.image as image_product',
+                    'p.name as name_product',
+                    'p.description as description_product',
+                    'o.id as id_outlet',
+                    'p.id as id_product'
+                )
                 ->join('categories as c', 'c.id', '=', 'p.id_category')
                 ->join('outlets as o', 'o.id', '=', 'c.id_outlet')
                 ->where('o.id', $tenant)

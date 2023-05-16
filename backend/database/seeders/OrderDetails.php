@@ -20,31 +20,31 @@ class OrderDetails extends Seeder
                 'id_product' => 1,
                 'id_order' => 1,
                 'quantity' => 2,
-                'type_order' => 'dine_in'
+                // 'type_order' => 'dine_in'
             ],
             [
                 'id_product' => 2,
                 'id_order' => 1,
                 'quantity' => 3,
-                'type_order' => 'dine_in'
+                // 'type_order' => 'dine_in'
             ],
             [
                 'id_product' => 1,
                 'id_order' => 2,
                 'quantity' => 2,
-                'type_order' => 'dine_in'
+                // 'type_order' => 'dine_in'
             ],
             [
                 'id_product' => 1,
                 'id_order' => 2,
                 'quantity' => 3,
-                'type_order' => 'dine_in'
+                // 'type_order' => 'dine_in'
             ],
             [
                 'id_product' => 1,
                 'id_order' => 2,
                 'quantity' => 2,
-                'type_order' => 'dine_in'
+                // 'type_order' => 'dine_in'
             ],
         ]);
     }
