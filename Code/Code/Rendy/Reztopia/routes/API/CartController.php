@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Cart;
 use App\Models\Order_detail;
-use App\Models\Order_status;
 use App\Models\Orders;
 use App\Models\Products;
 use Carbon\Carbon;

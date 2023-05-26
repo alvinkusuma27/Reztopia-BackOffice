@@ -73,7 +73,6 @@ class HistoryController extends Controller
     public function history_detail($id)
     {
         try {
-            // $data_history = array();
             $data = DB::table('orders as or')
                 ->select(
                     'ot.id as id_outlet',
@@ -104,7 +103,6 @@ class HistoryController extends Controller
                     'ot.id as id_outlet',
                     'p.name as product_name',
                     'p.image as image_product',
-                    // 'od.price as price_total_product',
                     'p.original_price as price_product',
                     'os.name as status_order',
                     'or.date_order',
@@ -124,33 +122,14 @@ class HistoryController extends Controller
                 ->join('cart as c', 'c.id_product', '=', 'p.id')
                 ->join('users as u', 'u.id', '=', 'or.id_user')
                 ->where('or.id_user', Auth::user()->id)
-                // ->where('or.id', $id)
                 ->get();
-            // dd($data2);
-            // array_push($data_history, $data);
-            // dd($data, $data_history);
-            // $data = Orders::join('outlets as ot', 'ot.id', '=', 'orders.id_outlet')
-            //     ->join('order_status as os', 'os.id', '=', 'orders.id_order_status')
-            //     ->join('order_details as od', 'od.id_order', '=', 'orders.id')
-            //     ->join('products as p', 'p.id', '=', 'od.id_product')
-            //     ->where('orders.id_user', Auth::user()->id)
-            //     ->where('orders.id', $id)
-            //     ->get();
-            // $coba = Orders::with('outlet', 'order_status', 'order_detail')->where('id_user', 3)->get();
 
-            // BELUM SELESAI
-            // $data_history = $data;
-            // echo data_history;
-            // dd($data_history);
             if (!empty($data[0])) {
                 $result_product = array();
                 $result_history = array();
 
-                // dd($data);
                 foreach ($data as $item) {
-                    // dd($item->id);
                     unset($item->status_order);
-                    // unset($item->quantity_order);
                     unset($item->payment_code_order);
                     unset($item->name_user_order);
                     unset($item->table_number_order);
@@ -162,23 +141,14 @@ class HistoryController extends Controller
                     unset($item->payment_method_order);
                     unset($item->total_order);
 
-                    // unset($item->id);
                     $item->image_product = env('APP_URL') . '/storage/uploads/history-detail/' . $item->image_product;
                     array_push($result_product, $item);
                 }
-                // dd(
-                //     $data,
-                //     $data_history,
-                //     $result_history
-                // );
 
                 foreach ($data2 as $item) {
-                    // set()
-
                     unset($item->product_name);
                     unset($item->image_product);
                     unset($item->price_product);
-                    // unset($item->status_order);
                     unset($item->product_name);
                     unset($item->id_outlet);
                     unset($item->quantity_order);

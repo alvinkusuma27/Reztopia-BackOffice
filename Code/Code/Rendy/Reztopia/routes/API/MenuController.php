@@ -31,16 +31,13 @@ class MenuController extends Controller
                 ->join('outlets as o', 'o.id', '=', 'c.id_outlet')
                 ->where('o.id', $tenant)
                 ->get();
-            // dd($product);
             if (!empty($product[0])) {
-                // dd($product);
                 $result = array();
                 foreach ($product as $item) {
                     unset($item->id);
                     $item->image_product = env('APP_URL')  . '/storage/uploads/product/' . $item->image_product;
                     array_push($result, $item);
                 }
-                // dd($product, $result);
                 return response()->json([
                     'meta' => [
                         'status' => 'success',
@@ -88,7 +85,6 @@ class MenuController extends Controller
                     foreach ($for_filter_array as $item) {
                         array_push($filter, $item);
                     }
-                    // dd($for_filter_array);
                     $data = DB::table('products as p')
                         ->select(
                             'p.original_price as original_price',
@@ -108,9 +104,6 @@ class MenuController extends Controller
                         ->orderBy('p.original_price', $request->sort)
                         ->get();
 
-                    // $data = $request->all();
-                    // $data = $request->all();
-                    // dd($data, $filter);
                     if (!empty($data[0])) {
                         foreach ($data as $item) {
                             // unset($item->id);

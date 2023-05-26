@@ -20,7 +20,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Auth::routes(['verify' => true]);
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', [UserController::class, 'fetch']);
     Route::post('logout', [UserController::class, 'logout']);
@@ -43,12 +42,8 @@ Route::middleware('auth:sanctum')->group(function () {
         ],
         function () {
             Route::get('{tenant}', [MenuController::class, 'index'])->name('menu.index');
-            // Route::get('menu/{tenant}/{value?}', [MenuController::class, 'filterOrsort'])->name('tenant.filterOrSort');
-            // jek grung ganti method post
             Route::post('filter-or-sort', [MenuController::class, 'filterNSort'])->name('menu.sortNfilter');
-            // Route::get('menu/{tenant}/{filter?}/{sort?}', [MenuController::class, 'filterNsort'])->name('tenant.sortNfilter');
             Route::get('{tenant}/product/{id}', [MenuController::class, 'viewProduct']);
-            // Route::get('view-product/{tenant}/{id}', [MenuController::class, 'viewProduct']);
         }
     );
 
@@ -58,7 +53,6 @@ Route::middleware('auth:sanctum')->group(function () {
     ], function () {
         Route::get('index', [HistoryController::class, 'index'])->name('history');
         Route::get('history-detail/{id}', [HistoryController::class, 'history_detail'])->name('history.detail');
-        // Route::get('{tenant}', [MenuController::class, 'index'])->name('menu.index');
     });
 
     Route::group(

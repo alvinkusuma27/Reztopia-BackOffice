@@ -20,9 +20,6 @@ class UserController extends Controller
     public function login(Request $request)
     {
 
-        // return response()->json([
-        //     'data' => $request->all()
-        // ], 200);
         try {
 
             $validator = Validator::make($request->all(), [
@@ -73,12 +70,6 @@ class UserController extends Controller
                 ],
                 'data' => $validator->messages()->all()
             ], 400);
-
-            // return ResponseFormatter::success([
-            //     'access_token' => $tokenResult,
-            //     'token_type' => 'Bearer',
-            //     'user' => $user
-            // ], 'Authenticated');
         } catch (Exception $error) {
             return response()->json([
                 'meta' => [
@@ -87,22 +78,12 @@ class UserController extends Controller
                 ],
                 'data' => $error->getMessage()
             ], 500);
-            // return ResponseFormatter::error([
-            //     'message' => 'Something went wrong',
-            //     'error' => $error
-            // ], 'Authenticated', 500);
         }
     }
 
     public function register(Request $request)
     {
         try {
-            // $request->validate([
-            //     'name' => ['required|string|max:255'],
-            //     'email' => ['required|string|email|max:255'],
-            //     'password' => ['required|min:8']
-            // ]);
-
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255',
@@ -150,12 +131,6 @@ class UserController extends Controller
                 ],
                 'data' => $validator->messages()->all()
             ], 400);
-
-            // return ResponseFormatter::success([
-            //     'access_token' => $tokenResult,
-            //     'token_type' => 'Bearer',
-            //     'user' =>  $user
-            // ]);
         } catch (Exception $error) {
 
             return response()->json([
@@ -165,10 +140,6 @@ class UserController extends Controller
                 ],
                 'data' => $error->getMessage()
             ], 200);
-            // return ResponseFormatter::error([
-            //     'message' => 'Something went wrong',
-            //     'error' => $error
-            // ], 'Authentication Failed', 500);
         }
     }
 
@@ -182,7 +153,6 @@ class UserController extends Controller
             ],
             'data' => $token
         ], 200);
-        // return ResponseFormatter::success($token, 'Token Revoked');
     }
 
     public function fetch(Request $request)
@@ -193,7 +163,6 @@ class UserController extends Controller
             ],
             'data' => $request->user()
         ]);
-        // return ResponseFormatter::success($request->user(), 'Data Profile user successfully fetch');
     }
 
     public function updateUser(Request $request)
@@ -210,17 +179,11 @@ class UserController extends Controller
             ],
             'data' => $user
         ], 200);
-
-        // return ResponseFormatter::success($user, 'Profile Updated');
     }
 
     public function tes()
     {
         $user = User::all();
-        // return ResponseFormatter::success([
-        //     'data' => $user
-        // ]);
-        // $data = Auth::user()->name;
         return response()->json([
             'meta' => [
                 'success' => true,
