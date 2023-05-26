@@ -106,8 +106,6 @@ class MenuController extends Controller
 
                     if (!empty($data[0])) {
                         foreach ($data as $item) {
-                            // unset($item->id);
-                            // dd($item);
                             $item->image_product = env('APP_URL')  . '/storage/uploads/product/' . $item->image_product;
                             array_push($result, $item);
                         }
@@ -161,12 +159,8 @@ class MenuController extends Controller
                         ->where('o.id', $request->id_outlet)
                         ->orderBy('p.original_price', $request->sort)
                         ->get();
-                    // $request->sort;
-                    // dd($data);
                     if (!empty($data[0])) {
                         foreach ($data as $item) {
-                            // unset($item->id);
-                            // dd($item);
                             $item->image_product = env('APP_URL')  . '/storage/uploads/product/' . $item->image_product;
                             array_push($result, $item);
                         }
@@ -226,8 +220,6 @@ class MenuController extends Controller
                         ->get();
                     if (!empty($data[0])) {
                         foreach ($data as $item) {
-                            // unset($item->id);
-                            // dd($item);
                             $item->image_product = env('APP_URL')  . '/storage/uploads/product/' . $item->image_product;
                             array_push($result, $item);
                         }
@@ -272,18 +264,12 @@ class MenuController extends Controller
                 'data' => $error->getMessage()
             ], 500);
         }
-        // dd($tenant, $value);
     }
-
-    // public function viewFilterNSort(){
-
-    // }
 
     public function viewProduct($tenant, $id)
     {
         try {
             $product = DB::table('products as p')
-                // ->select('p.original_price', 'p.image', 'p.name', 'p.description')
                 ->select(
                     'p.original_price as original_price',
                     'p.price_final as price_after_discount',
