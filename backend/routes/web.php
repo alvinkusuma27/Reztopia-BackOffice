@@ -23,23 +23,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('tenant.page.dashboard');
-// })->name('dashboard');
-
-// Route::get('/menu', function () {
-//     return view('tenant.page.menu');
-// })->name('menu');
-
-// Route::get('/laporan', function () {
-//     return view('tenant.page.laporan');
-// })->name('laporan');
-
-// Route::get('/profile', function () {
-//     return view('tenant.page.profile');
-// })->name('profile');
-
-// Auth::routes(['verify' => true]);
 Route::get('clear', function () {
 
     Artisan::call('optimize:clear');
