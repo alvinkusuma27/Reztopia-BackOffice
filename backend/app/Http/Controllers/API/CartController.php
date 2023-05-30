@@ -495,6 +495,7 @@ class CartController extends Controller
             // $order->update([
 
             // ])
+            $this->trigger_whatsapp();
 
 
             return response()->json([
@@ -503,6 +504,37 @@ class CartController extends Controller
                     'message' => 'Success Checkout'
                 ]
             ], 200);
+        } catch (Exception $error) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'error',
+                    'message' => 'Something went wrong'
+                ],
+                'data' => $error->getMessage()
+            ], 500);
+        }
+    }
+
+    public function trigger_whatsapp()
+    {
+        try {
+            $order = Orders::latest('updated_at')->first();
+            // $order = Orders::where('id', 9)->get();
+            if (empty($order)) {
+                return response()->json([
+                    'meta' => [
+                        'status' => 'failed',
+                        'message' => 'not found'
+                    ]
+                ], 200);
+            } else {
+                return response()->json([
+                    'meta' => [
+                        'status' => 'success',
+                        'message' => $order
+                    ]
+                ], 200);
+            }
         } catch (Exception $error) {
             return response()->json([
                 'meta' => [

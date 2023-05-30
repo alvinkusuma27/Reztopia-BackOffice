@@ -77,6 +77,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('tes-auth', [UserController::class, 'tes']);
 });
+Route::get('trigger_whatsapp', [CartController::class, 'trigger_whatsapp']);
 
 Route::post('login', [UserController::class, 'login']);
 

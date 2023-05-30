@@ -35,7 +35,7 @@ class HistoryController extends Controller
                 ->where('or.id_user', Auth::user()->id)
                 ->where('os.id', 1)
                 ->get();
-            dd($data);
+            // dd($data);
 
             if (!empty($data[0])) {
                 $result = array();
