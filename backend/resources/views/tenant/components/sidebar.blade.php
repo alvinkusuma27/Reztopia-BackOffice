@@ -68,6 +68,12 @@
                             <span>Laporan</span>
                         </a>
                     </li>
+                    <li class="sidebar-item {{ $active == 'pesanan' ? 'active' : '' }}">
+                        <a href="{{ route('pesanan') }}" class="sidebar-link">
+                            <i class="bi bi-cart4"></i>
+                            <span>Pesanan</span>
+                        </a>
+                    </li>
                     <li class="sidebar-item {{ $active == 'profile' ? 'active' : '' }}">
                         <a href="{{ route('profile') }}" class="sidebar-link">
                             <i class="bi bi-person-badge-fill"></i>
@@ -91,6 +97,12 @@
                         <a href="{{ route('laporan') }}" class="sidebar-link">
                             <i class="bi bi-newspaper"></i>
                             <span>Laporan</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item {{ $active == 'pesanan' ? 'active' : '' }}">
+                        <a href="{{ route('pesanan') }}" class="sidebar-link">
+                            <i class="bi bi-cart4"></i>
+                            <span>Pesanan</span>
                         </a>
                     </li>
                     <li class="sidebar-item {{ $active == 'profile' ? 'active' : '' }}">

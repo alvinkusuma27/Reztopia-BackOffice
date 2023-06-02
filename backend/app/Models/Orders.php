@@ -40,6 +40,11 @@ class Orders extends Model
         return $this->hasMany(Outlet::class, 'id', 'id_outlet');
     }
 
+    public function order_status_pesanan_and_laporan()
+    {
+        return $this->hasMany(Order_status::class, 'id', 'id_order_status')->where('name', 'sukses');
+    }
+
     public function order_status()
     {
         return $this->hasMany(Order_status::class, 'id', 'id_order_status');
@@ -47,7 +52,28 @@ class Orders extends Model
 
     public function order_detail()
     {
-        return $this->hasMany(Order_detail::class, 'id', 'id_order_detail');
+        return $this->hasMany(Order_detail::class, 'id_order', 'id');
+    }
+
+    // public function order_detail_pesanan_and_laporan()
+    // {
+    //     return $this->belongsTo(Order_detail::class);
+    // }
+
+    // public function detail()
+    // {
+    //     return $this->belongsToMany(Order_detail::class, 'orders', 'id_order', 'id');
+    // }
+
+    public function user()
+    {
+        return $this->hasMany(User::class, 'id', 'id_user');
+    }
+
+    public function product()
+    {
+        // return $this->hasManyThrough(Products::class, Order_detail::class);
+        return $this->belongsToMany(Products::class, 'order_details', 'id_product', 'id');
     }
 
     public function categories()

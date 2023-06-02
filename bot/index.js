@@ -6,6 +6,7 @@ const {
 const client = new Client({
  authStrategy: new LocalAuth(),
 });
+const axios = require('axios');
 
 const {
  testing,
@@ -14,13 +15,18 @@ const {
 
 // const pesan = new checkStatus();
 
-const axios = require('axios');
+// const axios = require('axios');
 const {
  BASE_URL,
  IMAGE_URL,
 } = require('./config');
 
-// console.table(checkStatus);
+const jajal = async () => {
+ const a = await checkStatus;
+ return a;
+};
+
+console.log(jajal());
 
 const cek = axios({
  url: BASE_URL,

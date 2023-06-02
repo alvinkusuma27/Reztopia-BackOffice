@@ -28,32 +28,36 @@ class LaporanController extends Controller
 
             if (Auth::user()->roles == 'kantin') {
                 // omzet_today, omzet total, nam product, tanggal, jumlah,
-                $order = DB::table('outlets')
-                    ->select(
-                        'o.total',
-                        'p.name',
-                        'o.date_order',
-                        'od.quantity',
-                        'o.proof_of_payment',
-                        'o.id',
-                        'o.table_number as table_number_order',
-                        'o.payment_method as payment_method_order',
-                        'o.total as total_order',
-                        'p.original_price as price_product',
-                        // 'c.type_order',
-                        'u.name as name_user',
-                        'od.id as id_order_detail'
-                    )
-                    ->join('orders as o', 'o.id_outlet', '=', 'outlets.id')
-                    ->join('order_details as od', 'od.id_order', '=', 'o.id')
-                    ->join('order_status as os', 'os.id', '=', 'o.id_order_status')
-                    ->join('products as p', 'p.id', '=', 'od.id_product')
-                    ->join('users as u', 'u.id', '=', 'o.id_user')
-                    ->where('outlets.id_user', $id)
-                    // ->join('cart as c', 'c.id_product', '=', 'p.id')
-                    // ->whereDate('o.date_order', $tgl)
-                    ->where('os.name', 'sukses')
-                    ->groupBy('od.id')
+                // $order = DB::table('outlets')
+                //     ->select(
+                //         'o.total',
+                //         'p.name',
+                //         'o.date_order',
+                //         'od.quantity',
+                //         'o.proof_of_payment',
+                //         'o.id',
+                //         'o.table_number as table_number_order',
+                //         'o.payment_method as payment_method_order',
+                //         'o.total as total_order',
+                //         'p.original_price as price_product',
+                //         // 'c.type_order',
+                //         'u.name as name_user',
+                //         'od.id as id_order_detail'
+                //     )
+                //     ->join('orders as o', 'o.id_outlet', '=', 'outlets.id')
+                //     ->join('order_details as od', 'od.id_order', '=', 'o.id')
+                //     ->join('order_status as os', 'os.id', '=', 'o.id_order_status')
+                //     ->join('products as p', 'p.id', '=', 'od.id_product')
+                //     ->join('users as u', 'u.id', '=', 'o.id_user')
+                //     ->where('outlets.id_user', $id)
+                //     // ->join('cart as c', 'c.id_product', '=', 'p.id')
+                //     // ->whereDate('o.date_order', $tgl)
+                //     ->where('os.name', 'sukses')
+                //     ->groupBy('od.id')
+                //     ->get();
+                $order = Orders::with('product', 'order_detail.product_laporan_and_pesanan', 'user', 'order_status_pesanan_and_laporan')
+                    ->where('id_order_status', 1)
+                    // ->whereDate('date_order', $tgl)
                     ->get();
                 // $cona = Orders::all();
                 // dd($order);
@@ -489,6 +493,69 @@ class LaporanController extends Controller
         }
 
         // return $pdf->stream();
+    }
+
+    public function pesanan()
+    {
+        // try {
+        $active = 'pesanan';
+        $id = Auth::user()->id;
+        $tgl = Carbon::now();
+        $day = bin2hex($tgl->toDateTimeString());
+
+        if (Auth::user()->roles == 'kantin') {
+            $order = Orders::with('product', 'order_detail.product_laporan_and_pesanan', 'user', 'order_status_pesanan_and_laporan')
+                ->where('id_order_status', 4)
+                // ->whereDate('date_order', $tgl)
+                ->get();
+
+            return view('tenant.page.pesanan', compact('active', 'order', 'day', 'id'));
+        } else if (Auth::user()->roles == 'admin') {
+            $order = Orders::with('product', 'order_detail.product_laporan_and_pesanan', 'user', 'order_status_pesanan_and_laporan')
+                ->where('id_order_status', 4)
+                ->whereDate('date_order', $tgl)
+                ->get();
+            $kantin = DB::table('outlets')
+                ->select('name', 'id_user')
+                ->where('id_user', '!=', Auth::user()->id)
+                ->get();
+            // dd($kantin);
+
+
+            return view('tenant.page.pesanan', compact('active', 'order', 'day', 'kantin', 'id'));
+        }
+        // } catch (Exception $error) {
+        //     dd($error->getMessage());
+        // }
+    }
+
+    public function accept_order(Request $request)
+    {
+        try {
+            // dd($request->all());
+            $validator = Validator::make($request->all(), [
+                'id' => 'required'
+            ]);
+
+            if ($validator->fails()) {
+                Alert::toast($validator->messages()->all(), 'error');
+                return redirect()->route('pesanan');
+            }
+            $order = Orders::findOrFail($request->id);
+            $order->update([
+                'id_order_status' => 1
+            ]);
+
+            if ($order->update()) {
+                Alert::toast('Profile User Successfully Changed', 'success');
+                return redirect()->route('pesanan');
+            } else {
+                Alert::toast('Something went wrong', 'error');
+                return redirect()->route('pesanan');
+            }
+        } catch (Exception $error) {
+            dd($error->getMessage());
+        }
     }
 }
 // $date = Carbon::createFromFormat('d/m/Y',  '19/04/2000');

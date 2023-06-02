@@ -1,48 +1,15 @@
-2023/05/30-03:57:45.008 749c Reusing MANIFEST D:\belajar\project\Reztopia\bot\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2023/05/30-03:57:45.008 749c Recovering log #221
-2023/05/30-03:57:45.024 749c Reusing old log D:\belajar\project\Reztopia\bot\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000221.log 
-2023/05/30-03:57:45.024 749c Delete type=2 #220
-2023/05/30-03:57:45.174 5a1c Manual compaction at level-0 from '\x00c\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00d\x00\x00\x00' @ 0 : 0; will stop at (end)
-2023/05/30-03:57:45.303 5a1c Level-0 table #226: started
-2023/05/30-03:57:45.425 5a1c Level-0 table #226: 46035 bytes OK
-2023/05/30-03:57:45.529 5a1c Delete type=0 #221
-2023/05/30-03:57:45.530 5a1c Manual compaction at level-0 from '\x00a\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00b\x00\x00\x00' @ 0 : 0; will stop at '\x00c.\x02\x01\x0e\x00W\x00A\x00A\x00D\x00V\x00S\x00e\x00c\x00r\x00e\x00t\x00K\x00e\x00y' @ 104687 : 1
-2023/05/30-03:57:45.530 5a1c Compacting 1@0 + 1@1 files
-2023/05/30-03:57:45.714 5a1c Generated table #227@0: 7174 keys, 73814 bytes
-2023/05/30-03:57:45.714 5a1c Compacted 1@0 + 1@1 files => 73814 bytes
-2023/05/30-03:57:45.774 5a1c compacted to: files[ 0 1 1 0 0 0 0 ]
-2023/05/30-03:57:45.775 5a1c Delete type=2 #226
-2023/05/30-03:57:45.775 5a1c Manual compaction at level-0 from '\x00c.\x02\x01\x0e\x00W\x00A\x00A\x00D\x00V\x00S\x00e\x00c\x00r\x00e\x00t\x00K\x00e\x00y' @ 104687 : 1 .. '\x00b\x00\x00\x00' @ 0 : 0; will stop at (end)
-2023/05/30-03:57:45.782 5a1c Level-0 table #229: started
-2023/05/30-03:57:45.926 5a1c Level-0 table #229: 6825 bytes OK
-2023/05/30-03:57:45.980 5a1c Delete type=2 #223
-2023/05/30-03:57:45.980 5a1c Delete type=0 #225
-2023/05/30-03:57:45.980 5a1c Manual compaction at level-0 from '\x00`\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00a\x00\x00\x00' @ 0 : 0; will stop at '\x00d\x01 \x03\x00\x00\x00\x00\x00\x00\x10@\x00\x03\x00\x00\x00\x00\x00\x00\x10@' @ 106416 : 1
-2023/05/30-03:57:45.980 5a1c Compacting 1@0 + 1@1 files
-2023/05/30-03:57:46.076 5a1c Generated table #230@0: 7310 keys, 76863 bytes
-2023/05/30-03:57:46.076 5a1c Compacted 1@0 + 1@1 files => 76863 bytes
-2023/05/30-03:57:46.124 5a1c compacted to: files[ 0 1 1 0 0 0 0 ]
-2023/05/30-03:57:46.125 5a1c Delete type=2 #229
-2023/05/30-03:57:46.125 5a1c Manual compaction at level-0 from '\x00d\x01 \x03\x00\x00\x00\x00\x00\x00\x10@\x00\x03\x00\x00\x00\x00\x00\x00\x10@' @ 106416 : 1 .. '\x00a\x00\x00\x00' @ 0 : 0; will stop at (end)
-2023/05/30-03:57:46.127 44a0 Level-0 table #232: started
-2023/05/30-03:57:46.192 44a0 Level-0 table #232: 4518 bytes OK
-2023/05/30-03:57:46.224 44a0 Delete type=2 #227
-2023/05/30-03:57:46.224 44a0 Delete type=0 #228
-2023/05/30-03:57:46.225 44a0 Manual compaction at level-0 from '\x00_\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00`\x00\x00\x00' @ 0 : 0; will stop at '\x00_\x06 \x03\x00\x00\x00\x00\x00\x80V@\x00\x01\x0b\x00I\x00d\x00T\x00t\x00l\x009\x000\x00D\x00a\x00y\x00s' @ 106794 : 0
-2023/05/30-03:57:46.225 44a0 Compacting 1@0 + 1@1 files
-2023/05/30-03:57:46.311 44a0 Generated table #233@0: 6969 keys, 67732 bytes
-2023/05/30-03:57:46.311 44a0 Compacted 1@0 + 1@1 files => 67732 bytes
-2023/05/30-03:57:46.347 44a0 compacted to: files[ 0 1 1 0 0 0 0 ]
-2023/05/30-03:57:46.347 44a0 Delete type=2 #232
-2023/05/30-03:57:46.347 44a0 Manual compaction at level-0 from '\x00_\x06 \x03\x00\x00\x00\x00\x00\x80V@\x00\x01\x0b\x00I\x00d\x00T\x00t\x00l\x009\x000\x00D\x00a\x00y\x00s' @ 106794 : 0 .. '\x00`\x00\x00\x00' @ 0 : 0; will stop at (end)
-2023/05/30-03:57:56.640 7c5c Level-0 table #235: started
-2023/05/30-03:57:56.728 7c5c Level-0 table #235: 14318 bytes OK
-2023/05/30-03:57:56.758 7c5c Delete type=2 #230
-2023/05/30-03:57:56.758 7c5c Delete type=0 #231
-2023/05/30-03:57:56.759 7c5c Manual compaction at level-0 from '\x00g\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00h\x00\x00\x00' @ 0 : 0; will stop at '\x00g\x00\x00\x05' @ 107674 : 1
-2023/05/30-03:57:56.759 7c5c Compacting 1@0 + 1@1 files
-2023/05/30-03:57:56.867 7c5c Generated table #236@0: 7146 keys, 71542 bytes
-2023/05/30-03:57:56.867 7c5c Compacted 1@0 + 1@1 files => 71542 bytes
-2023/05/30-03:57:56.903 7c5c compacted to: files[ 0 1 1 0 0 0 0 ]
-2023/05/30-03:57:56.904 7c5c Delete type=2 #235
-2023/05/30-03:57:56.904 7c5c Manual compaction at level-0 from '\x00g\x00\x00\x05' @ 107674 : 1 .. '\x00h\x00\x00\x00' @ 0 : 0; will stop at (end)
+2023/05/30-19:52:32.471 1f0c Reusing MANIFEST D:\belajar\project\Reztopia\bot\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/05/30-19:52:32.472 1f0c Recovering log #355
+2023/05/30-19:52:32.473 1f0c Reusing old log D:\belajar\project\Reztopia\bot\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000355.log 
+2023/05/30-19:52:32.473 1f0c Delete type=2 #354
+2023/05/30-19:52:32.659 529c Manual compaction at level-0 from '\x00\x95\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x96\x00\x00\x00' @ 0 : 0; will stop at (end)
+2023/05/30-19:52:43.718 1f0c Level-0 table #360: started
+2023/05/30-19:52:43.794 1f0c Level-0 table #360: 30332 bytes OK
+2023/05/30-19:52:43.856 1f0c Delete type=0 #355
+2023/05/30-19:52:43.856 1f0c Manual compaction at level-0 from '\x00\x99\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x9a\x00\x00\x00' @ 0 : 0; will stop at '\x00\x99\x00\x00\x05' @ 163044 : 1
+2023/05/30-19:52:43.856 1f0c Compacting 1@0 + 1@1 files
+2023/05/30-19:52:43.983 1f0c Generated table #361@0: 7240 keys, 72404 bytes
+2023/05/30-19:52:43.983 1f0c Compacted 1@0 + 1@1 files => 72404 bytes
+2023/05/30-19:52:44.038 1f0c compacted to: files[ 0 1 1 0 0 0 0 ]
+2023/05/30-19:52:44.038 1f0c Delete type=2 #360
+2023/05/30-19:52:44.038 1f0c Manual compaction at level-0 from '\x00\x99\x00\x00\x05' @ 163044 : 1 .. '\x00\x9a\x00\x00\x00' @ 0 : 0; will stop at (end)

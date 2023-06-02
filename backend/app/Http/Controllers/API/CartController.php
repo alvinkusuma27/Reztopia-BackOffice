@@ -23,10 +23,19 @@ class CartController extends Controller
         try {
             // $data = Cart::where('id_user', Auth::user()->id)->get();
             $data = DB::table('order_details as od')
+                // ->select(
+                //     'o.id_order',
+                //     'o.id_product',
+                //     'od.quantity',
+                //     'od.note',
+                //     'od.price',
+                //     'o.id_outlet'
+                // )
                 ->where('os.name', 'cart')
                 ->where('o.id_user', Auth::user()->id)
                 ->join('orders as o', 'o.id', '=', 'od.id_order')
                 ->join('order_status as os', 'os.id', '=', 'o.id_order_status')
+                ->join('outlets as ol', 'ol.id', '=', 'o.id_outlet')
                 ->get();
 
             if (!empty($data[0])) {
@@ -489,7 +498,7 @@ class CartController extends Controller
                 'order_type' => $request->order_type,
                 'payment_code' => $request->payment_code,
                 'date_order' => Carbon::now(),
-                'id_order_status' => 1
+                'id_order_status' => 4
             ]);
             // dd($order, $order->update());
             // $order->update([

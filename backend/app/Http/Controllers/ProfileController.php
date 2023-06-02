@@ -98,7 +98,7 @@ class ProfileController extends Controller
                 Alert::toast('Profile User Successfully Changed', 'success');
                 return back();
             }
-            Alert::toast('error', $validator->messages()->all());
+            Alert::toast($validator->messages()->all(), 'error');
             return back();
         } catch (Exception $error) {
             dd($error->getMessage());

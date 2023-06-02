@@ -17,7 +17,7 @@
 
         body.theme-dark a {
             /* text-decoration: none !important;
-                                                                                                                                color: white; */
+                                                                                                                                    color: white; */
             color: inherit;
             text-decoration: none !important;
         }

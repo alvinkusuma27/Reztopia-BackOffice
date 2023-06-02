@@ -71,6 +71,8 @@ Route::group(
         Route::get('laporan/{id}', [LaporanController::class, 'index_admin'])->name('laporan_admin');
         Route::post('laporan/date', [LaporanController::class, 'filter_date'])->name('filter_date');
         Route::get('print_laporan/{date}/{id}', [LaporanController::class, 'print'])->name('print');
+        Route::get('pesanan', [LaporanController::class, 'pesanan'])->name('pesanan');
+        Route::post('pesanan', [LaporanController::class, 'accept_order'])->name('accept_order');
         Route::get('profile', [ProfileController::class, 'index'])->name('profile');
         Route::post('profile/update_profile', [ProfileController::class, 'update_profile'])->name('update_profile');
         Route::post('profile/update_image_profile', [ProfileController::class, 'update_image_profile'])->name('update_image_profile');
