@@ -55,7 +55,12 @@ class LaporanController extends Controller
                 //     ->where('os.name', 'sukses')
                 //     ->groupBy('od.id')
                 //     ->get();
-                $order = Orders::with('product', 'order_detail.product_laporan_and_pesanan', 'user', 'order_status_pesanan_and_laporan')
+                $order = Orders::with(
+                    'product',
+                    'order_detail.product_laporan_and_pesanan',
+                    'user',
+                    'order_status_pesanan_and_laporan'
+                )
                     ->where('id_order_status', 1)
                     // ->whereDate('date_order', $tgl)
                     ->get();
@@ -439,54 +444,35 @@ class LaporanController extends Controller
     public function print($date, $id)
     {
         try {
-            //code...
-            // dd(urldecode($date));
             $date_2 = hex2bin($date);
             $date_filter = Carbon::parse($date_2)->format('d/m/Y');
             $date_3 = Carbon::createFromFormat('d/m/Y',  $date_filter);
-            // dd($deee);
 
-            // $id = Auth::user()->id;
-            $order = DB::table('outlets')
-                ->select(
-                    'o.total',
-                    'p.name',
-                    'o.date_order',
-                    'od.quantity',
-                    'o.proof_of_payment',
-                    'o.id',
-                    'o.table_number as table_number_order',
-                    'o.payment_method as payment_method_order',
-                    'o.total as total_order',
-                    'p.original_price as price_product',
-                    // 'c.type_order',
-                    'u.name as name_user',
-                    'od.id as id_order_detail'
-                )
-                ->join(
-                    'orders as o',
-                    'o.id_outlet',
-                    '=',
-                    'outlets.id'
-                )
-                ->join('order_details as od', 'od.id_order', '=', 'o.id')
-                ->join('order_status as os', 'os.id', '=', 'o.id_order_status')
-                ->join('products as p', 'p.id', '=', 'od.id_product')
-                ->join('users as u', 'u.id', '=', 'o.id_user')
-                // ->join('cart as c', 'c.id_product', '=', 'p.id')
-                ->whereDate('o.date_order', $date_3)
-                ->where('outlets.id_user', $id)
-                ->where('os.name', 'sukses')
-                ->groupBy('od.id')
+            $id = Auth::user()->id;
+            $order = Orders::with(
+
+                [
+                    'outlet' => function ($query) {
+                        $query->where('id_user',  Auth::user()->id);
+                    }, 'product',
+                    'order_detail.product_laporan_and_pesanan',
+                    'user',
+                    'order_status_pesanan_and_laporan',
+                ]
+            )
+                ->where('id_order_status', 1)
+                ->whereDate('date_order', $date_3)
                 ->get();
-            // dd($order, $date_2);
-            // $pdf = PDF::loadView('tenant.page.print', compact('order'));
-
-            // return $pdf->stream();
+            $total = array();
+            foreach ($order as $item) {
+                array_push($total, $item->total);
+            }
+            $total = array_sum($total);
             $pdf = PDF::loadView('tenant.page.print', [
-                'order' => $order
+                'order' => $order,
+                'total' => $total
             ])->setpaper('a4', 'potrait');
-            return view('tenant.page.print', compact('order'));
+            return view('tenant.page.print', compact('order', 'total'));
             return $pdf->download('slip-gaji' . '-' . $order[0]->name . '.pdf');
         } catch (Exception $error) {
             dd($error->getMessage());
@@ -497,36 +483,35 @@ class LaporanController extends Controller
 
     public function pesanan()
     {
-        // try {
-        $active = 'pesanan';
-        $id = Auth::user()->id;
-        $tgl = Carbon::now();
-        $day = bin2hex($tgl->toDateTimeString());
+        try {
+            $active = 'pesanan';
+            $id = Auth::user()->id;
+            $tgl = Carbon::now();
+            $day = bin2hex($tgl->toDateTimeString());
 
-        if (Auth::user()->roles == 'kantin') {
-            $order = Orders::with('product', 'order_detail.product_laporan_and_pesanan', 'user', 'order_status_pesanan_and_laporan')
-                ->where('id_order_status', 4)
-                // ->whereDate('date_order', $tgl)
-                ->get();
+            if (Auth::user()->roles == 'kantin') {
+                $order = Orders::with('product', 'order_detail.product_laporan_and_pesanan', 'user', 'order_status_pesanan_and_laporan')
+                    ->where('id_order_status', 4)
+                    ->whereDate('date_order', $tgl)
+                    ->get();
 
-            return view('tenant.page.pesanan', compact('active', 'order', 'day', 'id'));
-        } else if (Auth::user()->roles == 'admin') {
-            $order = Orders::with('product', 'order_detail.product_laporan_and_pesanan', 'user', 'order_status_pesanan_and_laporan')
-                ->where('id_order_status', 4)
-                ->whereDate('date_order', $tgl)
-                ->get();
-            $kantin = DB::table('outlets')
-                ->select('name', 'id_user')
-                ->where('id_user', '!=', Auth::user()->id)
-                ->get();
-            // dd($kantin);
+                return view('tenant.page.pesanan', compact('active', 'order', 'day', 'id'));
+            } else if (Auth::user()->roles == 'admin') {
+                $order = Orders::with('product', 'order_detail.product_laporan_and_pesanan', 'user', 'order_status_pesanan_and_laporan')
+                    ->where('id_order_status', 4)
+                    ->whereDate('date_order', $tgl)
+                    ->get();
+                $kantin = DB::table('outlets')
+                    ->select('name', 'id_user')
+                    ->where('id_user', '!=', Auth::user()->id)
+                    ->get();
 
 
-            return view('tenant.page.pesanan', compact('active', 'order', 'day', 'kantin', 'id'));
+                return view('tenant.page.pesanan', compact('active', 'order', 'day', 'kantin', 'id'));
+            }
+        } catch (Exception $error) {
+            dd($error->getMessage());
         }
-        // } catch (Exception $error) {
-        //     dd($error->getMessage());
-        // }
     }
 
     public function accept_order(Request $request)

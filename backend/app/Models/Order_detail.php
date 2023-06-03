@@ -41,7 +41,7 @@ class Order_detail extends Model
 
     public function product_laporan_and_pesanan()
     {
-        return $this->belongsTo(Products::class, 'id', 'id');
+        return $this->belongsTo(Products::class, 'id_product', 'id');
     }
 
     public function order_detail()

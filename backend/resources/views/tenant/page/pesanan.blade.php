@@ -17,7 +17,7 @@
 
         body.theme-dark a {
             /* text-decoration: none !important;
-                                                                                                                                                                                                                                                                                                                                                                                                            color: white; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                            color: white; */
             color: inherit;
             text-decoration: none !important;
         }
@@ -160,14 +160,15 @@
                                         <td class="text-bold-500">
                                             {{ $loop->iteration }}
                                         </td>
+
                                         <td class="text-bold-500">
-                                            {{ empty($item->product_laporan_and_pesanan[0]->name) == false ? $item->product[0]->name : '' }}
+                                            {{ empty($item->product_laporan_and_pesanan->name) == false ? $item->product_laporan_and_pesanan->name : '' }}
                                         </td>
                                         <td class="text-bold-500">
                                             {{ empty($item->quantity) == false ? $item->quantity : '' }}
                                         </td>
                                         <td class="text-bold-500">
-                                            {{ empty($item->product_laporan_and_pesanan[0]->price_final) == false ? $item->product[0]->price_final : '' }}
+                                            {{ empty($item->product_laporan_and_pesanan->price_final) == false ? $item->product_laporan_and_pesanan->price_final : '' }}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -199,8 +200,8 @@
     </script>
 
     <script>
-        setTimeout(() => {
-            location.reload()
-        }, 10000)
+        // setTimeout(() => {
+        //     location.reload()
+        // }, 10000)
     </script>
 @endpush

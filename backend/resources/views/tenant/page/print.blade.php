@@ -3,13 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-    <title>Sistem Informasi Cyber Campus - STIKOM Surabaya</title>
-    <meta name="description"
-        content="Sistem Informasi Cyber Campus. Sistem Informasi Akademik Mahasiswa STIKOM Surabaya" />
-    <meta name="keywords"
-        content="sistem informasi, cyber campus, mahasiswa, sistem informasi akademik, STIKOM, STIKOM Surabaya, sicyca" />
-    <meta name="copyright" content="Copyright 2012 STIKOM Surabaya" />
-    {{-- <link rel="shortcut icon" href="https://sicyca.dinamika.ac.id/static/img/icon-stikom.png" /> --}}
+    <title>Reztopia</title>
     <style>
         .box {
             display: block;
@@ -427,43 +421,28 @@
     <table style="width:670px;">
         <tr style="vertical-align:top">
             <td style="text-align:left">
-                <!--//bobedit-->
-                {{-- <div style="display:inline-block;"><img style="width: 670px; display:inline-block"
-                        src="https://sicyca.dinamika.ac.id/static/img/kop_undika2019.png" /></div> --}}
-                <!--//bobedit-->
-                <!--
-                    <div style="display:inline-block;"><img style="height: 80px;display:inline-block" src="https://sicyca.dinamika.ac.id/static/img/logo_stikom_putih.png" /></div>
-                    <div style="display:inline-block; padding-left:10px;">
-                        <h1>Institut Bisnis dan Informatika Stikom Surabaya</h1><br/>
-                        <p class="header">Jl. Raya Kedung Baruk 98 Surabaya 60298<br/>
-                        Telp: (031) 872 1731   Fax: (031) 871 0218<br/>
-                        Email: info@dinamika.ac.id<br/><br/>
-                        Website: www.dinamika.ac.id
-                        </p>
-                    </div>
-    -->
             </td>
             <td style="text-align:right;vertical-align:top">
-                <!--<img style="height: 20px;padding-top: 9px;" src="" />-->
             </td>
         </tr>
     </table>
     <hr noshade="noshade" style="border-color:black;height: 0px;" size="1" />
 
 
-    <p style="text-align:center;font-weight: bold;font-size: 14px;margin-bottom:3px;padding-bottom:0px ">SISA MATAKULIAH
+    <p style="text-align:center;font-weight: bold;font-size: 14px;margin-bottom:3px;padding-bottom:0px ">KANTIN COWOK
     </p>
-    <p style="text-align:center;font-weight:normal;margin-top:0px;padding-top:0px ">SEMESTER: GENAP TAHUN AKADEMIK:
-        2022/2023</p>
+    <p style="text-align:center;font-weight:normal;margin-top:0px;padding-top:0px" id="date"></p>
+    <p style="text-align:center;font-weight:normal;margin-top:0px;padding-top:0px" id="time"></p>
+
     <br />
     <table>
         <tr>
             <td>ID TENANT </td>
-            <td>: {{ empty($order[0]->id) != true ? $order[0]->id : 'Nan' }}</td>
+            <td>: {{ empty($order[0]->outlet[0]->id) != true ? $order[0]->outlet[0]->id : 'Nan' }}</td>
         </tr>
         <tr>
             <td>NAMA TENANT </td>
-            <td>: {{ empty($order[0]->name) != true ? $order[0]->name : 'Nan' }}</td>
+            <td>: {{ empty($order[0]->outlet[0]->name) != true ? $order[0]->outlet[0]->name : 'Nan' }}</td>
         </tr>
     </table>
 
@@ -475,7 +454,7 @@
             <th>Nama Produk</th>
             <th>Jumlah</th>
             <th>Nomor Meja</th>
-            <th>Payment Method</th>
+            <th>Payment Code</th>
             <th>Total Order</th>
             {{-- <th>Type Order</th> --}}
             <th>Nama Pemesan</th>
@@ -484,22 +463,68 @@
         @foreach ($order as $item)
             <tr class="odd">
                 <td>{{ $item->date_order }}</td>
-                <td>{{ $item->name }}</td>
-                <td>{{ $item->quantity }}</td>
-                <td>{{ $item->table_number_order }}</td>
-                <td>{{ $item->payment_method_order }}</td>
-                <td>{{ $item->total_order }}</td>
-                {{-- <td>{{ $item->type_order }}</td> --}}
-                <td>{{ $item->name_user }}</td>
+
+                <td>
+                    @foreach ($item->order_detail as $row)
+                        {{ $row->product_laporan_and_pesanan->name }}<br>
+                    @endforeach
+                </td>
+                <td>
+                    @foreach ($item->order_detail as $row)
+                        {{ $row->quantity }}<br>
+                    @endforeach
+                </td>
+                <td>{{ $item->table_number }}</td>
+                <td>{{ $item->payment_code }}</td>
+                <td>{{ $item->total }}</td>
+                {{-- <td>{{ $order->type_order }}</td> --}}
+                <td>{{ $item->user[0]->name }}</td>
             </tr>
         @endforeach
 
     </table>
     <br /><br />
-    <p style="text-align:right">Surabaya, 04-Mei-2023</p>
+    <p style="text-align:right">Total: Rp.{{ $total }}</p>
 
     <script>
         // window.print();
+    </script>
+    <script type="text/javascript">
+        var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+            'August', 'September', 'October', 'November', 'December'
+        ];
+        // var tomorrow = new Date();
+        // tomorrow.setTime(tomorrow.getTime() + (1000 * 3600 * 24));
+        // document.getElementById("spanDate").innerHTML = months[tomorrow.getMonth()] + " " + tomorrow.getDate() + ", " +
+        //     tomorrow.getFullYear();
+        var today = new Date();
+        var day = today.getDate();
+        var month = months[today.getMonth()];
+
+        function appendZero(value) {
+            return "0" + value;
+        }
+
+        function theTime() {
+            var d = new Date();
+            document.getElementById("time").innerHTML = d.toLocaleTimeString("id-ID");
+        }
+
+        if (day < 10) {
+            day = appendZero(day);
+        }
+
+        if (month < 10) {
+            month = appendZero(month);
+        }
+
+        today = day + "/" + month + "/" + today.getFullYear();
+
+        document.getElementById("date").innerHTML = today;
+
+        var myVar = setInterval(function() {
+            theTime();
+        }, 1000);
     </script>
 </body>
 

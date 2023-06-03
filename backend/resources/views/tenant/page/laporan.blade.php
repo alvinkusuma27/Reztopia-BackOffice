@@ -17,7 +17,7 @@
 
         body.theme-dark a {
             /* text-decoration: none !important;
-                                                                                                                                    color: white; */
+                                                                                                                                                                                                                                            color: white; */
             color: inherit;
             text-decoration: none !important;
         }
@@ -252,9 +252,9 @@
                                         <tr>
                                             <th>Tanggal</th>
                                             <th>Nama Pemesan</th>
-                                            <th>Jumlah</th>
+                                            {{-- <th>Jumlah</th> --}}
                                             <th>Nomor Meja</th>
-                                            <th>Payment Method</th>
+                                            <th>Kode</th>
                                             <th>Total Order</th>
                                             {{-- <th>Type Order</th> --}}
                                             <th>Bukti Pembayaran</th>
@@ -269,31 +269,31 @@
                                                 </td>
 
                                                 <td class="text-bold-500">
-                                                    {{ empty($item->name_user) == false ? $item->name_user : '' }}
+                                                    {{ empty($item->user[0]->name) == false ? $item->user[0]->name : '' }}
                                                 </td>
-                                                <td class="text-bold-500">
+                                                {{-- <td class="text-bold-500">
                                                     {{ empty($item->quantity) == false ? $item->quantity : '' }}
+                                                </td> --}}
+                                                <td class="text-bold-500">
+                                                    {{ empty($item->table_number) == false ? $item->table_number : '' }}
                                                 </td>
                                                 <td class="text-bold-500">
-                                                    {{ empty($item->table_number_order) == false ? $item->table_number_order : '' }}
+                                                    {{ empty($item->payment_code) == false ? $item->payment_code : '' }}
                                                 </td>
                                                 <td class="text-bold-500">
-                                                    {{ empty($item->payment_method_order) == false ? $item->payment_method_order : '' }}
-                                                </td>
-                                                <td class="text-bold-500">
-                                                    {{ empty($item->total_order) == false ? $item->price_product : '' }}
+                                                    {{ empty($item->total) == false ? $item->total : '' }}
                                                 </td>
                                                 <td>
                                                     <a class="tagA" href="#" {{-- class="btn" --}}
                                                         data-bs-toggle="modal"
-                                                        data-bs-target="#modalToggle{{ $item->id_order_detail }}">
+                                                        data-bs-target="#modalToggle{{ $item->id }}">
                                                         <i class="bi bi-eye-fill"></i>
                                                     </a>
                                                 </td>
                                                 <td>
                                                     <button class="tagA btn btn-primary" href="#"
                                                         data-bs-toggle="modal"
-                                                        data-bs-target="#modalToggleDetail{{ $item->id_order_detail }}">Detail
+                                                        data-bs-target="#modalToggleDetail{{ $item->id }}">Detail
                                                     </button>
                                                 </td>
                                             </tr>
@@ -310,7 +310,7 @@
     </div>
 
     @foreach ($order as $item)
-        <div class="modal fade text-left w-100" id="modalToggle{{ $item->id_order_detail }}" tabindex="-1" role="dialog"
+        <div class="modal fade text-left w-100" id="modalToggle{{ $item->id }}" tabindex="-1" role="dialog"
             aria-labelledby="myModalLabel20" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-full" role="document">
                 <div class="modal-content">
@@ -341,8 +341,8 @@
     @endforeach
 
     @foreach ($order as $item)
-        <div class="modal fade text-left w-100" id="modalToggleDetail{{ $item->id_order_detail }}" tabindex="-1"
-            role="dialog" aria-labelledby="myModalLabel20" aria-hidden="true">
+        <div class="modal fade text-left w-100" id="modalToggleDetail{{ $item->id }}" tabindex="-1" role="dialog"
+            aria-labelledby="myModalLabel20" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-full" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -364,19 +364,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($order as $item)
+                                @foreach ($item->order_detail as $item)
                                     <tr>
                                         <td class="text-bold-500">
                                             {{ $loop->iteration }}
                                         </td>
                                         <td class="text-bold-500">
-                                            {{ empty($item->name) == false ? $item->name : '' }}
+                                            {{ empty($item->product_laporan_and_pesanan->name) == false ? $item->product_laporan_and_pesanan->name : '' }}
                                         </td>
                                         <td class="text-bold-500">
                                             {{ empty($item->quantity) == false ? $item->quantity : '' }}
                                         </td>
+
                                         <td class="text-bold-500">
-                                            {{ empty($item->price_product) == false ? $item->price_product : '' }}
+                                            {{ empty($item->product_laporan_and_pesanan->price_final) == false ? $item->product_laporan_and_pesanan->price_final : '' }}
                                         </td>
                                     </tr>
                                 @endforeach
