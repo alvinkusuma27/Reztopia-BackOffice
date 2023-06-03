@@ -94,7 +94,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     @foreach ($products as $item)
-                                        <div class="col-3">
+                                        <div class="col-lg-3 col-md-6 col-sm-12">
                                             <div class="card">
                                                 <div class="card-content">
                                                     <button class="dropdown-item" href="#" data-bs-toggle="modal"
