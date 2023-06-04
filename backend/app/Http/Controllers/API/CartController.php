@@ -13,7 +13,10 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
+use Midtrans\Config;
+use Midtrans\Snap;
 
 class CartController extends Controller
 {
@@ -457,55 +460,104 @@ class CartController extends Controller
 
     public function checkout(Request $request)
     {
+        // dd($request->all());
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'id_order' => 'required',
+                'proof_of_payment' => 'required',
+                'order_type' => 'required|in:dine_in,take_away',
+                'payment_code' => 'required',
+                'table_number' => 'required',
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'failed',
+                    'message' => 'Bad Request'
+                ],
+                'data' => $validator->messages()->all()
+            ], 400);
+        }
+
+        $order = Orders::findOrFail($request->id_order);
+        // dd($order);
+
+        $order->update([
+            'payment_method' => $request->payment_method,
+            'table_number' => $request->table_number,
+            'proof_of_payment' => $request->proof_of_payment,
+            'order_type' => $request->order_type,
+            'payment_code' => $request->payment_code,
+            'date_order' => Carbon::now(),
+            'id_order_status' => 4
+        ]);
+
+        Config::$serverKey = config('services.midtrans.serverKey');
+        Config::$isProduction = config('services.midtrans.isProduction');
+        Config::$isSanitized = config('services.midtrans.isDSanitized');
+        Config::$is3ds = config('services.midtrans,is3ds');
+
+        $transaction = Orders::with('user')->find($request->id_order);
+        // dd(config('services.midtrans'));
+        $midtrans = [
+            'transaction_details' => [
+                'order_id' => $request->id_order,
+                'gross_amount' => (int) $order->total,
+            ],
+            'customer_details' => [
+                'first_name' => $transaction->user[0]->name,
+                'email' => $transaction->user[0]->email
+            ],
+            'enabled_payments' => ['gopay', 'bank_transfer'],
+            'vtweb' => []
+        ];
+
+
         try {
-            // dd($request->all());
-            $validator = Validator::make(
-                $request->all(),
-                [
-                    'id_order' => 'required',
-                    'proof_of_payment' => 'required',
-                    'order_type' => 'required|in:dine_in,take_away',
-                    'payment_code' => 'required',
-                    'table_number' => 'required',
-                ]
-            );
+            $paymentUrl = Snap::createTransaction($midtrans)->redirect_url;
+            $transaction->payment_url = $paymentUrl;
+            $transaction->save();
 
-            if ($validator->fails()) {
-                return response()->json([
-                    'meta' => [
-                        'status' => 'failed',
-                        'message' => 'Bad Request'
-                    ],
-                    'data' => $validator->messages()->all()
-                ], 400);
-            }
+            // DB::beginTransaction();
+            // $response = Http::withBasicAuth(config('services.midtrans.serverKey'), '')
+            //     ->post('https://api.sandbox.midtrans.com/v2/charge', [
+            //         [
+            //             'payment_type' => 'bank_transfer',
+            //             'transaction_details' => [
 
-            $order = Orders::findOrFail($request->id_order);
-            // dd($order);
+            //                 'order_id' => $request->id_order,
+            //                 'gross_amount' =>
+            //                 (int) $order->total,
+            //             ],
+            //             'bank_transfer' => [
+            //                 'bank'    => 'bca'
 
-            $order->update([
-                'payment_method' => $request->payment_method,
-                'table_number' => $request->table_number,
-                'proof_of_payment' => $request->proof_of_payment,
-                'order_type' => $request->order_type,
-                'payment_code' => $request->payment_code,
-                'date_order' => Carbon::now(),
-                'id_order_status' => 4
-            ]);
-            // dd($order, $order->update());
-            // $order->update([
+            //             ]
+            //         ]
+            //     ]);
 
-            // ])
-            $this->trigger_whatsapp();
-
-
+            // DB::commit();
+            // // dd($response);
+            // if ($response) {
+            //     return response()->json([
+            //         'meta' => [
+            //             'status' => 'failed Charged'
+            //         ]
+            //     ]);
+            // } else {
             return response()->json([
                 'meta' => [
                     'status' => 'success',
                     'message' => 'Success Checkout'
-                ]
+                ],
+                'data' => $transaction
             ], 200);
+            // }
         } catch (Exception $error) {
+            // DB::rollBack();
             return response()->json([
                 'meta' => [
                     'status' => 'error',
