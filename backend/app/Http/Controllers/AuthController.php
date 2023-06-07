@@ -26,7 +26,16 @@ class AuthController extends Controller
 
     public function post_login(Request $request)
     {
-        // dd($request->all());
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            Alert::error($validator->messages()->all());
+            return redirect()->route('login');
+        }
+
         $data = [
             'email' => $request->email,
             'password' => $request->password
