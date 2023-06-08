@@ -72,9 +72,7 @@
                                                 @if (auth()->user()->roles == 'kantin')
                                                     {{ empty($total_category) ? '0' : $total_category }}
                                                 @else
-                                                    empty($active_tenant)
-                                                    ? '0'
-                                                    : $active_tenant
+                                                    {{ empty($active_tenant) ? '0' : $active_tenant }}
                                                 @endif
                                             </h6>
                                         </div>
@@ -100,6 +98,8 @@
                                             <h6 class="font-extrabold mb-0">
                                                 @if (auth()->user()->roles == 'kantin')
                                                     {{ empty($total_menu) ? '0' : $total_menu }}
+                                                @else
+                                                    {{ empty($active_tenant) ? '0' : $active_tenant }}
                                                 @endif
                                             </h6>
                                         </div>

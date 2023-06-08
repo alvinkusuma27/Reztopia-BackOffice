@@ -65,7 +65,6 @@ class LaporanController extends Controller
                     // ->whereDate('date_order', $tgl)
                     ->get();
                 // $cona = Orders::all();
-                // dd($order);
                 $today_omzet = array();
                 $today_order = array();
                 // $data = $order->where('date_order', $date);
@@ -90,39 +89,46 @@ class LaporanController extends Controller
                 return view('tenant.page.laporan', compact('active', 'order_today', 'omzet_today', 'order', 'day', 'id'));
             } else if (Auth::user()->roles == 'admin') {
                 //
-                $order = DB::table('outlets')
-                    ->select(
-                        'o.total',
-                        'p.name',
-                        'o.date_order',
-                        'od.quantity',
-                        'o.proof_of_payment',
-                        'o.id',
-                        'o.table_number as table_number_order',
-                        'o.payment_method as payment_method_order',
-                        'o.total as total_order',
-                        'p.original_price as price_product',
-                        // 'c.type_order',
-                        'u.name as name_user',
-                        'od.id as id_order_detail'
-                    )
-                    ->join('orders as o', 'o.id_outlet', '=', 'outlets.id')
-                    ->join('order_details as od', 'od.id_order', '=', 'o.id')
-                    ->join('order_status as os', 'os.id', '=', 'o.id_order_status')
-                    ->join('products as p', 'p.id', '=', 'od.id_product')
-                    ->join('users as u', 'u.id', '=', 'o.id_user')
-                    // ->join('cart as c', 'c.id_product', '=', 'p.id')
-                    // ->whereDate('o.date_order', $tgl)
-                    ->where('os.name', 'sukses')
-                    ->groupBy('od.id')
+                // $order = DB::table('outlets')
+                //     ->select(
+                //         'o.total',
+                //         'p.name',
+                //         'o.date_order',
+                //         'od.quantity',
+                //         'o.proof_of_payment',
+                //         'o.id',
+                //         'o.table_number as table_number_order',
+                //         'o.payment_method as payment_method_order',
+                //         'o.total as total_order',
+                //         'p.original_price as price_product',
+                //         // 'c.type_order',
+                //         'u.name as name_user',
+                //         'od.id as id_order_detail'
+                //     )
+                //     ->join('orders as o', 'o.id_outlet', '=', 'outlets.id')
+                //     ->join('order_details as od', 'od.id_order', '=', 'o.id')
+                //     ->join('order_status as os', 'os.id', '=', 'o.id_order_status')
+                //     ->join('products as p', 'p.id', '=', 'od.id_product')
+                //     ->join('users as u', 'u.id', '=', 'o.id_user')
+                //     // ->join('cart as c', 'c.id_product', '=', 'p.id')
+                //     // ->whereDate('o.date_order', $tgl)
+                //     ->where('os.name', 'sukses')
+                //     ->groupBy('od.id')
+                //     ->get();
+                $order = Orders::with(
+                    'product',
+                    'order_detail.product_laporan_and_pesanan',
+                    'user',
+                    'order_status_pesanan_and_laporan'
+                )
+                    ->where('id_order_status', 1)
+                    // ->whereDate('date_order', $tgl)
                     ->get();
                 // $cona = Orders::all();
-                // dd($order);
                 $kantin = DB::table('outlets')
                     ->select('name', 'id_user')
                     ->where('id_user', '!=', Auth::user()->id)
                     ->get();
-                // dd($kantin);
 
                 $order2 = DB::table('outlets')
                     ->select(
@@ -505,7 +511,7 @@ class LaporanController extends Controller
                     ->select('name', 'id_user')
                     ->where('id_user', '!=', Auth::user()->id)
                     ->get();
-
+                // dd($order);
 
                 return view('tenant.page.pesanan', compact('active', 'order', 'day', 'kantin', 'id'));
             }
