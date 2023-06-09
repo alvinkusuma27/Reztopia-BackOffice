@@ -37,7 +37,7 @@ class MenuController extends Controller
                 $result = array();
                 foreach ($product as $item) {
                     unset($item->id);
-                    $item->image_product = env('APP_URL')  . '/storage/uploads/product/' . $item->image_product;
+                    $item->image_product = env('APP_URL')  . '/storage/uploads/products/' . $item->image_product;
                     array_push($result, $item);
                 }
                 // dd($product, $result);
