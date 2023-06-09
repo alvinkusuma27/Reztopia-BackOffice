@@ -34,6 +34,7 @@ return new class extends Migration
             $table->string('proof_of_payment')->nullable();
             $table->text('link')->nullable();
             $table->text('payment_url')->nullable();
+            $table->string('payment_status')->nullable();
             $table->date('deleted_at')->nullable();
             $table->date('date_order')->nullable();
             $table->timestamps();

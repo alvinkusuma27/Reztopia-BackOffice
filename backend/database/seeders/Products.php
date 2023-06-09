@@ -26,7 +26,7 @@ class Products extends Seeder
                     'price_final' => 39000,
                     // 'cost' => 10000,
                     'active' => '1',
-                    // 'image' => 'nabati.png',
+                    'image' => '1682954223-categories-tes.png',
                     'created_by' => '1',
                 ],
                 [
@@ -40,7 +40,7 @@ class Products extends Seeder
                     'price_final' => 19000,
                     // 'cost' => 2000,
                     'active' => '1',
-                    // 'image' => 'momogi.png',
+                    'image' => '1682954223-categories-tes.png',
                     'created_by' => '1',
                 ],
             ]

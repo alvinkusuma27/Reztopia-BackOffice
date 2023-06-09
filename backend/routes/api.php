@@ -5,6 +5,7 @@ use App\Http\Controllers\API\HistoryController;
 use App\Http\Controllers\API\MenuController;
 use App\Http\Controllers\API\TenantController;
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\MidtransController;
 use Illuminate\Http\Request;
 // use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -78,6 +79,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('tes-auth', [UserController::class, 'tes']);
 });
 Route::get('trigger_whatsapp', [CartController::class, 'trigger_whatsapp']);
+
+Route::post('midtrans/callback', [MidtransController::class, 'callback']);
 
 Route::post('login', [UserController::class, 'login']);
 

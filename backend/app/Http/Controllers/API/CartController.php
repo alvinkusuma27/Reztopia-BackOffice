@@ -518,7 +518,7 @@ class CartController extends Controller
                     'first_name' => $transaction->user[0]->name,
                     'email' => $transaction->user[0]->email
                 ],
-                'enabled_payments' => ['gopay', 'bank_transfer'],
+                'enabled_payments' => ['gopay', 'bank_transfer', 'credit_card'],
                 'vtweb' => []
             ];
 
