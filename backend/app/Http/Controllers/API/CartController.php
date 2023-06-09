@@ -472,6 +472,7 @@ class CartController extends Controller
             ]
         );
 
+
         if ($validator->fails()) {
             return response()->json([
                 'meta' => [
@@ -482,89 +483,97 @@ class CartController extends Controller
             ], 400);
         }
 
-        $order = Orders::findOrFail($request->id_order);
-        // dd($order);
-
-        $order->update([
-            'payment_method' => $request->payment_method,
-            'table_number' => $request->table_number,
-            'proof_of_payment' => $request->proof_of_payment,
-            'order_type' => $request->order_type,
-            'payment_code' => $request->payment_code,
-            'date_order' => Carbon::now(),
-            'id_order_status' => 4
-        ]);
-
-        Config::$serverKey = config('services.midtrans.serverKey');
-        Config::$isProduction = config('services.midtrans.isProduction');
-        Config::$isSanitized = config('services.midtrans.isDSanitized');
-        Config::$is3ds = config('services.midtrans,is3ds');
-
-        $transaction = Orders::with('user')->find($request->id_order);
-        // dd(config('services.midtrans'));
-        $midtrans = [
-            'transaction_details' => [
-                'order_id' => $request->id_order,
-                'gross_amount' => (int) $order->total,
-            ],
-            'customer_details' => [
-                'first_name' => $transaction->user[0]->name,
-                'email' => $transaction->user[0]->email
-            ],
-            'enabled_payments' => ['gopay', 'bank_transfer'],
-            'vtweb' => []
-        ];
-
-
-        try {
-            $paymentUrl = Snap::createTransaction($midtrans)->redirect_url;
-            $transaction->payment_url = $paymentUrl;
-            $transaction->save();
-
-            // DB::beginTransaction();
-            // $response = Http::withBasicAuth(config('services.midtrans.serverKey'), '')
-            //     ->post('https://api.sandbox.midtrans.com/v2/charge', [
-            //         [
-            //             'payment_type' => 'bank_transfer',
-            //             'transaction_details' => [
-
-            //                 'order_id' => $request->id_order,
-            //                 'gross_amount' =>
-            //                 (int) $order->total,
-            //             ],
-            //             'bank_transfer' => [
-            //                 'bank'    => 'bca'
-
-            //             ]
-            //         ]
-            //     ]);
-
-            // DB::commit();
-            // // dd($response);
-            // if ($response) {
-            //     return response()->json([
-            //         'meta' => [
-            //             'status' => 'failed Charged'
-            //         ]
-            //     ]);
-            // } else {
+        $check_order = Orders::where('id', $request->id_order)->first();
+        if (empty($check_order) == true) {
             return response()->json([
                 'meta' => [
-                    'status' => 'success',
-                    'message' => 'Success Checkout'
+                    'status' => 'failed',
+                    'message' => 'Order Not Found'
                 ],
-                'data' => $transaction
-            ], 200);
-            // }
-        } catch (Exception $error) {
-            // DB::rollBack();
-            return response()->json([
-                'meta' => [
-                    'status' => 'error',
-                    'message' => 'Something went wrong'
+            ], 404);
+        } else {
+            $order = Orders::findOrFail($request->id_order);
+            $order->update([
+                'payment_method' => $request->payment_method,
+                'table_number' => $request->table_number,
+                'proof_of_payment' => $request->proof_of_payment,
+                'order_type' => $request->order_type,
+                'payment_code' => $request->payment_code,
+                'date_order' => Carbon::now(),
+                'id_order_status' => 4
+            ]);
+
+            Config::$serverKey = config('services.midtrans.serverKey');
+            Config::$isProduction = config('services.midtrans.isProduction');
+            Config::$isSanitized = config('services.midtrans.isDSanitized');
+            Config::$is3ds = config('services.midtrans,is3ds');
+
+            $transaction = Orders::with('user')->find($request->id_order);
+            // dd(config('services.midtrans'));
+            $midtrans = [
+                'transaction_details' => [
+                    'order_id' => $request->id_order,
+                    'gross_amount' => (int) $order->total,
                 ],
-                'data' => $error->getMessage()
-            ], 500);
+                'customer_details' => [
+                    'first_name' => $transaction->user[0]->name,
+                    'email' => $transaction->user[0]->email
+                ],
+                'enabled_payments' => ['gopay', 'bank_transfer'],
+                'vtweb' => []
+            ];
+
+
+            try {
+                $paymentUrl = Snap::createTransaction($midtrans)->redirect_url;
+                $transaction->payment_url = $paymentUrl;
+                $transaction->save();
+
+                // DB::beginTransaction();
+                // $response = Http::withBasicAuth(config('services.midtrans.serverKey'), '')
+                //     ->post('https://api.sandbox.midtrans.com/v2/charge', [
+                //         [
+                //             'payment_type' => 'bank_transfer',
+                //             'transaction_details' => [
+
+                //                 'order_id' => $request->id_order,
+                //                 'gross_amount' =>
+                //                 (int) $order->total,
+                //             ],
+                //             'bank_transfer' => [
+                //                 'bank'    => 'bca'
+
+                //             ]
+                //         ]
+                //     ]);
+
+                // DB::commit();
+                // // dd($response);
+                // if ($response) {
+                //     return response()->json([
+                //         'meta' => [
+                //             'status' => 'failed Charged'
+                //         ]
+                //     ]);
+                // } else {
+                return response()->json([
+                    'meta' => [
+                        'status' => 'success',
+                        'message' => 'Success Checkout'
+                    ],
+                    'data' => $transaction
+                ], 200);
+                // }
+            } catch (Exception $error) {
+                // DB::rollBack();
+                return response()->json([
+                    'meta' => [
+                        'status' => 'error',
+                        'message' => 'Something went wrong'
+                    ],
+                    'data' => $error->getMessage()
+                ], 500);
+            }
         }
     }
 
