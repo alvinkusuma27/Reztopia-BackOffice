@@ -17,7 +17,7 @@
 
         body.theme-dark a {
             /* text-decoration: none !important;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                color: white; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    color: white; */
             color: inherit;
             text-decoration: none !important;
         }
@@ -83,8 +83,6 @@
                                     Tanggal: {{ $item->date_order }}
                                 </p>
                             </div>
-                            <img class="img-fluid w-100"
-                                src="{{ asset('storage/uploads/orders/' . $item->proof_of_payment) }}" alt="">
                         </div>
                         <div class="card-footer d-flex justify-content-between">
                             {{-- <span>Tanggal: {{ $item->date_order }}</span> --}}

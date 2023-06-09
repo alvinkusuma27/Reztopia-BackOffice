@@ -496,7 +496,6 @@ class CartController extends Controller
             $order->update([
                 'payment_method' => $request->payment_method,
                 'table_number' => $request->table_number,
-                'proof_of_payment' => $request->proof_of_payment,
                 'order_type' => $request->order_type,
                 'payment_code' => $request->payment_code,
                 'date_order' => Carbon::now(),

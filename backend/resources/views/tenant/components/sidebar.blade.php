@@ -93,12 +93,7 @@
                             <span>Laporan</span>
                         </a>
                     </li>
-                    <li class="sidebar-item {{ $active == 'pesanan' ? 'active' : '' }}">
-                        <a href="{{ route('pesanan') }}" class="sidebar-link">
-                            <i class="bi bi-cart4"></i>
-                            <span>Pesanan</span>
-                        </a>
-                    </li>
+
                     <li class="sidebar-item {{ $active == 'profile' ? 'active' : '' }}">
                         <a href="{{ route('profile') }}" class="sidebar-link">
                             <i class="bi bi-person-badge-fill"></i>
@@ -109,6 +104,13 @@
                         <a href="{{ route('logout') }}" class="sidebar-link">
                             <i class="bi bi-door-open-fill"></i>
                             <span>Logout</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-title">Pesanan</li>
+                    <li class="sidebar-item {{ $active == 'pesanan' ? 'active' : '' }}">
+                        <a href="{{ route('pesanan') }}" target="_blank" class="sidebar-link">
+                            <i class="bi bi-cart4"></i>
+                            <span>POS</span>
                         </a>
                     </li>
                 @endif
