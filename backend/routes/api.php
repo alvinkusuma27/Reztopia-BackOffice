@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\CartController;
 use App\Http\Controllers\API\HistoryController;
 use App\Http\Controllers\API\MenuController;
+use App\Http\Controllers\API\PesananController;
 use App\Http\Controllers\API\TenantController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\MidtransController;
@@ -73,8 +74,11 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('add-note', [CartController::class, 'addNote']);
             Route::post('quantity', [CartController::class, 'quantity']);
             Route::post('checkout', [CartController::class, 'checkout']);
+            Route::post('delete', [CartController::class, 'delete']);
         }
     );
+
+    Route::get('pesanan', [PesananController::class, 'index']);
 
     Route::get('tes-auth', [UserController::class, 'tes']);
 });

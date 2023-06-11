@@ -576,6 +576,61 @@ class CartController extends Controller
         }
     }
 
+    public function delete(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'id_order_detail' => 'required'
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'meta' => [
+                        'status' => 'failed',
+                        'message' => 'Bad Request'
+                    ],
+                    'data' => $validator->messages()->all()
+                ], 400);
+            }
+
+            $check_id_order_details = DB::table('order_details as od')
+                ->select('od.id', 'od.quantity', 'o.id as id_order')
+                ->where('os.name', 'cart')
+                ->where('od.id', $request->id_order_detail)
+                ->where('o.id_user', Auth::user()->id)
+                ->join('orders as o', 'o.id', '=', 'od.id_order')
+                ->join('order_status as os', 'os.id', '=', 'o.id_order_status')
+                ->get();
+
+            if (empty($check_id_order_details[0])) {
+                return response()->json([
+                    'meta' => [
+                        'status' => 'Error',
+                        'message' => 'Data Not Found'
+                    ]
+                ], 404);
+            } else {
+                $order_detail = Order_detail::findOrFail($check_id_order_details[0]->id);
+                // dd($order_detail);
+                $order_detail->delete();
+                return response()->json([
+                    'meta' => [
+                        'status' => 'success',
+                        'message' => 'Success Delete'
+                    ]
+                ], 200);
+            }
+        } catch (Exception $error) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'error',
+                    'message' => 'Something went wrong'
+                ],
+                'data' => $error->getMessage()
+            ], 500);
+        }
+    }
+
     public function trigger_whatsapp()
     {
         try {
