@@ -27,9 +27,24 @@ class CartController extends Controller
         try {
             // $data = Cart::where('id_user', Auth::user()->id)->get();
             $data = DB::table('order_details as od')
+                ->select(
+                    'od.id',
+                    'p.name as product_name',
+                    'p.price_final',
+                    'od.note',
+                    'od.quantity',
+                    'p.image',
+                    'u.name as nama_pemesan',
+                    'o.order_type',
+                    'o.table_number',
+                    'ol.name as outlet_name',
+                    'o.total',
+                )
                 ->where('os.name', 'cart')
                 ->where('o.id_user', Auth::user()->id)
+                ->join('products as p', 'od.id_product', '=', 'p.id')
                 ->join('orders as o', 'o.id', '=', 'od.id_order')
+                ->join('users as u', 'u.id', '=', 'o.id_user')
                 ->join('order_status as os', 'os.id', '=', 'o.id_order_status')
                 ->join('outlets as ol', 'ol.id', '=', 'o.id_outlet')
                 ->get();
