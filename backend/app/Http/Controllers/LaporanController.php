@@ -495,26 +495,27 @@ class LaporanController extends Controller
             $tgl = Carbon::now();
             $day = bin2hex($tgl->toDateTimeString());
 
-            if (Auth::user()->roles == 'kantin') {
-                $order = Orders::with('product', 'order_detail.product_laporan_and_pesanan', 'user', 'order_status_pesanan_and_laporan')
-                    ->where('id_order_status', 4)
-                    ->whereDate('date_order', $tgl)
-                    ->get();
+            $order = Orders::with('product', 'order_detail.product_laporan_and_pesanan', 'user', 'order_status_pesanan_and_laporan')
+                ->where('id_order_status', 4)
+                ->whereDate('date_order', $tgl)
+                ->get();
 
-                return view('tenant.page.pesanan', compact('active', 'order', 'day', 'id'));
-            } else if (Auth::user()->roles == 'admin') {
-                $order = Orders::with('product', 'order_detail.product_laporan_and_pesanan', 'user', 'order_status_pesanan_and_laporan')
-                    ->where('id_order_status', 4)
-                    ->whereDate('date_order', $tgl)
-                    ->get();
-                $kantin = DB::table('outlets')
-                    ->select('name', 'id_user')
-                    ->where('id_user', '!=', Auth::user()->id)
-                    ->get();
-                // dd($order);
+            return view('tenant.page.pos', compact('active', 'order', 'day', 'id'));
 
-                return view('tenant.page.pesanan', compact('active', 'order', 'day', 'kantin', 'id'));
-            }
+            // if (Auth::user()->roles == 'kantin') {
+            // } else if (Auth::user()->roles == 'admin') {
+            //     $order = Orders::with('product', 'order_detail.product_laporan_and_pesanan', 'user', 'order_status_pesanan_and_laporan')
+            //         ->where('id_order_status', 4)
+            //         ->whereDate('date_order', $tgl)
+            //         ->get();
+            //     $kantin = DB::table('outlets')
+            //         ->select('name', 'id_user')
+            //         ->where('id_user', '!=', Auth::user()->id)
+            //         ->get();
+            //     // dd($order);
+
+            //     return view('tenant.page.pesanan', compact('active', 'order', 'day', 'kantin', 'id'));
+            // }
         } catch (Exception $error) {
             dd($error->getMessage());
         }

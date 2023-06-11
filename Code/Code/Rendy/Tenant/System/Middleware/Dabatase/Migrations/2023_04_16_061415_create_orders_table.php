@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('payment_method')->nullable();
             $table->string('order_type')->nullable();
             $table->string('payment_code')->nullable();
+            $table->integer('payment_status')->nullable();
             $table->string('table_number')->nullable();
             $table->double('total')->nullable();
             $table->double('paid')->nullable();

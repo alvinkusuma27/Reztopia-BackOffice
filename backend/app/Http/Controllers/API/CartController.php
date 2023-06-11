@@ -29,6 +29,8 @@ class CartController extends Controller
             $data = DB::table('order_details as od')
                 ->select(
                     'od.id',
+                    'p.id as id_product',
+                    'o.id as id_order',
                     'p.name as product_name',
                     'p.price_final',
                     'od.note',
@@ -39,7 +41,6 @@ class CartController extends Controller
                     'o.table_number',
                     'ol.name as outlet_name',
                     'o.total',
-                    'p.id as id_product'
                 )
                 ->where('os.name', 'cart')
                 ->where('o.id_user', Auth::user()->id)
