@@ -488,7 +488,7 @@ class CartController extends Controller
                 'proof_of_payment' => 'required',
                 'order_type' => 'required|in:dine_in,take_away',
                 'payment_code' => 'required',
-                'table_number' => 'required',
+                // 'table_number' => 'required',
             ]
         );
 
