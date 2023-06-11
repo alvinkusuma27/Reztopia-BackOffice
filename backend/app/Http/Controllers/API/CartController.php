@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Midtrans\Config;
 use Midtrans\Snap;
+use Illuminate\Support\Str;
 
 class CartController extends Controller
 {
@@ -85,11 +86,13 @@ class CartController extends Controller
                     ->get();
                 // dd('ua', $check_cart);
 
+                $uniqid =
+                    floor(time() - 999999999);
+
                 if (empty($check_cart[0])) {
                     $product = Products::select('id_category', 'price_final')->where('id', $request->id_product)->first();
-                    // dd($product, $request->all());
-
                     $order = new Orders();
+                    $order->id = $uniqid;
                     $order->id_user = Auth::user()->id;
                     $order->order_type = $request->order_type;
                     $order->id_order_status = 3;

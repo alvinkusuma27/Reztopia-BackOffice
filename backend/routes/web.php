@@ -23,9 +23,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::get('clear', function () {
 
@@ -33,7 +33,7 @@ Route::get('clear', function () {
     return back();
     dd("Cache is cleared");
 });
-// Route::redirect('/', 'dashboard');
+Route::redirect('/', 'dashboard');
 Route::get('email', [EmailController::class, 'index']);
 
 Route::group(
