@@ -502,6 +502,7 @@ class CartController extends Controller
                 'data' => $validator->messages()->all()
             ], 400);
         }
+        // dd(Carbon::now()->timestamp);
 
         $check_order = Orders::where('id', $request->id_order)->first();
         if (empty($check_order) == true) {
@@ -519,6 +520,7 @@ class CartController extends Controller
                 'order_type' => $request->order_type,
                 'payment_code' => $request->payment_code,
                 'date_order' => Carbon::now(),
+                'time_order' => Carbon::now()->timestamp,
                 'id_order_status' => 4
             ]);
 

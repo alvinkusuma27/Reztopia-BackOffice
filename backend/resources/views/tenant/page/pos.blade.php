@@ -87,11 +87,11 @@
             document.getElementById(idStopWatch).innerHTML = leadZeroTime.join(':')
         }
 
-        function toTimestamp(strDate) {
-            var datum = Date.parse(strDate);
-            console.log(datum / 1000, strDate)
-            return datum / 1000;
-        }
+        // function toTimestamp(strDate) {
+        //     var datum = Date.parse(strDate);
+        //     console.log(datum / 1000, strDate)
+        //     return datum / 1000;
+        // }
 
         // startStopwatch(1686330401000, 'time-1')
         // startStopwatch(1686501782, 'time-2')
@@ -100,12 +100,13 @@
         console.log(data);
         let forLoop = 0;
         data.forEach(value => {
-            let timestamp = toTimestamp(value['date_order']);
+            // let timestamp = toTimestamp(value['time_order']);
+            let timestamp = value['time_order'];
+            forLoop++;
             startStopwatch(timestamp, `time-${forLoop}`);
             // console.log(startStopwatch())
-            forLoop++;
             // let yaya = ;
-            // console.log(timestamp)
+            console.log(timestamp)
 
         });
         const konfirmasi = (waktuBerhenti) => {
@@ -132,7 +133,7 @@
     </div>
     <div class="main" style="display: flex;flex-wrap:wrap">
         @php
-            // dd($order, strtotime($order[0]->date_order));
+            // dd($order, strtotime($order[0]->time_order));
             // dd($order);
         @endphp
 

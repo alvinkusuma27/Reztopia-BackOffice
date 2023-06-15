@@ -26,6 +26,7 @@ class Orders extends Model
         'table_number',
         'proof_of_payment',
         'date_order',
+        'time_order',
         'customer',
         'total',
         'paid',
