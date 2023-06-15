@@ -497,7 +497,7 @@ class LaporanController extends Controller
 
             $order = Orders::with('product', 'order_detail.product_laporan_and_pesanan', 'user', 'order_status_pesanan_and_laporan')
                 ->where('id_order_status', 4)
-                ->whereDate('date_order', $tgl)
+                // ->whereDate('date_order', $tgl)
                 ->get();
 
             return view('tenant.page.pos', compact('active', 'order', 'day', 'id'));
@@ -539,7 +539,7 @@ class LaporanController extends Controller
             ]);
 
             if ($order->update()) {
-                Alert::toast('Profile User Successfully Changed', 'success');
+                Alert::toast('Order Successfully Accepted', 'success');
                 return redirect()->route('pesanan');
             } else {
                 Alert::toast('Something went wrong', 'error');

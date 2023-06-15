@@ -86,17 +86,37 @@
             const leadZeroTime = [hour, minutes, seconds].map(time => time < 10 ? `0${time}` : time)
             document.getElementById(idStopWatch).innerHTML = leadZeroTime.join(':')
         }
-        startStopwatch(1686330401000, 'time-1')
-        startStopwatch(1686501782, 'time-2')
 
+        function toTimestamp(strDate) {
+            var datum = Date.parse(strDate);
+            console.log(datum / 1000, strDate)
+            return datum / 1000;
+        }
 
+        // startStopwatch(1686330401000, 'time-1')
+        // startStopwatch(1686501782, 'time-2')
+
+        let data = {!! $order !!};
+        console.log(data);
+        let forLoop = 0;
+        data.forEach(value => {
+            let timestamp = toTimestamp(value['date_order']);
+            startStopwatch(timestamp, `time-${forLoop}`);
+            // console.log(startStopwatch())
+            forLoop++;
+            // let yaya = ;
+            // console.log(timestamp)
+
+        });
         const konfirmasi = (waktuBerhenti) => {
+            console.log(waktuBerhenti);
             // alert(document.getElementById('time-1').innerText)
         }
     </script>
 </head>
 
 <body>
+    @include('sweetalert::alert')
     <div class="navbar">
         <img src="{{ asset('assets/pos/logo.png') }}" alt="">
     </div>
@@ -111,141 +131,50 @@
         </div>
     </div>
     <div class="main" style="display: flex;flex-wrap:wrap">
-        <div class="card">
-            <div style="margin-bottom: 20px;">
-                <h4>Michael</h4>
-                <div style="display: flex;justify-content:space-between;align-items:center;">
-                    <p style="margin: 0;">Meja : 3</p>
-                    <div style="display: flex;">
-                        <p id="time-1"
-                            style="margin: 0;padding: 10px;border-radius:20px;background-color:#6597BF;display:flex;justify-content:center;align-items:center;color:white;margin-right:10px;">
-                            00:00</p>
-                        <button onclick="konfirmasi()" class="btn btn-success">Konfirmasi</button>
+        @php
+            // dd($order, strtotime($order[0]->date_order));
+            // dd($order);
+        @endphp
+
+
+
+        @foreach ($order as $item)
+            <div class="card">
+                <form action="{{ route('accept_order') }}" method="POST">
+                    @csrf
+                    <div style="margin-bottom: 20px;">
+                        <input type="number" name="id" value="{{ $item->id }}" hidden>
+                        <h4>{{ $item->user[0]->name }}</h4>
+                        <div style="display: flex;justify-content:space-between;align-items:center;">
+                            <p style="margin: 0;">Meja : {{ $item->table_number }}</p>
+                            <div style="display: flex;">
+                                <p id="time-{{ $loop->iteration }}"
+                                    style="margin: 0;padding: 10px;border-radius:20px;background-color:#6597BF;display:flex;justify-content:center;align-items:center;color:white;margin-right:10px;">
+                                    00:00</p>
+                                <button onclick="konfirmasi()" class="btn btn-success">Konfirmasi</button>
+                            </div>
+                        </div>
                     </div>
-
-                </div>
-
-            </div>
-            <div style="width: 100%; height:3px;background-color:#ECDF6C">
-
-            </div>
-            <table class="table table-borderless">
-                <tr>
-                    <td>
-                        <h5>1.</h5>
-                    </td>
-                    <td>
-                        <div>
-                            <h5>Vanilla Blue</h5>
-                            <p>note</p>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <h5>1.</h5>
-                    </td>
-                    <td>
-                        <div>
-                            <h5>Vanilla Blue</h5>
-                            <p>note</p>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <h5>1.</h5>
-                    </td>
-                    <td>
-                        <div>
-                            <h5>Vanilla Blue</h5>
-                            <p>note</p>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <h5>1.</h5>
-                    </td>
-                    <td>
-                        <div>
-                            <h5>Vanilla Blue</h5>
-                            <p>note</p>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </div>
-
-
-
-
-
-        <div class="card">
-            <div style="margin-bottom: 20px;">
-                <h4>Michael</h4>
-                <div style="display: flex;justify-content:space-between;align-items:center;">
-                    <p style="margin: 0;">Meja : 3</p>
-                    <div style="display: flex;">
-                        <p id="time-2"
-                            style="margin: 0;padding: 10px;border-radius:20px;background-color:#6597BF;display:flex;justify-content:center;align-items:center;color:white;margin-right:10px;">
-                            00:00</p>
-                        <button onclick="konfirmasi()" class="btn btn-success">Konfirmasi</button>
+                    <div style="width: 100%; height:3px;background-color:#ECDF6C">
                     </div>
-
-                </div>
-
+                    <table class="table table-borderless">
+                        @foreach ($item->order_detail as $key)
+                            <tr>
+                                <td>
+                                    <h5>{{ $loop->iteration }}</h5>
+                                </td>
+                                <td>
+                                    <div>
+                                        <h5>{{ $key->product_laporan_and_pesanan->name }}</h5>
+                                        <p>{{ $key->note }}</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </form>
             </div>
-            <div style="width: 100%; height:3px;background-color:#ECDF6C">
-
-            </div>
-            <table class="table table-borderless">
-                <tr>
-                    <td>
-                        <h5>1.</h5>
-                    </td>
-                    <td>
-                        <div>
-                            <h5>Vanilla Blue</h5>
-                            <p>note</p>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <h5>1.</h5>
-                    </td>
-                    <td>
-                        <div>
-                            <h5>Vanilla Blue</h5>
-                            <p>note</p>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <h5>1.</h5>
-                    </td>
-                    <td>
-                        <div>
-                            <h5>Vanilla Blue</h5>
-                            <p>note</p>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <h5>1.</h5>
-                    </td>
-                    <td>
-                        <div>
-                            <h5>Vanilla Blue</h5>
-                            <p>note</p>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </div>
+        @endforeach
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
