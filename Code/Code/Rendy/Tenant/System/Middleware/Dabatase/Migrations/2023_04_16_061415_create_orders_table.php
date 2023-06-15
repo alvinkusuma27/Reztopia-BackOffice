@@ -36,6 +36,7 @@ return new class extends Migration
             $table->text('link')->nullable();
             $table->date('deleted_at')->nullable();
             $table->date('date_order')->nullable();
+            $table->text('time_order')->nullable();
             $table->timestamps();
         });
     }
