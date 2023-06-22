@@ -37,6 +37,7 @@ return new class extends Migration
             $table->string('payment_status')->nullable();
             $table->date('deleted_at')->nullable();
             $table->date('date_order')->nullable();
+            $table->text('time_order')->nullable();
             $table->timestamps();
         });
     }
