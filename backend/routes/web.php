@@ -120,4 +120,4 @@ Route::get('/history', function () {
 });
 Route::get('/pesanan', function () {
     return view('tenant.page.daftarPesanan');
-});
+})->name("pesanan");

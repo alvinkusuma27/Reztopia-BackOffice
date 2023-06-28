@@ -57,31 +57,31 @@
             margin-top:120px;
             margin-left:140px;
             margin-right:140px;
-         
+
         }
 
         .navbar-brand img{
             margin-left: 50px;
         }
-        
+
         .card{
           width: 374px;
 
         }
         .name{
-          color: #272727; 
-          font-size: 20px; 
-     
+          color: #272727;
+          font-size: 20px;
+
           font-weight: 600; l
-          ine-height: 20px; 
+          ine-height: 20px;
           word-wrap: break-word
         }
         .table-cust{
-          color: #272727; 
-          font-size: 16px; 
-  
-          font-weight: 500; 
-          line-height: 20px; 
+          color: #272727;
+          font-size: 16px;
+
+          font-weight: 500;
+          line-height: 20px;
           word-wrap: break-word
         }
 
@@ -104,32 +104,32 @@
           border-radius: 3px;
         }
         .time{
-          width: 63px; 
-          height: 30px; 
-          background: #6597BF; 
+          width: 63px;
+          height: 30px;
+          background: #6597BF;
           border-radius: 15px
         }
-        
+
         .total{
-          color: #272727; 
-          font-size: 16px; 
-          font-weight: 500; 
-          line-height: 20px; 
+          color: #272727;
+          font-size: 16px;
+          font-weight: 500;
+          line-height: 20px;
           word-wrap: break-word
         }
 
         .name-food{
-          color: #272727; 
-          font-size: 20px; 
-          font-weight: 600; 
-          line-height: 20px; 
+          color: #272727;
+          font-size: 20px;
+          font-weight: 600;
+          line-height: 20px;
           word-wrap: break-word
         }
 
         .desc-food{
-          color: #272727; 
-          font-size: 14px; 
-          font-weight: 400; 
+          color: #272727;
+          font-size: 14px;
+          font-weight: 400;
           line-height: 20px;
           word-wrap: break-word
         }
@@ -186,7 +186,7 @@
                 </a>
           </div>
           <div class="logout">
-               <a href="">
+               <a href="/dashboard">
                <svg width="57" height="58" viewBox="0 0 57 58" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g id="LogOut">
                     <g id="Group">

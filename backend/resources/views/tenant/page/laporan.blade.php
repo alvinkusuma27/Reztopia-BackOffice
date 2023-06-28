@@ -226,7 +226,7 @@
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <div class="card">
+                        <div class="card" style="margin-top:2.2rem">
                             <div class="card-header d-flex justify-content-between">
                                 <form action="{{ route('filter_date') }}" method="post" id="filter_date">
                                     @csrf
