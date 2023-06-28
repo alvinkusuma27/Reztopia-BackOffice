@@ -1,0 +1,62 @@
+window.onload = function () {
+  var cards = []; // Inisialisasi array cards kosong
+
+  // Ambil data kartu dari database dan tambahkan ke array cards
+  // Contoh pengambilan data dari database menggunakan fetch API
+  fetch('url_database')
+    .then(response => response.json())
+    .then(data => {
+      // Loop melalui data dari database
+      data.forEach(function (cardData) {
+        // Inisialisasi objek kartu berdasarkan data dari database
+        var card = {
+          seconds: cardData.seconds,
+          minutes: cardData.minutes
+        };
+
+        cards.push(card); // Tambahkan objek kartu ke dalam array cards
+      });
+
+      startTimers(); // Mulai timer setelah mengambil data dari database
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+
+  var timeDivs = document.querySelectorAll(".time");
+  var intervals = [];
+
+  function startTimers() {
+    cards.forEach(function (card, index) {
+      intervals[index] = setInterval(function () {
+        updateTimer(index);
+      }, 1000);
+    });
+  }
+
+  function updateTimer(index) {
+    var card = cards[index];
+    card.seconds++;
+
+    var currentMinutes = Math.floor(card.seconds / 60); // Hitung menit saat ini untuk setiap timer
+    var currentSeconds = card.seconds % 60; // Hitung detik saat ini untuk setiap timer
+
+    var appendMinutesElements = document.querySelectorAll('[id^="minutes#"]');
+    var appendSecondsElements = document.querySelectorAll('[id^="seconds#"]');
+
+    // Perbarui nilai untuk elemen-elemen dengan ID seperti "minutes#1", "minutes#2", dll.
+    var appendMinutes = appendMinutesElements[index];
+    var appendSeconds = appendSecondsElements[index];
+
+    if (appendMinutes && appendSeconds) {
+      appendMinutes.innerHTML = currentMinutes < 10 ? "0" + currentMinutes : currentMinutes;
+      appendSeconds.innerHTML = currentSeconds < 10 ? "0" + currentSeconds : currentSeconds;
+    }
+
+    // Perbarui warna latar belakang untuk timeDiv
+    var timeDiv = timeDivs[index];
+    if (currentSeconds > 5) {
+      timeDiv.style.backgroundColor = "#FF0707";
+    }
+  }
+};

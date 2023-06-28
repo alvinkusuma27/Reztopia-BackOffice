@@ -113,3 +113,11 @@ Route::get('logout', [AuthController::class, 'logout'])->name('logout')->middlew
 // Route::get('/success-reset', function () {
 //     return view('tenant.auth.success-reset');
 // })->name('success-reset');
+
+
+Route::get('/history', function () {
+    return view('tenant.page.history');
+});
+Route::get('/pesanan', function () {
+    return view('tenant.page.daftarPesanan');
+});
