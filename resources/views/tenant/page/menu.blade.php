@@ -53,7 +53,7 @@
                                 <div class="card-body px-4 py-4-5">
                                     <div class="row">
                                         <h6 class="text-muted font-semibold">
-                                            {{ $item->name }}
+                                            {{ $item->name }} 
                                         </h6>
                                         <h6 class="font-extrabold mb-0">{{ $item->jumlah_produk }}</h6>
                                     </div>
