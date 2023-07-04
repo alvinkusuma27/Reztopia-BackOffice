@@ -55,7 +55,7 @@ class MenuController extends Controller
                 DB::raw('COUNT(p.id) as jumlah_produk'),
             )
             ->join('outlets as o', 'o.id', '=', 'categories.id_outlet')
-            ->join('products as p', 'categories.id', '=', 'p.id_category')
+            ->leftJoin('products as p', 'categories.id', '=', 'p.id_category')
             ->where('o.id_user', $id)
             ->groupBy('categories.name')
             ->get();
