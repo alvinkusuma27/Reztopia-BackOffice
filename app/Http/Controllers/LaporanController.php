@@ -497,10 +497,13 @@ class LaporanController extends Controller
 
             $order = Orders::with('product', 'order_detail.product_laporan_and_pesanan', 'user', 'order_status_pesanan_and_laporan')
                 ->where('id_order_status', 4)
-                // ->whereDate('date_order', $tgl)
+                ->whereDate('date_order', $tgl)
                 ->get();
 
-            return view('tenant.page.pos', compact('active', 'order', 'day', 'id'));
+            $checkLastDate = Orders::first()->latest()->get();
+            // dd($checkLastDate);
+            // dd($order);
+            return view('tenant.page.daftarPesanan', compact('active', 'order', 'day', 'id'));
 
             // if (Auth::user()->roles == 'kantin') {
             // } else if (Auth::user()->roles == 'admin') {
@@ -548,6 +551,21 @@ class LaporanController extends Controller
         } catch (Exception $error) {
             dd($error->getMessage());
         }
+    }
+
+    public function history()
+    {
+        $active = 'pesanan';
+        $id = Auth::user()->id;
+        $tgl = Carbon::now();
+        $day = bin2hex($tgl->toDateTimeString());
+
+        $order = Orders::with('product', 'order_detail.product_laporan_and_pesanan', 'user', 'order_status_pesanan_and_laporan')
+            ->where('id_order_status', 1)
+            ->whereDate('date_order', $tgl)
+            ->get();
+        // dd($order);
+        return view('tenant.page.history', compact('active', 'order', 'day', 'id'));
     }
 }
 // $date = Carbon::createFromFormat('d/m/Y',  '19/04/2000');

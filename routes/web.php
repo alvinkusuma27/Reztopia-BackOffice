@@ -43,7 +43,7 @@ Route::group(
     ],
     function () {
         Route::get('login', [AuthController::class, 'login'])->name('login');
-        Route::post('post_login', [AuthController::class, 'post_login'])->name('post_login');
+        Route::post('post_login', [AuthController::class, 'post_login'])->name('post-login');
         Route::get('forgot-password', [AuthController::class, 'forgot'])->name('forgot-password');
         // Route::get('register', [AuthController::class, 'register'])->name('register');
         // Route::post('register', [AuthController::class, 'post_register'])->name('post_register');
@@ -77,6 +77,7 @@ Route::group(
         Route::get('print_laporan/{date}/{id}', [LaporanController::class, 'print'])->name('print');
         Route::get('pesanan', [LaporanController::class, 'pesanan'])->name('pesanan');
         Route::post('pesanan', [LaporanController::class, 'accept_order'])->name('accept_order');
+        Route::get('history', [LaporanController::class, 'history'])->name('pesanan');
         Route::get('profile', [ProfileController::class, 'index'])->name('profile');
         Route::post('profile/update_profile', [ProfileController::class, 'update_profile'])->name('update_profile');
         Route::post('profile/update_image_profile', [ProfileController::class, 'update_image_profile'])->name('update_image_profile');
@@ -115,9 +116,9 @@ Route::get('logout', [AuthController::class, 'logout'])->name('logout')->middlew
 // })->name('success-reset');
 
 
-Route::get('/history', function () {
-    return view('tenant.page.history');
-});
-Route::get('/pesanan', function () {
-    return view('tenant.page.daftarPesanan');
-})->name("pesanan");
+// Route::get('/history', function () {
+//     return view('tenant.page.history');
+// });
+// Route::get('/pesanann', function () {
+//     return view('tenant.page.daftarPesanan');
+// })->name("pesanann");
