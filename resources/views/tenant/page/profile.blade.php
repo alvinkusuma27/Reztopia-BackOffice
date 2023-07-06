@@ -35,8 +35,8 @@
                         <div class="profile-img">
                             <form action="{{ route('update_image_profile') }}" method="post" enctype="multipart/form-data">
                                 @csrf
-                                <img src="{{ empty($outlet[0]) ? '' : asset('storage/uploads/user/' . $outlet[0]->user[0]->image) }}"
-                                    alt="{{ empty($outlet[0]) ? '' : $outlet[0]->user[0]->image }}" width="100" />
+                                <img src="{{ empty($outlet[0]) ? '' : asset('storage/uploads/outlet/' . $outlet[0]->image) }}"
+                                    alt="{{ empty($outlet[0]) ? '' : $outlet[0]->image }}" width="100" />
                                 <input class="form-control mt-2" type="file" name="photo">
                                 <button type="submit" class="btn btn-primary">Save</button>
                             </form>
@@ -50,10 +50,10 @@
                             <div class="d-flex justify-content-between  mb-4">
                                 <div class="flex-start">
                                     <h5>
-                                        {{ empty($outlet[0]) ? '' : $outlet[0]->user[0]->name }}
+                                        {{ empty($outlet[0]) ? '' : $outlet[0]->name }}
                                     </h5>
                                     <h6>
-                                        {{ empty($outlet[0]) ? '' : $outlet[0]->user[0]->position . ' kantin ' . $outlet[0]->name }}
+                                        {{ empty($outlet[0]) ? '' : $outlet[0]->position }}
                                     </h6>
                                 </div>
                                 <div class="flex-end">
@@ -130,15 +130,39 @@
                             <div class="modal-body">
                                 @if (auth()->user()->roles == 'kantin')
                                     <div class="form-group mb-3">
-                                        <label for="basicInput">Name</label>
+                                        <label for="basicInput">Nama Tenant</label>
                                         <input type="text" class="form-control mt-3" id="basicInput" name="name"
                                             value="{{ empty($outlet[0]) ? '' : $outlet[0]->user[0]->name }}">
                                     </div>
                                 @endif
                                 <div class="form-group mb-3">
-                                    <label for="basicInput">Position</label>
-                                    <input type="text" class="form-control mt-3" id="basicInput" name="position"
-                                        value="{{ empty($outlet[0]) ? '' : $outlet[0]->user[0]->position }}">
+                                    <label for="basicInput">Lokasi Tenant</label>
+                                    {{-- <input type="text" class="form-control mt-3" id="basicInput" name="position"
+                                        value="{{ empty($outlet[0]) ? '' : $outlet[0]->user[0]->position }}"> --}}
+                                    {{-- {{ $outlet[0]->position ==  }} --}}
+                                    <select class="form-select mt-3" aria-label="Default select example">
+                                        <option value="Kantin Gedung Kuliah umum"
+                                            {{ $outlet[0]->position == 'Kantin Gedung Kuliah umum' ? 'selected' : '' }}>
+                                            Kantin Gedung Kuliah umum</option>
+                                        <option value="Kantin Fakultas Teknik"
+                                            {{ $outlet[0]->position == 'Kantin Fakultas Teknik' ? 'selected' : '' }}>Kantin
+                                            Fakultas Teknik</option>
+                                        <option value="Kantin Dekanat Fakultas Ekonomi dan Komunikasi"
+                                            {{ $outlet[0]->position == 'Kantin Dekanat Fakultas Ekonomi dan Komunikasi' ? 'selected' : '' }}>
+                                            Kantin Dekanat Fakultas Ekonomi dan Komunikasi</option>
+                                        <option value="Kantin Fakultas Ilmu Terapan"
+                                            {{ $outlet[0]->position == 'Kantin Fakultas Ilmu Terapan' ? 'selected' : '' }}>
+                                            Kantin Fakultas Ilmu Terapan</option>
+                                        <option value="Kantin Asrama Putri"
+                                            {{ $outlet[0]->position == 'Kantin Asrama Putri' ? 'selected' : '' }}>Kantin
+                                            Asrama Putri</option>
+                                        <option value="Kantin Asrama Putra"
+                                            {{ $outlet[0]->position == 'Kantin Asrama Putra' ? 'selected' : '' }}>Kantin
+                                            Asrama Putra</option>
+                                        <option value="Kantin Telkom Mart"
+                                            {{ $outlet[0]->position == 'Kantin Telkom Mart' ? 'selected' : '' }}>Kantin
+                                            Telkom Mart</option>
+                                    </select>
 
                                 </div>
                                 {{-- <div class="form-group">

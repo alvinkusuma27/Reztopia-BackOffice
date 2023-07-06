@@ -23,7 +23,8 @@ class Outlets extends Seeder
                 'address' => 'surabaya',
                 'created_by' => 0,
                 'active' => 'active',
-                'image' => 'tenant.png'
+                'image' => 'tenant.png',
+                'position' => 'Kantin Gedung Kuliah umum'
             ],
 
             [
@@ -35,7 +36,8 @@ class Outlets extends Seeder
                 'address' => 'surabaya',
                 'created_by' => 0,
                 'active' => 'active',
-                'image' => 'tenant.png'
+                'image' => 'tenant.png',
+                'position' => 'Kantin Fakultas Teknik'
             ],
             // [
             // 'id_user' => 3,

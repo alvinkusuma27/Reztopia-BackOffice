@@ -122,8 +122,8 @@
                                     <thead>
                                         <tr>
                                             <th>Nomor</th>
-                                            <th>Nama</th>
                                             <th>Tenant</th>
+                                            <th>Nama</th>
                                             <th>Pengaturan</th>
                                         </tr>
                                     </thead>
@@ -131,8 +131,8 @@
                                         @foreach ($outlet as $item)
                                             <tr>
                                                 <td class="text-bold-500">{{ $item->user[0]->id }}</td>
-                                                <td>{{ $item->user[0]->name }}</td>
                                                 <td class="text-bold-500">{{ $item->name }}</td>
+                                                <td>{{ $item->user[0]->name }}</td>
                                                 <td>
                                                     <button class="btn btn-outline-primary rounded-pill"
                                                         data-bs-toggle="modal"
@@ -202,14 +202,14 @@
                 <form action="{{ route('tenant.store') }}" method="POST">
                     @csrf
                     <div class="modal-body">
-                        <label>Nama: </label>
-                        <div class="form-group">
-                            <input type="text" placeholder="nama" name="name" value="{{ old('name') }}"
-                                class="form-control">
-                        </div>
                         <label>Tenant: </label>
                         <div class="form-group">
                             <input type="text" placeholder="Tenant" name="tenant" value="{{ old('tenant') }}"
+                                class="form-control">
+                        </div>
+                        <label>Nama: </label>
+                        <div class="form-group">
+                            <input type="text" placeholder="nama" name="name" value="{{ old('name') }}"
                                 class="form-control">
                         </div>
                         <label>Email: </label>
@@ -262,15 +262,15 @@
                         {{-- @method('put') --}}
                         @csrf
                         <div class="modal-body">
-                            <label>Nama: </label>
-                            <div class="form-group">
-                                <input type="text" placeholder="nama" name="name"
-                                    value="{{ $item->user[0]->name }}" class="form-control">
-                            </div>
                             <label>Tenant: </label>
                             <div class="form-group">
                                 <input type="text" placeholder="Tenant" name="tenant" value="{{ $item->name }}"
                                     class="form-control">
+                            </div>
+                            <label>Nama: </label>
+                            <div class="form-group">
+                                <input type="text" placeholder="nama" name="name"
+                                    value="{{ $item->user[0]->name }}" class="form-control">
                             </div>
                             <label>Email: </label>
                             <div class="form-group">

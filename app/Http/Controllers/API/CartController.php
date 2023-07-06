@@ -683,4 +683,38 @@ class CartController extends Controller
             ], 500);
         }
     }
+
+    public function history()
+    {
+        try {
+            $order = Orders::orderBy('payment_status')
+                ->where('id_user', Auth::user()->id)
+                ->orderBy('date_order', 'DESC')
+                ->get();
+            // $order = Orders::where('id', 9)->get();
+            if (empty($order)) {
+                return response()->json([
+                    'meta' => [
+                        'status' => 'failed',
+                        'message' => 'not found'
+                    ]
+                ], 200);
+            } else {
+                return response()->json([
+                    'meta' => [
+                        'status' => 'success',
+                        'message' => $order
+                    ]
+                ], 200);
+            }
+        } catch (Exception $error) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'error',
+                    'message' => 'Something went wrong'
+                ],
+                'data' => $error->getMessage()
+            ], 500);
+        }
+    }
 }
