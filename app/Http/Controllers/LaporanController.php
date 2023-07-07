@@ -86,6 +86,9 @@ class LaporanController extends Controller
                 // $omzet_today =
                 // $omzet_total
 
+                // dd($id);
+
+
                 return view('tenant.page.laporan', compact('active', 'order_today', 'omzet_today', 'order', 'day', 'id'));
             } else if (Auth::user()->roles == 'admin') {
                 //
@@ -165,6 +168,7 @@ class LaporanController extends Controller
                 }
                 $omzet_today = array_sum($today_omzet);
                 $order_today = count($today_order);
+
 
                 return view('tenant.page.laporan', compact('active', 'order_today', 'omzet_today', 'order', 'day', 'kantin', 'id'));
             }
@@ -297,6 +301,7 @@ class LaporanController extends Controller
                             'o.payment_method as payment_method_order',
                             'o.total as total_order',
                             'p.original_price as price_product',
+                            'p.price_final',
                             // 'c.type_order',
                             'u.name as name_user',
                             'od.id as id_order_detail'
@@ -326,6 +331,7 @@ class LaporanController extends Controller
                             'o.payment_method as payment_method_order',
                             'o.total as total_order',
                             'p.original_price as price_product',
+                            'p.price_final',
                             // 'c.type_order',
                             'u.name as name_user',
                             'od.id as id_order_detail'
@@ -437,8 +443,10 @@ class LaporanController extends Controller
 
                 // $omzet_today =
                 // $omzet_total
+                // dd($order->where('id', $id), $id);
 
-                return view('tenant.page.laporan', compact('active', 'order_today', 'omzet_today', 'order', 'day', 'kantin', 'id'));
+
+                return view('tenant.page.laporan', compact('active', 'order_today', 'date_from', 'date_to', 'omzet_today', 'order', 'day', 'kantin', 'id'));
             }
             Alert::toast($validator->messages()->all(), 'error');
             return back();

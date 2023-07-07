@@ -17,7 +17,7 @@
 
         body.theme-dark a {
             /* text-decoration: none !important;
-                                                                                                                                                                                                                                            color: white; */
+                                                                                                                                                                                                                                                                                                            color: white; */
             color: inherit;
             text-decoration: none !important;
         }
@@ -92,113 +92,6 @@
         <section class="row">
             <div class="col-12 col-lg-12">
                 <div class="row">
-                    {{-- <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <div class="cards-wrapper">
-                                    <div class="card">
-                                        <img src="..." class="card-img-top" alt="...">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                            <p class="card-text">Some quick example text to build on the card title and make
-                                                up the bulk of the card's content.</p>
-                                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                                        </div>
-                                    </div>
-                                    <div class="card d-none d-md-block">
-                                        <img src="..." class="card-img-top" alt="...">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                            <p class="card-text">Some quick example text to build on the card title and make
-                                                up the bulk of the card's content.</p>
-                                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                                        </div>
-                                    </div>
-                                    <div class="card d-none d-md-block">
-                                        <img src="..." class="card-img-top" alt="...">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                            <p class="card-text">Some quick example text to build on the card title and make
-                                                up the bulk of the card's content.</p>
-                                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <div class="cards-wrapper">
-                                    <div class="card">
-                                        <img src="..." class="card-img-top" alt="...">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                            <p class="card-text">Some quick example text to build on the card title and make
-                                                up the bulk of the card's content.</p>
-                                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                                        </div>
-                                    </div>
-                                    <div class="card d-none d-md-block">
-                                        <img src="..." class="card-img-top" alt="...">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                            <p class="card-text">Some quick example text to build on the card title and make
-                                                up the bulk of the card's content.</p>
-                                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                                        </div>
-                                    </div>
-                                    <div class="card d-none d-md-block">
-                                        <img src="..." class="card-img-top" alt="...">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                            <p class="card-text">Some quick example text to build on the card title and make
-                                                up the bulk of the card's content.</p>
-                                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <div class="cards-wrapper">
-                                    <div class="card">
-                                        <img src="..." class="card-img-top" alt="...">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                            <p class="card-text">Some quick example text to build on the card title and make
-                                                up the bulk of the card's content.</p>
-                                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                                        </div>
-                                    </div>
-                                    <div class="card d-none d-md-block">
-                                        <img src="..." class="card-img-top" alt="...">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                            <p class="card-text">Some quick example text to build on the card title and make
-                                                up the bulk of the card's content.</p>
-                                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                                        </div>
-                                    </div>
-                                    <div class="card d-none d-md-block">
-                                        <img src="..." class="card-img-top" alt="...">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                            <p class="card-text">Some quick example text to build on the card title and make
-                                                up the bulk of the card's content.</p>
-                                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
-                            data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#carouselExampleControls" role="button"
-                            data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </div> --}}
                     <div class="col-6 col-lg-6 col-md-6">
                         <div class="card">
                             <div class="card-body px-4 py-4-5">
@@ -231,9 +124,11 @@
                                 <form action="{{ route('filter_date') }}" method="post" id="filter_date">
                                     @csrf
                                     <div class="d-flex justify-content-center align-items-center">
-                                        <input type="date" name="date_from" class="btn btn-primary mr-4">
+                                        <input type="date" name="date_from"
+                                            value="{{ empty($date_from) ? '' : $date_from }}" class="btn btn-primary mr-4">
                                         <p class="my-0 mx-2">to</p>
-                                        <input type="date" name="date_to" class="btn btn-primary mr-4">
+                                        <input type="date" name="date_to" value="{{ empty($date_to) ? '' : $date_to }}"
+                                            class="btn btn-primary mr-4">
                                         <input type="text" name="id_user" value="{{ $id }}" hidden>
                                         <button type="submit" class="btn btn-outline-secondary"
                                             style="margin-left: 10px">Filter</button>
@@ -364,20 +259,23 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($item->order_detail as $item)
+                                @php
+                                    // dd($order);
+                                @endphp
+                                @foreach ($order->where('id', $id) as $row)
                                     <tr>
                                         <td class="text-bold-500">
                                             {{ $loop->iteration }}
                                         </td>
                                         <td class="text-bold-500">
-                                            {{ empty($item->product_laporan_and_pesanan->name) == false ? $item->product_laporan_and_pesanan->name : '' }}
+                                            {{ empty($row->name) == false ? $row->name : '' }}
                                         </td>
                                         <td class="text-bold-500">
-                                            {{ empty($item->quantity) == false ? $item->quantity : '' }}
+                                            {{ empty($row->quantity) == false ? $row->quantity : '' }}
                                         </td>
 
                                         <td class="text-bold-500">
-                                            {{ empty($item->product_laporan_and_pesanan->price_final) == false ? $item->product_laporan_and_pesanan->price_final : '' }}
+                                            {{ empty($row->price_final) == false ? $row->price_final : '' }}
                                         </td>
                                     </tr>
                                 @endforeach

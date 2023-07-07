@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('phone');
             $table->string('address');
             $table->string('image')->nullable();
+            $table->string('position')->nullable();
             $table->string('active')->default('active');
             $table->text('link')->nullable();
             $table->string('created_by')->nullable();

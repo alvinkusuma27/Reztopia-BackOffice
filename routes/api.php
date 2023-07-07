@@ -70,6 +70,7 @@ Route::middleware('auth:sanctum')->group(function () {
         ],
         function () {
             Route::get('index', [CartController::class, 'index']);
+            Route::get('history', [CartController::class, 'history']);
             Route::post('add-cart', [CartController::class, 'addCart'])->name('addCart');
             Route::post('add-note', [CartController::class, 'addNote']);
             Route::post('quantity', [CartController::class, 'quantity']);

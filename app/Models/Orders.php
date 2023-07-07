@@ -23,6 +23,7 @@ class Orders extends Model
         'link',
         'payment_method',
         'payment_code',
+        'payment_status',
         'table_number',
         'proof_of_payment',
         'date_order',
