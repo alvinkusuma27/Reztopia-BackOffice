@@ -59,9 +59,13 @@ class LaporanController extends Controller
                     'product',
                     'order_detail.product_laporan_and_pesanan',
                     'user',
-                    'order_status_pesanan_and_laporan'
+                    'order_status_pesanan_and_laporan',
+                    'outlet'
                 )
                     ->where('id_order_status', 1)
+                    ->whereHas('outlet', function ($query) {
+                        $query->where('id_user', Auth::user()->id);
+                    })
                     // ->whereDate('date_order', $tgl)
                     ->get();
                 // $cona = Orders::all();

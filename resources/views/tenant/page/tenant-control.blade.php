@@ -33,8 +33,8 @@
                                         <thead>
                                             <tr>
                                                 <th>Nomor</th>
-                                                <th>Nama</th>
-                                                <th>Tenant</th>
+                                                <th>Nama Tenant</th>
+                                                <th>Lokasi Tenant</th>
                                                 <th>Pengaturan</th>
                                             </tr>
                                         </thead>
@@ -43,7 +43,7 @@
                                                 <tr>
                                                     <td class="text-bold-500">{{ $item->user[0]->id }}</td>
                                                     <td>{{ $item->user[0]->name }}</td>
-                                                    <td class="text-bold-500">{{ $item->name }}</td>
+                                                    <td class="text-bold-500">{{ $item->position }}</td>
                                                     <td>
                                                         {{-- {{ route('changeActiveTenant', $item->id) }} --}}
                                                         <a href="" data-bs-toggle="modal"

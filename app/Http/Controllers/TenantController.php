@@ -35,7 +35,7 @@ class TenantController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'name' => 'required',
-                'tenant' => 'required',
+                'lokasi_tenant' => 'required',
                 'password' => 'required|min:8',
                 'phone' => 'required',
                 'email' => 'required|unique:users',
@@ -52,7 +52,8 @@ class TenantController extends Controller
                 $user->save();
 
                 $outlet = new Outlet();
-                $outlet->name = $request->tenant;
+                $outlet->name = $request->name;
+                $outlet->position = $request->lokasi_tenant;
                 $outlet->created_by = Auth::user()->name;
                 $outlet->id_user = $user->id;
                 $outlet->phone = $request->phone;
@@ -86,7 +87,8 @@ class TenantController extends Controller
                     $outlet = Outlet::findOrFail($id);
                     if ($request->name) {
                         $outlet->update([
-                            'name' => $request->name
+                            'name' => $request->name,
+                            'position' => $request->lokasi_tenant
                         ]);
                     }
 
@@ -112,7 +114,8 @@ class TenantController extends Controller
             $outlet = Outlet::findOrFail($id);
             if ($request->name) {
                 $outlet->update([
-                    'name' => $request->name
+                    'name' => $request->name,
+                    'position' => $request->lokasi_tenant
                 ]);
             }
 
@@ -126,7 +129,8 @@ class TenantController extends Controller
             ]);
 
             $outlet->update([
-                'phone' => $request->phone
+                'phone' => $request->phone,
+                'position' => $request->lokasi_tenant
             ]);
             Alert::toast('Success Update Account', 'success');
             return back();

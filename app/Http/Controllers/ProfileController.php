@@ -40,7 +40,8 @@ class ProfileController extends Controller
             ]);
             $id = Auth::user()->id;
             if (!$validator->fails()) {
-                $user = User::findOrFail($id);
+                $outlet = Outlet::where('id_user', $id)->first();
+                // $user = User::findOrFail($id);
                 // $user_name = Auth::user()->name;
                 // if ($request->hasFile('image')) {
                 //     $image = $request->file('image');
@@ -56,14 +57,23 @@ class ProfileController extends Controller
                 //     }
                 // } else {
 
+                // UPDATE TO OUTLET TABLE
+
                 if (Auth::user()->roles == 'kantin') {
-                    $user->update([
+                    $outlet->update([
                         'position' => $request->position,
                         'name' => $request->name
                     ]);
                 } elseif (Auth::user()->roles == 'admin') {
+                    $user = User::findOrFail($id);
                     $user->update([
-                        'position' => $request->position,
+                        'name' => $request->name,
+                        'email' => $request->email,
+                        'phone' => $request->phone,
+                    ]);
+                    $outlet->update([
+                        'name' => $request->name,
+                        'phone' => $request->phone,
                     ]);
                 }
                 // }

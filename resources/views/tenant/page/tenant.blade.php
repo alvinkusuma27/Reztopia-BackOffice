@@ -122,8 +122,8 @@
                                     <thead>
                                         <tr>
                                             <th>Nomor</th>
-                                            <th>Tenant</th>
-                                            <th>Nama</th>
+                                            <th>Nama Tenant</th>
+                                            <th>Lokasi Tenant</th>
                                             <th>Pengaturan</th>
                                         </tr>
                                     </thead>
@@ -132,7 +132,7 @@
                                             <tr>
                                                 <td class="text-bold-500">{{ $item->user[0]->id }}</td>
                                                 <td class="text-bold-500">{{ $item->name }}</td>
-                                                <td>{{ $item->user[0]->name }}</td>
+                                                <td>{{ $item->position }}</td>
                                                 <td>
                                                     <button class="btn btn-outline-primary rounded-pill"
                                                         data-bs-toggle="modal"
@@ -202,12 +202,26 @@
                 <form action="{{ route('tenant.store') }}" method="POST">
                     @csrf
                     <div class="modal-body">
-                        <label>Tenant: </label>
+                        <label>Lokasi Tenant: </label>
                         <div class="form-group">
-                            <input type="text" placeholder="Tenant" name="tenant" value="{{ old('tenant') }}"
-                                class="form-control">
+                            <select class="form-select mt-3" aria-label="Default select example" name="lokasi_tenant">
+                                <option value="Kantin Gedung Kuliah umum">
+                                    Kantin Gedung Kuliah umum</option>
+                                <option value="Kantin Fakultas Teknik">
+                                    Kantin Fakultas Teknik</option>
+                                <option value="Kantin Dekanat Fakultas Ekonomi dan Komunikasi">
+                                    Kantin Dekanat Fakultas Ekonomi dan Komunikasi</option>
+                                <option value="Kantin Fakultas Ilmu Terapan">
+                                    Kantin Fakultas Ilmu Terapan</option>
+                                <option value="Kantin Asrama Putri">
+                                    Kantin Asrama Putri</option>
+                                <option value="Kantin Asrama Putra">
+                                    Kantin Asrama Putra</option>
+                                <option value="Kantin Telkom Mart">
+                                    Kantin Telkom Mart</option>
+                            </select>
                         </div>
-                        <label>Nama: </label>
+                        <label>Nama Tenant: </label>
                         <div class="form-group">
                             <input type="text" placeholder="nama" name="name" value="{{ old('name') }}"
                                 class="form-control">
@@ -226,19 +240,20 @@
                         <div class="form-group">
                             {{-- <input type="password" name="password" id="password" class="form-control" /> --}}
                             {{-- <i class="bi bi-eye-slash" id="togglePassword"></i> --}}
-                            <input type="password" placeholder="Password" name="password" id="password"
+                            <input type="password" placeholder="Password" name="password" id="passwordEdit"
                                 class="form-control">
-                            <input type="checkbox" class="ml-3" id="togglePassword"> Show Password
+                            <input type="checkbox" class="ml-3" id="togglePasswordEdit" onclick="myFunction()">
+                            Show Password
                         </div>
                     </div>
                     <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+                            <i class="bx bx-check d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Simpan</span>
+                        </button>
                         <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
                             <i class="bx bx-x d-block d-sm-none"></i>
                             <span class="d-none d-sm-block">Close</span>
-                        </button>
-                        <button type="submit" class="btn btn-primary ml-1" data-bs-dismiss="modal">
-                            <i class="bx bx-check d-block d-sm-none"></i>
-                            <span class="d-none d-sm-block">Tambah</span>
                         </button>
                     </div>
                 </form>
@@ -262,12 +277,34 @@
                         {{-- @method('put') --}}
                         @csrf
                         <div class="modal-body">
-                            <label>Tenant: </label>
+                            <label>Lokasi Tenant: </label>
                             <div class="form-group">
-                                <input type="text" placeholder="Tenant" name="tenant" value="{{ $item->name }}"
-                                    class="form-control">
+                                <select class="form-select mt-3" aria-label="Default select example"
+                                    name="lokasi_tenant">
+                                    <option value="Kantin Gedung Kuliah umum"
+                                        {{ $item->position == 'Kantin Gedung Kuliah umum' ? 'selected' : '' }}>Kantin Gedung
+                                        Kuliah umum</option>
+                                    <option value="Kantin Fakultas Teknik"
+                                        {{ $item->position == 'Kantin Fakultas Teknik' ? 'selected' : '' }}>Kantin Fakultas
+                                        Teknik</option>
+                                    <option value="Kantin Dekanat Fakultas Ekonomi dan Komunikasi"
+                                        {{ $item->position == 'Kantin Dekanat Fakultas Ekonomi dan Komunikasi' ? 'selected' : '' }}>
+                                        Kantin Dekanat Fakultas Ekonomi dan Komunikasi</option>
+                                    <option value="Kantin Fakultas Ilmu Terapan"
+                                        {{ $item->position == 'Kantin Fakultas Ilmu Terapan' ? 'selected' : '' }}>Kantin
+                                        Fakultas Ilmu Terapan</option>
+                                    <option value="Kantin Asrama Putri"
+                                        {{ $item->position == 'Kantin Asrama Putri' ? 'selected' : '' }}>Kantin Asrama Putri
+                                    </option>
+                                    <option value="Kantin Asrama Putra"
+                                        {{ $item->position == 'Kantin Asrama Putra' ? 'selected' : '' }}>Kantin Asrama Putra
+                                    </option>
+                                    <option value="Kantin Telkom Mart"
+                                        {{ $item->position == 'Kantin Telkom Mart' ? 'selected' : '' }}>Kantin Telkom Mart
+                                    </option>
+                                </select>
                             </div>
-                            <label>Nama: </label>
+                            <label>Nama Tenant: </label>
                             <div class="form-group">
                                 <input type="text" placeholder="nama" name="name"
                                     value="{{ $item->user[0]->name }}" class="form-control">

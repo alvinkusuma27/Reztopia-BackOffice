@@ -52,9 +52,12 @@
                                     <h5>
                                         {{ empty($outlet[0]) ? '' : $outlet[0]->name }}
                                     </h5>
-                                    <h6>
-                                        {{ empty($outlet[0]) ? '' : $outlet[0]->position }}
-                                    </h6>
+                                    @if (auth()->user()->roles == 'kantin')
+                                        <h6>
+                                            {{ empty($outlet[0]) ? '' : $outlet[0]->position }}
+                                        </h6>
+                                    @endif
+
                                 </div>
                                 <div class="flex-end">
                                     <div class="col-md-2">
@@ -132,39 +135,56 @@
                                     <div class="form-group mb-3">
                                         <label for="basicInput">Nama Tenant</label>
                                         <input type="text" class="form-control mt-3" id="basicInput" name="name"
-                                            value="{{ empty($outlet[0]) ? '' : $outlet[0]->user[0]->name }}">
+                                            value="{{ empty($outlet[0]) ? '' : $outlet[0]->name }}">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="basicInput">Lokasi Tenant</label>
+                                        <select class="form-select mt-3" aria-label="Default select example"
+                                            name="position">
+                                            <option value="Kantin Gedung Kuliah umum"
+                                                {{ $outlet[0]->position == 'Kantin Gedung Kuliah umum' ? 'selected' : '' }}>
+                                                Kantin Gedung Kuliah umum</option>
+                                            <option value="Kantin Fakultas Teknik"
+                                                {{ $outlet[0]->position == 'Kantin Fakultas Teknik' ? 'selected' : '' }}>
+                                                Kantin
+                                                Fakultas Teknik</option>
+                                            <option value="Kantin Dekanat Fakultas Ekonomi dan Komunikasi"
+                                                {{ $outlet[0]->position == 'Kantin Dekanat Fakultas Ekonomi dan Komunikasi' ? 'selected' : '' }}>
+                                                Kantin Dekanat Fakultas Ekonomi dan Komunikasi</option>
+                                            <option value="Kantin Fakultas Ilmu Terapan"
+                                                {{ $outlet[0]->position == 'Kantin Fakultas Ilmu Terapan' ? 'selected' : '' }}>
+                                                Kantin Fakultas Ilmu Terapan</option>
+                                            <option value="Kantin Asrama Putri"
+                                                {{ $outlet[0]->position == 'Kantin Asrama Putri' ? 'selected' : '' }}>
+                                                Kantin
+                                                Asrama Putri</option>
+                                            <option value="Kantin Asrama Putra"
+                                                {{ $outlet[0]->position == 'Kantin Asrama Putra' ? 'selected' : '' }}>
+                                                Kantin
+                                                Asrama Putra</option>
+                                            <option value="Kantin Telkom Mart"
+                                                {{ $outlet[0]->position == 'Kantin Telkom Mart' ? 'selected' : '' }}>Kantin
+                                                Telkom Mart</option>
+                                        </select>
+                                    </div>
+                                @else
+                                    <div class="form-group mb-3">
+                                        <label for="basicInput">Nama Tenant</label>
+                                        <input type="text" class="form-control mt-3" id="basicInput" name="name"
+                                            value="{{ empty($outlet[0]) ? '' : $outlet[0]->name }}">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="basicInput">Telepon</label>
+                                        <input type="text" class="form-control mt-3" id="basicInput" name="phone"
+                                            value="{{ empty($outlet[0]) ? '' : $outlet[0]->phone }}">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="basicInput">Email</label>
+                                        <input type="text" class="form-control mt-3" id="basicInput" name="email"
+                                            value="{{ empty($outlet[0]) ? '' : $outlet[0]->user[0]->email }}">
                                     </div>
                                 @endif
-                                <div class="form-group mb-3">
-                                    <label for="basicInput">Lokasi Tenant</label>
-                                    {{-- <input type="text" class="form-control mt-3" id="basicInput" name="position"
-                                        value="{{ empty($outlet[0]) ? '' : $outlet[0]->user[0]->position }}"> --}}
-                                    {{-- {{ $outlet[0]->position ==  }} --}}
-                                    <select class="form-select mt-3" aria-label="Default select example">
-                                        <option value="Kantin Gedung Kuliah umum"
-                                            {{ $outlet[0]->position == 'Kantin Gedung Kuliah umum' ? 'selected' : '' }}>
-                                            Kantin Gedung Kuliah umum</option>
-                                        <option value="Kantin Fakultas Teknik"
-                                            {{ $outlet[0]->position == 'Kantin Fakultas Teknik' ? 'selected' : '' }}>Kantin
-                                            Fakultas Teknik</option>
-                                        <option value="Kantin Dekanat Fakultas Ekonomi dan Komunikasi"
-                                            {{ $outlet[0]->position == 'Kantin Dekanat Fakultas Ekonomi dan Komunikasi' ? 'selected' : '' }}>
-                                            Kantin Dekanat Fakultas Ekonomi dan Komunikasi</option>
-                                        <option value="Kantin Fakultas Ilmu Terapan"
-                                            {{ $outlet[0]->position == 'Kantin Fakultas Ilmu Terapan' ? 'selected' : '' }}>
-                                            Kantin Fakultas Ilmu Terapan</option>
-                                        <option value="Kantin Asrama Putri"
-                                            {{ $outlet[0]->position == 'Kantin Asrama Putri' ? 'selected' : '' }}>Kantin
-                                            Asrama Putri</option>
-                                        <option value="Kantin Asrama Putra"
-                                            {{ $outlet[0]->position == 'Kantin Asrama Putra' ? 'selected' : '' }}>Kantin
-                                            Asrama Putra</option>
-                                        <option value="Kantin Telkom Mart"
-                                            {{ $outlet[0]->position == 'Kantin Telkom Mart' ? 'selected' : '' }}>Kantin
-                                            Telkom Mart</option>
-                                    </select>
 
-                                </div>
                                 {{-- <div class="form-group">
                                     <label for="basicInput">Profile Image</label>
                                     <input type="file" class="form-control mt-3" id="basicInput" name="image">

@@ -687,10 +687,34 @@ class CartController extends Controller
     public function history()
     {
         try {
-            $order = Orders::orderBy('payment_status')
-                ->where('id_user', Auth::user()->id)
-                ->orderBy('date_order', 'DESC')
+
+            // $order = Orders::orderBy('payment_status')
+            //     // ->select('id', )
+            //     ->where('id_user', Auth::user()->id)
+            //     ->orderBy('date_order', 'DESC')
+            //     ->get();
+            // $history_link = env('APP_URL') . route('history.detail', $item->id);
+
+            $order = DB::table('order_details as od')
+                ->select(
+                    'od.id',
+                    'ol.name',
+                    'ol.image',
+                )
+                ->whereIn('os.id', [1, 4])
+                ->where('o.id_user', Auth::user()->id)
+                ->join('orders as o', 'o.id', '=', 'od.id_order')
+                ->join('order_status as os', 'os.id', '=', 'o.id_order_status')
+                ->join('outlets as ol', 'ol.id', '=', 'o.id_outlet')
                 ->get();
+
+
+            $data = array();
+            foreach ($order as $item) {
+                $item->link_history = route('history.detail', $item->id);
+                $item->image = env('APP_URL') . '/storage/uploads/outlet/' . $item->image;
+                array_push($data, $item);
+            }
             // $order = Orders::where('id', 9)->get();
             if (empty($order)) {
                 return response()->json([
@@ -703,7 +727,7 @@ class CartController extends Controller
                 return response()->json([
                     'meta' => [
                         'status' => 'success',
-                        'message' => $order
+                        'message' => $data
                     ]
                 ], 200);
             }

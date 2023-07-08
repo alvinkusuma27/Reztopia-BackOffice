@@ -41,7 +41,7 @@ class HistoryController extends Controller
                 $result = array();
                 foreach ($data as $item) {
                     $item->image_tenant = env('APP_URL') . '/storage/uploads/tenant/' . $item->image_tenant;
-                    $item->link = env('APP_URL') . route('history.detail', $item->id_order_detail);
+                    $item->link = route('history.detail', $item->id_order_detail);
                     array_push($result, $item);
                 }
             } else {
@@ -97,6 +97,8 @@ class HistoryController extends Controller
                 ->join('users as u', 'u.id', '=', 'or.id_user')
                 ->where('or.id_user', Auth::user()->id)
                 ->where('os.name', 'sukses')
+                ->where('od.id', $id)
+
                 ->get();
 
             $data2 = DB::table('orders as or')
@@ -124,7 +126,7 @@ class HistoryController extends Controller
                 ->join('cart as c', 'c.id_product', '=', 'p.id')
                 ->join('users as u', 'u.id', '=', 'or.id_user')
                 ->where('or.id_user', Auth::user()->id)
-                // ->where('or.id', $id)
+
                 ->get();
             // dd($data2);
             // array_push($data_history, $data);

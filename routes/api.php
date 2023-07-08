@@ -79,6 +79,16 @@ Route::middleware('auth:sanctum')->group(function () {
         }
     );
 
+    Route::group(
+        [
+            'prefix' => 'user',
+            'middleware' => ['role:mahasiswa']
+        ],
+        function () {
+            Route::post('update', [UserController::class, 'updateUser']);
+        }
+    );
+
     Route::get('pesanan', [PesananController::class, 'index']);
 
     Route::get('tes-auth', [UserController::class, 'tes']);
