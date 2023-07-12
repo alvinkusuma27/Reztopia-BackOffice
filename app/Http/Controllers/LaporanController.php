@@ -512,25 +512,12 @@ class LaporanController extends Controller
                 ->whereDate('date_order', $tgl)
                 ->get();
 
-            $checkLastDate = Orders::first()->latest()->get();
-            // dd($checkLastDate);
-            // dd($order);
+
+            Orders::where('date_order', '<', Carbon::now()->toDateString())->update([
+                'id_order_status' => 2
+            ]);
+
             return view('tenant.page.daftarPesanan', compact('active', 'order', 'day', 'id'));
-
-            // if (Auth::user()->roles == 'kantin') {
-            // } else if (Auth::user()->roles == 'admin') {
-            //     $order = Orders::with('product', 'order_detail.product_laporan_and_pesanan', 'user', 'order_status_pesanan_and_laporan')
-            //         ->where('id_order_status', 4)
-            //         ->whereDate('date_order', $tgl)
-            //         ->get();
-            //     $kantin = DB::table('outlets')
-            //         ->select('name', 'id_user')
-            //         ->where('id_user', '!=', Auth::user()->id)
-            //         ->get();
-            //     // dd($order);
-
-            //     return view('tenant.page.pesanan', compact('active', 'order', 'day', 'kantin', 'id'));
-            // }
         } catch (Exception $error) {
             dd($error->getMessage());
         }

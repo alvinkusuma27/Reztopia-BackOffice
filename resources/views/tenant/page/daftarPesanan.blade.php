@@ -286,7 +286,6 @@
         </div>
 
 </body>
-
 <script>
     window.onload = function() {
         var cardCount = 2; // Jumlah card yang ada

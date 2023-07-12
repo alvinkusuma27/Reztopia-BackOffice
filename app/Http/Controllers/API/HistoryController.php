@@ -27,7 +27,8 @@ class HistoryController extends Controller
                     'or.total as total_order',
                     'p.original_price as price_product',
                     'os.name as status',
-                    'or.payment_status'
+                    'or.payment_status',
+                    'or.payment_url'
                 )
                 ->join('outlets as ot', 'ot.id', '=', 'or.id_outlet')
                 ->join('order_status as os', 'os.id', '=', 'or.id_order_status')
@@ -90,7 +91,8 @@ class HistoryController extends Controller
                     'ot.name as tenant_name_order',
                     'or.payment_method as payment_method_order',
                     'or.total as total_order',
-                    'or.payment_status'
+                    'or.payment_status',
+                    'or.payment_url'
                 )
                 ->join('outlets as ot', 'ot.id', '=', 'or.id_outlet')
                 ->join('order_status as os', 'os.id', '=', 'or.id_order_status')
@@ -167,7 +169,7 @@ class HistoryController extends Controller
                     unset($item->total_order);
 
                     // unset($item->id);
-                    $item->image_product = env('APP_URL') . '/storage/uploads/history-detail/' . $item->image_product;
+                    $item->image_product = env('APP_URL') . '/storage/uploads/products/' . $item->image_product;
                     array_push($result_product, $item);
                 }
                 // dd(
