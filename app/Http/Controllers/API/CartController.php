@@ -741,4 +741,28 @@ class CartController extends Controller
             ], 500);
         }
     }
+
+    public function failed_order($id)
+    {
+        try {
+            $order = Orders::where('id', $id)->where('id_user', Auth::user()->id)->first();
+            $order->id_order_status = 2;
+            $order->save();
+            return response()->json([
+                'meta' => [
+                    'status' => 'success',
+                    'message' => 'Success Canceled Order'
+                ],
+                // 'data' => $order
+            ], 200);
+        } catch (Exception $error) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'error',
+                    'message' => 'Something went wrong'
+                ],
+                'data' => $error->getMessage()
+            ], 500);
+        }
+    }
 }

@@ -26,7 +26,8 @@ class HistoryController extends Controller
                     'od.quantity',
                     'or.total as total_order',
                     'p.original_price as price_product',
-                    'os.name as status'
+                    'os.name as status',
+                    'or.payment_status'
                 )
                 ->join('outlets as ot', 'ot.id', '=', 'or.id_outlet')
                 ->join('order_status as os', 'os.id', '=', 'or.id_order_status')
@@ -40,7 +41,7 @@ class HistoryController extends Controller
             if (!empty($data[0])) {
                 $result = array();
                 foreach ($data as $item) {
-                    $item->image_tenant = env('APP_URL') . '/storage/uploads/tenant/' . $item->image_tenant;
+                    $item->image_tenant = env('APP_URL') . '/storage/uploads/outlet/' . $item->image_tenant;
                     $item->link = route('history.detail', $item->id_order_detail);
                     array_push($result, $item);
                 }
@@ -89,6 +90,7 @@ class HistoryController extends Controller
                     'ot.name as tenant_name_order',
                     'or.payment_method as payment_method_order',
                     'or.total as total_order',
+                    'or.payment_status'
                 )
                 ->join('outlets as ot', 'ot.id', '=', 'or.id_outlet')
                 ->join('order_status as os', 'os.id', '=', 'or.id_order_status')
