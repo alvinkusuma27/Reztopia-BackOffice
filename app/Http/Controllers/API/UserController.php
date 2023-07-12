@@ -291,7 +291,7 @@ class UserController extends Controller
                 ], 400);
             }
             $user = Auth::user();
-            $user->password = $request->password;
+            $user->password = Hash::make($request->password);
             $user->save();
 
             return response()->json([
