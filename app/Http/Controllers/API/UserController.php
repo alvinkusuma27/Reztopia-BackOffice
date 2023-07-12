@@ -204,9 +204,10 @@ class UserController extends Controller
             // $user = $request->all();
 
             $user = Auth::user();
+
             // return response()->json($request->email == $user->email);
-            // dd(User::where('email', $request->email)->first()->email);
-            if (User::where('email', $request->email)->first()->email) {
+            // dd(User::where('email', $request->email)->first(), $request->email);
+            if (User::where('email', $request->email)->first() != null) {
                 return response()->json([
                     'meta' => [
                         'status' => 'Error',
@@ -214,6 +215,8 @@ class UserController extends Controller
                     ],
                 ], 400);
             }
+            // return response()->json($user);
+
 
             if (!$request->hasFile('image')) {
                 $validator = Validator::make($request->all(), [
@@ -237,6 +240,17 @@ class UserController extends Controller
                     'phone' => 'min:10',
                     'email' => 'email'
                 ]);
+
+
+                if ($validator->fails()) {
+                    return response()->json([
+                        'meta' => [
+                            'status' => 'failed',
+                            'message' => 'Bad Request'
+                        ],
+                        'data' => $validator->messages()->all()
+                    ], 400);
+                }
 
                 $image = $request->file('image');
                 $image_name = time() . '-user-update-' . $request->name . '.' . $image->getClientOriginalExtension();
