@@ -201,6 +201,19 @@ class UserController extends Controller
     {
 
         try {
+            // $user = $request->all();
+
+            $user = Auth::user();
+            // return response()->json($request->email == $user->email);
+            if ($user->email == $request->email) {
+                return response()->json([
+                    'meta' => [
+                        'status' => 'Error',
+                        'message' => 'Email ada'
+                    ],
+                ], 400);
+            }
+
             if (!$request->hasFile('image')) {
                 $validator = Validator::make($request->all(), [
                     // 'image' => 'image|mimes:png,jpg,jpg|max:2048',
@@ -227,16 +240,14 @@ class UserController extends Controller
                 $image = $request->file('image');
                 $image_name = time() . '-user-update-' . $request->name . '.' . $image->getClientOriginalExtension();
                 Storage::putFileAs('public/uploads/user/', $image, $image_name);
+                $user->image = $image_name;
             }
 
-            $user = $request->all();
 
-            $user = Auth::user();
-            $user->image = $image_name;
             $user->name = $request->name;
             $user->phone = $request->phone;
             $user->email = $request->email;
-            $user->password = $request->password;
+            $user->password = Hash::make($request->password);
             $user->save();
 
             // $user->update($data);

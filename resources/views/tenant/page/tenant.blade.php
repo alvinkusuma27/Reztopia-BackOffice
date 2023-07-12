@@ -122,8 +122,8 @@
                                     <thead>
                                         <tr>
                                             <th>Nomor</th>
-                                            <th>Nama Tenant</th>
                                             <th>Lokasi Tenant</th>
+                                            <th>Nama Tenant</th>
                                             <th>Pengaturan</th>
                                         </tr>
                                     </thead>
@@ -131,8 +131,8 @@
                                         @foreach ($outlet as $item)
                                             <tr>
                                                 <td class="text-bold-500">{{ $item->user[0]->id }}</td>
-                                                <td class="text-bold-500">{{ $item->name }}</td>
                                                 <td>{{ $item->position }}</td>
+                                                <td class="text-bold-500">{{ $item->name }}</td>
                                                 <td>
                                                     <button class="btn btn-outline-primary rounded-pill"
                                                         data-bs-toggle="modal"
@@ -282,7 +282,8 @@
                                 <select class="form-select mt-3" aria-label="Default select example"
                                     name="lokasi_tenant">
                                     <option value="Kantin Gedung Kuliah umum"
-                                        {{ $item->position == 'Kantin Gedung Kuliah umum' ? 'selected' : '' }}>Kantin Gedung
+                                        {{ $item->position == 'Kantin Gedung Kuliah umum' ? 'selected' : '' }}>Kantin
+                                        Gedung
                                         Kuliah umum</option>
                                     <option value="Kantin Fakultas Teknik"
                                         {{ $item->position == 'Kantin Fakultas Teknik' ? 'selected' : '' }}>Kantin Fakultas
@@ -294,10 +295,12 @@
                                         {{ $item->position == 'Kantin Fakultas Ilmu Terapan' ? 'selected' : '' }}>Kantin
                                         Fakultas Ilmu Terapan</option>
                                     <option value="Kantin Asrama Putri"
-                                        {{ $item->position == 'Kantin Asrama Putri' ? 'selected' : '' }}>Kantin Asrama Putri
+                                        {{ $item->position == 'Kantin Asrama Putri' ? 'selected' : '' }}>Kantin Asrama
+                                        Putri
                                     </option>
                                     <option value="Kantin Asrama Putra"
-                                        {{ $item->position == 'Kantin Asrama Putra' ? 'selected' : '' }}>Kantin Asrama Putra
+                                        {{ $item->position == 'Kantin Asrama Putra' ? 'selected' : '' }}>Kantin Asrama
+                                        Putra
                                     </option>
                                     <option value="Kantin Telkom Mart"
                                         {{ $item->position == 'Kantin Telkom Mart' ? 'selected' : '' }}>Kantin Telkom Mart

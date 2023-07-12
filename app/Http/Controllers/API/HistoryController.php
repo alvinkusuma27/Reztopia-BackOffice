@@ -96,7 +96,7 @@ class HistoryController extends Controller
                 ->join('products as p', 'p.id', '=', 'od.id_product')
                 ->join('users as u', 'u.id', '=', 'or.id_user')
                 ->where('or.id_user', Auth::user()->id)
-                ->where('os.name', 'sukses')
+                ->whereIn('os.id', [1, 4])
                 ->where('od.id', $id)
 
                 ->get();
