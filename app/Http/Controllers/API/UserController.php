@@ -205,11 +205,12 @@ class UserController extends Controller
 
             $user = Auth::user();
             // return response()->json($request->email == $user->email);
-            if ($user->email == $request->email) {
+            // dd(User::where('email', $request->email)->first()->email);
+            if (User::where('email', $request->email)->first()->email) {
                 return response()->json([
                     'meta' => [
                         'status' => 'Error',
-                        'message' => 'Email ada'
+                        'message' => 'E-mail already in use'
                     ],
                 ], 400);
             }
@@ -247,7 +248,7 @@ class UserController extends Controller
             $user->name = $request->name;
             $user->phone = $request->phone;
             $user->email = $request->email;
-            $user->password = Hash::make($request->password);
+            // $user->password = Hash::make($request->password);
             $user->save();
 
             // $user->update($data);
@@ -272,19 +273,57 @@ class UserController extends Controller
         // return ResponseFormatter::success($user, 'Profile Updated');
     }
 
-    public function tes()
+    public function changePassword(Request $request)
     {
-        $user = User::all();
-        // return ResponseFormatter::success([
-        //     'data' => $user
-        // ]);
-        // $data = Auth::user()->name;
-        return response()->json([
-            'meta' => [
-                'success' => true,
-                'message' => 'data berhasil diambil',
-            ],
-            'data' => $user,
-        ], 200);
+        try {
+
+            $validator = Validator::make($request->all(), [
+                'password' => 'required'
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'meta' => [
+                        'status' => 'failed',
+                        'message' => 'Bad Request'
+                    ],
+                    'data' => $validator->messages()->all()
+                ], 400);
+            }
+            $user = Auth::user();
+            $user->password = $request->password;
+            $user->save();
+
+            return response()->json([
+                'meta' => [
+                    'status' => 'success',
+                    'message' => 'Profile Updated'
+                ],
+            ], 200);
+        } catch (Exception $error) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'error',
+                    'message' => 'Something went wrong'
+                ],
+                'data' => $error->getMessage()
+            ], 500);
+        }
     }
+
+    // public function tes()
+    // {
+    //     $user = User::all();
+    //     // return ResponseFormatter::success([
+    //     //     'data' => $user
+    //     // ]);
+    //     // $data = Auth::user()->name;
+    //     return response()->json([
+    //         'meta' => [
+    //             'success' => true,
+    //             'message' => 'data berhasil diambil',
+    //         ],
+    //         'data' => $user,
+    //     ], 200);
+    // }
 }

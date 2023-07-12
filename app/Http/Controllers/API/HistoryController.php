@@ -33,7 +33,7 @@ class HistoryController extends Controller
                 ->join('order_details as od', 'od.id_order', '=', 'or.id')
                 ->join('products as p', 'p.id', '=', 'od.id_product')
                 ->where('or.id_user', Auth::user()->id)
-                ->where('os.id', 1)
+                ->whereIn('os.id', [1, 4])
                 ->get();
             // dd($data);
 
