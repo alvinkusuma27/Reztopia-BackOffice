@@ -70,11 +70,24 @@ Route::middleware('auth:sanctum')->group(function () {
         ],
         function () {
             Route::get('index', [CartController::class, 'index']);
+            Route::get('history', [CartController::class, 'history']);
+            Route::get('failed-order/{id}', [CartController::class, 'failed_order']);
             Route::post('add-cart', [CartController::class, 'addCart'])->name('addCart');
             Route::post('add-note', [CartController::class, 'addNote']);
             Route::post('quantity', [CartController::class, 'quantity']);
             Route::post('checkout', [CartController::class, 'checkout']);
             Route::post('delete', [CartController::class, 'delete']);
+        }
+    );
+
+    Route::group(
+        [
+            'prefix' => 'user',
+            'middleware' => ['role:mahasiswa']
+        ],
+        function () {
+            Route::post('update', [UserController::class, 'updateUser']);
+            Route::post('change-password', [UserController::class, 'changePassword']);
         }
     );
 

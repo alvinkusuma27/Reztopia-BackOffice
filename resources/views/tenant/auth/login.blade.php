@@ -5,7 +5,7 @@
     <h1 class="auth-title">Log in.</h1>
     {{-- <p class="auth-subtitle mb-5">Log in with your data that you entered during registration.</p> --}}
 
-    <form action="{{ route('post_login') }}" method="POST">
+    <form action="{{ route('post-login') }}" method="POST">
         @csrf
         <div class="form-group position-relative has-icon-left mb-4">
             <input name="email" type="email" class="form-control form-control-xl" placeholder="Email">

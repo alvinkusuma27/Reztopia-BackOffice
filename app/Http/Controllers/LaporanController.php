@@ -59,9 +59,13 @@ class LaporanController extends Controller
                     'product',
                     'order_detail.product_laporan_and_pesanan',
                     'user',
-                    'order_status_pesanan_and_laporan'
+                    'order_status_pesanan_and_laporan',
+                    'outlet'
                 )
                     ->where('id_order_status', 1)
+                    ->whereHas('outlet', function ($query) {
+                        $query->where('id_user', Auth::user()->id);
+                    })
                     // ->whereDate('date_order', $tgl)
                     ->get();
                 // $cona = Orders::all();
@@ -85,6 +89,9 @@ class LaporanController extends Controller
 
                 // $omzet_today =
                 // $omzet_total
+
+                // dd($id);
+
 
                 return view('tenant.page.laporan', compact('active', 'order_today', 'omzet_today', 'order', 'day', 'id'));
             } else if (Auth::user()->roles == 'admin') {
@@ -165,6 +172,7 @@ class LaporanController extends Controller
                 }
                 $omzet_today = array_sum($today_omzet);
                 $order_today = count($today_order);
+
 
                 return view('tenant.page.laporan', compact('active', 'order_today', 'omzet_today', 'order', 'day', 'kantin', 'id'));
             }
@@ -297,6 +305,7 @@ class LaporanController extends Controller
                             'o.payment_method as payment_method_order',
                             'o.total as total_order',
                             'p.original_price as price_product',
+                            'p.price_final',
                             // 'c.type_order',
                             'u.name as name_user',
                             'od.id as id_order_detail'
@@ -326,6 +335,7 @@ class LaporanController extends Controller
                             'o.payment_method as payment_method_order',
                             'o.total as total_order',
                             'p.original_price as price_product',
+                            'p.price_final',
                             // 'c.type_order',
                             'u.name as name_user',
                             'od.id as id_order_detail'
@@ -437,8 +447,10 @@ class LaporanController extends Controller
 
                 // $omzet_today =
                 // $omzet_total
+                // dd($order->where('id', $id), $id);
 
-                return view('tenant.page.laporan', compact('active', 'order_today', 'omzet_today', 'order', 'day', 'kantin', 'id'));
+
+                return view('tenant.page.laporan', compact('active', 'order_today', 'date_from', 'date_to', 'omzet_today', 'order', 'day', 'kantin', 'id'));
             }
             Alert::toast($validator->messages()->all(), 'error');
             return back();
@@ -497,25 +509,15 @@ class LaporanController extends Controller
 
             $order = Orders::with('product', 'order_detail.product_laporan_and_pesanan', 'user', 'order_status_pesanan_and_laporan')
                 ->where('id_order_status', 4)
-                // ->whereDate('date_order', $tgl)
+                ->whereDate('date_order', $tgl)
                 ->get();
 
-            return view('tenant.page.pos', compact('active', 'order', 'day', 'id'));
 
-            // if (Auth::user()->roles == 'kantin') {
-            // } else if (Auth::user()->roles == 'admin') {
-            //     $order = Orders::with('product', 'order_detail.product_laporan_and_pesanan', 'user', 'order_status_pesanan_and_laporan')
-            //         ->where('id_order_status', 4)
-            //         ->whereDate('date_order', $tgl)
-            //         ->get();
-            //     $kantin = DB::table('outlets')
-            //         ->select('name', 'id_user')
-            //         ->where('id_user', '!=', Auth::user()->id)
-            //         ->get();
-            //     // dd($order);
+            Orders::where('date_order', '<', Carbon::now()->toDateString())->update([
+                'id_order_status' => 2
+            ]);
 
-            //     return view('tenant.page.pesanan', compact('active', 'order', 'day', 'kantin', 'id'));
-            // }
+            return view('tenant.page.daftarPesanan', compact('active', 'order', 'day', 'id'));
         } catch (Exception $error) {
             dd($error->getMessage());
         }
@@ -548,6 +550,21 @@ class LaporanController extends Controller
         } catch (Exception $error) {
             dd($error->getMessage());
         }
+    }
+
+    public function history()
+    {
+        $active = 'pesanan';
+        $id = Auth::user()->id;
+        $tgl = Carbon::now();
+        $day = bin2hex($tgl->toDateTimeString());
+
+        $order = Orders::with('product', 'order_detail.product_laporan_and_pesanan', 'user', 'order_status_pesanan_and_laporan')
+            ->where('id_order_status', 1)
+            ->whereDate('date_order', $tgl)
+            ->get();
+        // dd($order);
+        return view('tenant.page.history', compact('active', 'order', 'day', 'id'));
     }
 }
 // $date = Carbon::createFromFormat('d/m/Y',  '19/04/2000');

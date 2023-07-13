@@ -26,22 +26,24 @@ class HistoryController extends Controller
                     'od.quantity',
                     'or.total as total_order',
                     'p.original_price as price_product',
-                    'os.name as status'
+                    'os.name as status',
+                    'or.payment_status',
+                    'or.payment_url'
                 )
                 ->join('outlets as ot', 'ot.id', '=', 'or.id_outlet')
                 ->join('order_status as os', 'os.id', '=', 'or.id_order_status')
                 ->join('order_details as od', 'od.id_order', '=', 'or.id')
                 ->join('products as p', 'p.id', '=', 'od.id_product')
                 ->where('or.id_user', Auth::user()->id)
-                ->where('os.id', 1)
+                ->whereIn('os.id', [1, 4])
                 ->get();
             // dd($data);
 
             if (!empty($data[0])) {
                 $result = array();
                 foreach ($data as $item) {
-                    $item->image_tenant = env('APP_URL') . '/storage/uploads/tenant/' . $item->image_tenant;
-                    $item->link = env('APP_URL') . route('history.detail', $item->id_order_detail);
+                    $item->image_tenant = env('APP_URL') . '/storage/uploads/outlet/' . $item->image_tenant;
+                    $item->link = route('history.detail', $item->id_order_detail);
                     array_push($result, $item);
                 }
             } else {
@@ -89,6 +91,8 @@ class HistoryController extends Controller
                     'ot.name as tenant_name_order',
                     'or.payment_method as payment_method_order',
                     'or.total as total_order',
+                    'or.payment_status',
+                    'or.payment_url'
                 )
                 ->join('outlets as ot', 'ot.id', '=', 'or.id_outlet')
                 ->join('order_status as os', 'os.id', '=', 'or.id_order_status')
@@ -96,7 +100,9 @@ class HistoryController extends Controller
                 ->join('products as p', 'p.id', '=', 'od.id_product')
                 ->join('users as u', 'u.id', '=', 'or.id_user')
                 ->where('or.id_user', Auth::user()->id)
-                ->where('os.name', 'sukses')
+                ->whereIn('os.id', [1, 4])
+                ->where('od.id', $id)
+
                 ->get();
 
             $data2 = DB::table('orders as or')
@@ -124,7 +130,7 @@ class HistoryController extends Controller
                 ->join('cart as c', 'c.id_product', '=', 'p.id')
                 ->join('users as u', 'u.id', '=', 'or.id_user')
                 ->where('or.id_user', Auth::user()->id)
-                // ->where('or.id', $id)
+
                 ->get();
             // dd($data2);
             // array_push($data_history, $data);
@@ -163,7 +169,7 @@ class HistoryController extends Controller
                     unset($item->total_order);
 
                     // unset($item->id);
-                    $item->image_product = env('APP_URL') . '/storage/uploads/history-detail/' . $item->image_product;
+                    $item->image_product = env('APP_URL') . '/storage/uploads/products/' . $item->image_product;
                     array_push($result_product, $item);
                 }
                 // dd(

@@ -9,6 +9,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -198,35 +199,145 @@ class UserController extends Controller
 
     public function updateUser(Request $request)
     {
-        $data = $request->all();
 
-        $user = Auth::user();
-        $user->update($data);
+        try {
+            // $user = $request->all();
 
-        return response()->json([
-            'meta' => [
-                'status' => 'success',
-                'message' => 'Profile Updated'
-            ],
-            'data' => $user
-        ], 200);
+            $user = Auth::user();
 
+            // return response()->json($request->email == $user->email);
+            // dd(User::where('email', $request->email)->first(), $request->email);
+            if (User::where('email', $request->email)->first() != null) {
+                return response()->json([
+                    'meta' => [
+                        'status' => 'Error',
+                        'message' => 'E-mail already in use'
+                    ],
+                ], 400);
+            }
+            // return response()->json($user);
+
+
+            if (!$request->hasFile('image')) {
+                $validator = Validator::make($request->all(), [
+                    // 'image' => 'image|mimes:png,jpg,jpg|max:2048',
+                    'phone' => 'min:10',
+                    'email' => 'email'
+                ]);
+
+                if ($validator->fails()) {
+                    return response()->json([
+                        'meta' => [
+                            'status' => 'failed',
+                            'message' => 'Bad Request'
+                        ],
+                        'data' => $validator->messages()->all()
+                    ], 400);
+                }
+            } else {
+                $validator = Validator::make($request->all(), [
+                    'image' => 'required|image|mimes:png,jpg,jpg|max:2048',
+                    'phone' => 'min:10',
+                    'email' => 'email'
+                ]);
+
+
+                if ($validator->fails()) {
+                    return response()->json([
+                        'meta' => [
+                            'status' => 'failed',
+                            'message' => 'Bad Request'
+                        ],
+                        'data' => $validator->messages()->all()
+                    ], 400);
+                }
+
+                $image = $request->file('image');
+                $image_name = time() . '-user-update-' . $request->name . '.' . $image->getClientOriginalExtension();
+                Storage::putFileAs('public/uploads/user/', $image, $image_name);
+                $user->image = $image_name;
+            }
+
+
+            $user->name = $request->name;
+            $user->phone = $request->phone;
+            $user->email = $request->email;
+            // $user->password = Hash::make($request->password);
+            $user->save();
+
+            // $user->update($data);
+
+
+            return response()->json([
+                'meta' => [
+                    'status' => 'success',
+                    'message' => 'Profile Updated'
+                ],
+                'data' => $user
+            ], 200);
+        } catch (Exception $error) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'error',
+                    'message' => 'Something went wrong'
+                ],
+                'data' => $error->getMessage()
+            ], 500);
+        }
         // return ResponseFormatter::success($user, 'Profile Updated');
     }
 
-    public function tes()
+    public function changePassword(Request $request)
     {
-        $user = User::all();
-        // return ResponseFormatter::success([
-        //     'data' => $user
-        // ]);
-        // $data = Auth::user()->name;
-        return response()->json([
-            'meta' => [
-                'success' => true,
-                'message' => 'data berhasil diambil',
-            ],
-            'data' => $user,
-        ], 200);
+        try {
+
+            $validator = Validator::make($request->all(), [
+                'password' => 'required'
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'meta' => [
+                        'status' => 'failed',
+                        'message' => 'Bad Request'
+                    ],
+                    'data' => $validator->messages()->all()
+                ], 400);
+            }
+            $user = Auth::user();
+            $user->password = Hash::make($request->password);
+            $user->save();
+
+            return response()->json([
+                'meta' => [
+                    'status' => 'success',
+                    'message' => 'Profile Updated'
+                ],
+            ], 200);
+        } catch (Exception $error) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'error',
+                    'message' => 'Something went wrong'
+                ],
+                'data' => $error->getMessage()
+            ], 500);
+        }
     }
+
+    // public function tes()
+    // {
+    //     $user = User::all();
+    //     // return ResponseFormatter::success([
+    //     //     'data' => $user
+    //     // ]);
+    //     // $data = Auth::user()->name;
+    //     return response()->json([
+    //         'meta' => [
+    //             'success' => true,
+    //             'message' => 'data berhasil diambil',
+    //         ],
+    //         'data' => $user,
+    //     ], 200);
+    // }
 }

@@ -683,4 +683,86 @@ class CartController extends Controller
             ], 500);
         }
     }
+
+    public function history()
+    {
+        try {
+
+            // $order = Orders::orderBy('payment_status')
+            //     // ->select('id', )
+            //     ->where('id_user', Auth::user()->id)
+            //     ->orderBy('date_order', 'DESC')
+            //     ->get();
+            // $history_link = env('APP_URL') . route('history.detail', $item->id);
+
+            $order = DB::table('order_details as od')
+                ->select(
+                    'od.id',
+                    'ol.name',
+                    'ol.image',
+                )
+                ->whereIn('os.id', [1, 4])
+                ->where('o.id_user', Auth::user()->id)
+                ->join('orders as o', 'o.id', '=', 'od.id_order')
+                ->join('order_status as os', 'os.id', '=', 'o.id_order_status')
+                ->join('outlets as ol', 'ol.id', '=', 'o.id_outlet')
+                ->get();
+
+
+            $data = array();
+            foreach ($order as $item) {
+                $item->link_history = route('history.detail', $item->id);
+                $item->image = env('APP_URL') . '/storage/uploads/outlet/' . $item->image;
+                array_push($data, $item);
+            }
+            // $order = Orders::where('id', 9)->get();
+            if (empty($order)) {
+                return response()->json([
+                    'meta' => [
+                        'status' => 'failed',
+                        'message' => 'not found'
+                    ]
+                ], 200);
+            } else {
+                return response()->json([
+                    'meta' => [
+                        'status' => 'success',
+                        'message' => $data
+                    ]
+                ], 200);
+            }
+        } catch (Exception $error) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'error',
+                    'message' => 'Something went wrong'
+                ],
+                'data' => $error->getMessage()
+            ], 500);
+        }
+    }
+
+    public function failed_order($id)
+    {
+        try {
+            $order = Orders::where('id', $id)->where('id_user', Auth::user()->id)->first();
+            $order->id_order_status = 2;
+            $order->save();
+            return response()->json([
+                'meta' => [
+                    'status' => 'success',
+                    'message' => 'Success Canceled Order'
+                ],
+                // 'data' => $order
+            ], 200);
+        } catch (Exception $error) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'error',
+                    'message' => 'Something went wrong'
+                ],
+                'data' => $error->getMessage()
+            ], 500);
+        }
+    }
 }

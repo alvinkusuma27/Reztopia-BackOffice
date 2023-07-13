@@ -23,7 +23,7 @@ class TenantController extends Controller
             $categories = Categories::all();
             $results_tenant = array();
             foreach ($tenant as $item) {
-                $item->image = env('APP_URL') . '/storage/uploads/tenant/' . $item->image;
+                $item->image = env('APP_URL') . '/storage/uploads/outlet/' . $item->image;
                 $item->link = env('APP_URL') . route('tenant.search', $item->id);
                 array_push($results_tenant, $item);
             }
