@@ -14,32 +14,48 @@
     <div class="page-content">
         <section class="row">
             <div class="col-12 col-lg-12">
+                {{-- <div class="row">
+                    <div class="col-6 col-lg-6 col-md-6">
+                        <div class="card">
+                            <div class="card-body px-4 py-4-5">
+                                <div class="row">
+                                    <h6 class="text-muted font-semibold">
+                                        Omzet Today
+                                    </h6>
+                                    <h6 class="font-extrabold mb-0">Rp.ini</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-6 col-md-6">
+                        <div class="card">
+                            <div class="card-body px-4 py-4-5">
+                                <div class="row">
+                                    <h6 class="text-muted font-semibold">
+                                        Omzet
+                                    </h6>
+                                    <h6 class="font-extrabold mb-0">Rp.ini</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> --}}
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            {{-- <div class="card-header">
-                                <div class="d-flex justify-content-lg-between">
-                                    <div class="flex-start">
-                                        <input type="text" class="btn btn-outline-dark text-start ml-5">
-                                    </div>
-                                    <button class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#modalCreate">Tambah</button>
-
-                                </div>
-                            </div> --}}
-                            <div class="card-content">
-                                <div class="table-responsive">
-                                    <table class="table table-striped" id="table1">
-                                        <thead>
-                                            <tr>
-                                                <th>Nomor</th>
-                                                <th>Lokasi Tenant</th>
-                                                <th>Nama Tenant</th>
-                                                <th>Pengaturan</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($outlet as $item)
+                            
+                            <div class="card-body">
+                                <table class="table table-striped" id="table1">
+                                    <thead>
+                                        <tr>
+                                            <th>Nomor</th>
+                                            <th>Lokasi Tenant</th>
+                                            <th>Nama Tenant</th>
+                                            <th>Pengaturan</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($outlet as $item)
                                                 <tr>
                                                     <td class="text-bold-500">{{ $item->user[0]->id }}</td>
                                                     <td class="text-bold-500">{{ $item->position }}</td>
@@ -55,35 +71,8 @@
                                                     </td>
                                                 </tr>
                                             @endforeach
-                                        </tbody>
-                                    </table>
-                                    {{-- <table class="table mb-0">
-                                        <thead class="thead-dark">
-                                            <tr>
-                                                <th>Nomor</th>
-                                                <th>Nama</th>
-                                                <th>Tenant</th>
-                                                <th>Pengaturan</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($outlet as $item)
-                                                <tr>
-                                                    <td class="text-bold-500">{{ $item->user[0]->id }}</td>
-                                                    <td>{{ $item->user[0]->name }}</td>
-                                                    <td class="text-bold-500">{{ $item->name }}</td>
-                                                    <td>
-                                                        <a href="" data-bs-toggle="modal"
-                                                            class="btn {{ $item->active == 'active' ? 'btn-outline-success' : 'btn-outline-danger' }} ml-1"
-                                                            data-bs-target="#modal{{ $item->id }}">
-                                                            {{ $item->active == 'active' ? 'active' : 'deactive' }}
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table> --}}
-                                </div>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -92,6 +81,7 @@
 
         </section>
     </div>
+
 
     @foreach ($outlet as $item)
         <div class="modal fade" id="modal{{ $item->id }}" tabindex="-1" role="dialog"
