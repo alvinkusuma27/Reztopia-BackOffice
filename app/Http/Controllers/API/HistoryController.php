@@ -36,6 +36,7 @@ class HistoryController extends Controller
                 ->join('products as p', 'p.id', '=', 'od.id_product')
                 ->where('or.id_user', Auth::user()->id)
                 ->whereIn('os.id', [1, 4])
+                ->groupBy('or.id')
                 ->get();
             // dd($data);
 
@@ -101,7 +102,7 @@ class HistoryController extends Controller
                 ->join('users as u', 'u.id', '=', 'or.id_user')
                 ->where('or.id_user', Auth::user()->id)
                 ->whereIn('os.id', [1, 4])
-                ->where('od.id', $id)
+                ->where('or.id', $id)
 
                 ->get();
 
@@ -130,7 +131,6 @@ class HistoryController extends Controller
                 ->join('cart as c', 'c.id_product', '=', 'p.id')
                 ->join('users as u', 'u.id', '=', 'or.id_user')
                 ->where('or.id_user', Auth::user()->id)
-
                 ->get();
             // dd($data2);
             // array_push($data_history, $data);

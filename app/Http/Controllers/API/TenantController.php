@@ -19,7 +19,9 @@ class TenantController extends Controller
 
         // link tenant, information tenant
         try {
-            $tenant = Outlet::all();
+            $tenant = Outlet::with('user')->whereHas('user', function ($query) {
+                $query->where('roles', 'admin');
+            })->get();
             $categories = Categories::all();
             $results_tenant = array();
             foreach ($tenant as $item) {
