@@ -39,7 +39,7 @@ class UserController extends Controller
                         'meta' => [
                             'message' => 'Authentication Failed'
                         ]
-                    ], 500);
+                    ], 401);
                 }
 
                 if (Auth::user()->roles != 'mahasiswa') {
@@ -201,22 +201,10 @@ class UserController extends Controller
     {
 
         try {
-            // $user = $request->all();
 
-            $user = Auth::user();
-
-            // return response()->json($request->email == $user->email);
-            // dd(User::where('email', $request->email)->first(), $request->email);
-            if (User::where('email', $request->email)->first() != null) {
-                return response()->json([
-                    'meta' => [
-                        'status' => 'Error',
-                        'message' => 'E-mail already in use'
-                    ],
-                ], 400);
-            }
-            // return response()->json($user);
-
+            $user = Auth::user()->where('roles', 'mahasiswa')
+                ->where('id', (int) $request->id)
+                ->first();
 
             if (!$request->hasFile('image')) {
                 $validator = Validator::make($request->all(), [
@@ -259,9 +247,12 @@ class UserController extends Controller
             }
 
 
+
             $user->name = $request->name;
             $user->phone = $request->phone;
-            $user->email = $request->email;
+            if (User::where('email', '!=', $request->email)->first()) {
+                $user->email = $request->email;
+            }
             // $user->password = Hash::make($request->password);
             $user->save();
 
@@ -292,7 +283,7 @@ class UserController extends Controller
         try {
 
             $validator = Validator::make($request->all(), [
-                'password' => 'required'
+                'password' => 'required|min:8'
             ]);
 
             if ($validator->fails()) {
@@ -304,14 +295,17 @@ class UserController extends Controller
                     'data' => $validator->messages()->all()
                 ], 400);
             }
-            $user = Auth::user();
+
+            $user = Auth::user()->where('roles', 'mahasiswa')
+                ->where('id', (int) $request->id)
+                ->first();
             $user->password = Hash::make($request->password);
             $user->save();
 
             return response()->json([
                 'meta' => [
                     'status' => 'success',
-                    'message' => 'Profile Updated'
+                    'message' => 'Password Updated'
                 ],
             ], 200);
         } catch (Exception $error) {
