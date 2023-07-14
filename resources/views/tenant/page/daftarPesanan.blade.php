@@ -228,10 +228,10 @@
                                             </div>
                                         </div>
                                         <div class="confirm d-flex gap-4">
-                                            <div class="time" id="time-{{ $loop->iteration - 1 }}">
+                                            {{-- <div class="time" id="time-{{ $loop->iteration - 1 }}">
                                                 <span id="minutes-{{ $loop->iteration - 1 }}">00</span>:<span
                                                     id="seconds-{{ $loop->iteration - 1 }}">00</span>
-                                            </div>
+                                            </div> --}}
                                             <div class="confirm-btn"
                                                 style="width: 109px; height: 34px; background: #319795; border-radius:10px; border-width:none"
                                                 data-card-index="0">
@@ -273,9 +273,16 @@
         </div>
 
 </body>
+{{-- 
+@if ($checkLastOrder < $checkDate)
+    <script>
+        sessionStorage.clear()
+    </script>
+@endif --}}
+
 <script>
     window.onload = function() {
-        var cardCount = 2; // Jumlah card yang ada
+        var cardCount = {{ $count_id }}; // Jumlah card yang ada
         var intervals = []; // Array untuk menyimpan interval timers
 
         function startTimer(index) {
@@ -352,7 +359,7 @@
 
     setTimeout(() => {
         location.reload()
-    }, 10000)
+    }, 5000)
 </script>
 
 </html>

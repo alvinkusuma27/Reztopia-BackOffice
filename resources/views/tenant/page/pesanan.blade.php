@@ -17,7 +17,7 @@
 
         body.theme-dark a {
             /* text-decoration: none !important;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                    color: white; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        color: white; */
             color: inherit;
             text-decoration: none !important;
         }
@@ -200,6 +200,6 @@
     <script>
         setTimeout(() => {
             location.reload()
-        }, 10000)
+        }, 5000)
     </script>
 @endpush

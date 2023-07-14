@@ -509,16 +509,22 @@ class LaporanController extends Controller
 
             $order = Orders::with('product', 'order_detail.product_laporan_and_pesanan', 'user', 'order_status_pesanan_and_laporan')
                 ->where('id_order_status', 4)
-                ->whereDate('date_order', $tgl)
-                ->where('payment_status', 'SUCCESS')
+                // ->whereDate('date_order', $tgl)
+                // ->where('payment_status', 'SUCCESS')
                 ->get();
+
+            $checkLastOrder = Orders::latest()->first()->date_order;
+            $checkDate = Carbon::now()->toDateString();
+
+            $count_id = $order->count('id');
 
 
             Orders::where('date_order', '<', Carbon::now()->toDateString())->update([
                 'id_order_status' => 2
             ]);
 
-            return view('tenant.page.daftarPesanan', compact('active', 'order', 'day', 'id'));
+            return view('tenant.page.daftarPesanan', compact('active', 'order', 'day', 'id', 'count_id', 'checkLastOrder', 'checkDate'));
+            // return view('tenant.page.pos', compact('active', 'order', 'day', 'id', 'count_id', 'checkLastOrder', 'checkDate'));
         } catch (Exception $error) {
             dd($error->getMessage());
         }
