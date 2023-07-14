@@ -1,18 +1,15 @@
 body {
-    background-color: #fff;
+    background-color: #F6FBFD;
 }
 #auth {
     height: 100vh;
     overflow-x: hidden;
 }
-#auth #auth-right {
-    background: url(https://t-2.tstatic.net/newsmaker/foto/bank/images/anselma-putri.jpg),
-        linear-gradient(90deg, #2d499d, #3f5491);
-    background-size: contain;
-    height: 100%;
-}
+
 #auth #auth-left {
     padding: 5rem 8rem;
+    width: 50%;
+    margin: auto;
 }
 #auth #auth-left .auth-title {
     font-size: 4rem;

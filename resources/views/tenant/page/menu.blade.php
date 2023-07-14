@@ -100,8 +100,8 @@
                                                     <button class="dropdown-item" href="#" data-bs-toggle="modal"
                                                         data-bs-target="#modalEditProduk{{ $item->id_product }}">
                                                         <img src="{{ $item->image_product != null ? asset('storage/uploads/products/' . $item->image_product) : asset('assets/no-image.png') }}"
-                                                            class="card-img-top img-fluid" alt="{{ $item->image_product }}">
-                                                        <div class="card-body color-card">
+                                                            class="card-img-top img-fluid" alt="{{ $item->image_product }}" style="width: 350px; height: 200px">
+                                                        <div class="card-body bg-light">
                                                             <h5 class="card-title">{{ $item->nama_makanan }}</h5>
                                                             <p class="card-text">
                                                                 {{ $item->description }}
@@ -222,6 +222,7 @@
                         @csrf
                         <div class="modal-body">
                             <div class="form-group mb-3">
+            
                                 <input type="text" hidden name="id_outlet" value="{{ $id_outlet }}">
                                 <input type="text" hidden name="id_category" value="{{ $item->id }}">
                                 <label for="basicInput">Nama Category</label>
@@ -349,7 +350,7 @@
     {{-- MODAL TAMBAH PRODUCT --}}
     <div class="modal fade" id="modalTambahProduk" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-dialog modal-dialog-scrollable" role="document" style="height: 110%;">
             <div class="modal-content">
                 <div class="modal-header d-flex justify-content-center">
                     <h5 class="modal-title" id="exampleModalScrollableTitle">Tambah Produk</h5>
@@ -418,7 +419,7 @@
     @foreach ($products as $item)
         <div class="modal fade" id="modalEditProduk{{ $item->id_product }}" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-dialog modal-dialog-scrollable" role="document" style="height: 110%;">
                 <div class="modal-content">
                     <div class="modal-header d-flex justify-content-center">
                         <h5 class="modal-title" id="exampleModalScrollableTitle">Edit Produk</h5>

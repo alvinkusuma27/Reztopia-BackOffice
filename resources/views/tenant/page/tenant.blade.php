@@ -139,11 +139,6 @@
                                                         data-bs-target="#modalEdit{{ $item->id }}">Edit</button>
                                                     {{-- <button
                                                             class="btn btn-outline-primary rounded-pill mx-1">Atur</button> --}}
-                                                    <a href="{{ route('tenant.destroy', $item->id) }}"
-                                                        data-bs-toggle="modal" class="btn btn-outline-danger ml-1"
-                                                        data-bs-target="#modalDelete{{ $item->id }}">
-                                                        <i class="bi bi-trash-fill"></i>
-                                                    </a>
                                                 </td>
                                             </tr>
                                         @endforeach

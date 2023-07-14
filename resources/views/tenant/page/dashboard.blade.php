@@ -4,7 +4,7 @@
 @section('container')
     <div class="page-heading">
         <h3>Welcome Tenant {{ empty($outlet[0]) ? '0' : $outlet[0]->tenant_name }}</h3>
-        <p>All System are running smothly! you have 3 unread <span style="color:aqua">alert!</span> </p>
+        <p>All System are running smothly! you have 3 unread</p>
     </div>
     <div class="page-content">
         <section class="row">
