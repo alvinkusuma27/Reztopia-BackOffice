@@ -35,6 +35,7 @@ return new class extends Migration
             $table->text('link')->nullable();
             $table->text('payment_url')->nullable();
             $table->string('payment_status')->nullable();
+            $table->boolean('is_hidden')->nullable()->default(0);
             $table->date('deleted_at')->nullable();
             $table->date('date_order')->nullable();
             $table->text('time_order')->nullable();
