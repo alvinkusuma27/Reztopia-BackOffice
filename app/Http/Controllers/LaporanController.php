@@ -509,8 +509,8 @@ class LaporanController extends Controller
 
             $order = Orders::with('product', 'order_detail.product_laporan_and_pesanan', 'user', 'order_status_pesanan_and_laporan')
                 ->where('id_order_status', 4)
-                // ->whereDate('date_order', $tgl)
-                // ->where('payment_status', 'SUCCESS')
+                ->whereDate('date_order', $tgl)
+                ->where('payment_status', 'SUCCESS')
                 ->get();
 
             $checkLastOrder = Orders::latest()->first()->date_order;
