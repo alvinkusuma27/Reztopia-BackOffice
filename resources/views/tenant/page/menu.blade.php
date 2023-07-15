@@ -2,9 +2,10 @@
 @section('title', 'MENU')
 @push('head')
     <style>
-        .color-card {
-            background-color: rgb(14, 12, 27);
-        }
+        /* .color-card {
+                        background-color: rgb(14, 12, 27);
+                        background-color: #F2F2F2;
+                    } */
     </style>
 @endpush
 
@@ -99,9 +100,18 @@
                                                 <div class="card-content">
                                                     <button class="dropdown-item" href="#" data-bs-toggle="modal"
                                                         data-bs-target="#modalEditProduk{{ $item->id_product }}">
-                                                        <img src="{{ $item->image_product != null ? asset('storage/uploads/products/' . $item->image_product) : asset('assets/no-image.png') }}"
-                                                            class="card-img-top img-fluid" alt="{{ $item->image_product }}" style="width: 350px; height: 200px">
-                                                        <div class="card-body bg-light">
+                                                        @if (Storage::exists($item->image_product))
+                                                            <img src="{{ $item->image_product != null ? asset('storage/uploads/products/' . $item->image_product) : asset('assets/no-image.png') }}"
+                                                                class="card-img-top img-fluid"
+                                                                alt="{{ $item->image_product }}"
+                                                                style="width: 350px; height: 200px">
+                                                        @else
+                                                            <img src="{{ asset('assets/no-image.png') }}"
+                                                                class="card-img-top img-fluid"
+                                                                alt="{{ $item->image_product }}"
+                                                                style="width: 350px; height: 200px">
+                                                        @endif
+                                                        <div class="card-body">
                                                             <h5 class="card-title">{{ $item->nama_makanan }}</h5>
                                                             <p class="card-text">
                                                                 {{ $item->description }}
@@ -222,7 +232,7 @@
                         @csrf
                         <div class="modal-body">
                             <div class="form-group mb-3">
-            
+
                                 <input type="text" hidden name="id_outlet" value="{{ $id_outlet }}">
                                 <input type="text" hidden name="id_category" value="{{ $item->id }}">
                                 <label for="basicInput">Nama Category</label>
@@ -235,7 +245,7 @@
                                     <div class="col-4">
                                         <div class="card">
                                             <div class="card-content">
-                                                <div class="card-body color-card">
+                                                <div class="card-body">
                                                     <div class="custom-control custom-checkbox image-checkbox">
                                                         <input type="checkbox" class="custom-control-input"
                                                             name="id_product[]" id="ck{{ $item->id_product }}"
