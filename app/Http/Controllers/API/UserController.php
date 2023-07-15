@@ -283,7 +283,8 @@ class UserController extends Controller
         try {
 
             $validator = Validator::make($request->all(), [
-                'password' => 'required|min:8'
+                'password' => 'required|min:8',
+                'password_old' => 'required|min:8'
             ]);
 
             if ($validator->fails()) {
@@ -296,9 +297,17 @@ class UserController extends Controller
                 ], 400);
             }
 
+
             $user = Auth::user()->where('roles', 'mahasiswa')
                 ->where('id', (int) $request->id)
                 ->first();
+
+            if (!Hash::check($request->password_old, $user->password)) {
+                return response()->json([
+                    'message' => "Password is wrong",
+                ], 400);
+            }
+
             $user->password = Hash::make($request->password);
             $user->save();
 
