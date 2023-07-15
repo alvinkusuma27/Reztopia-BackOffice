@@ -27,9 +27,10 @@
             width: 110px;
             height: 100vh;
             box-shadow: 6px 8px 14px 0px rgba(192, 192, 192, 0.12);
-            position: fixed;
+            position:fixed;
             display: flex;
             align-items: center;
+            z-index: 10;
         }
 
         .icon {
@@ -60,8 +61,7 @@
         .container {
             margin-top: 120px;
             margin-left: 140px;
-            margin-right: 140px;
-
+            margin-right: 140px;  
         }
 
         .navbar-brand img {
@@ -70,7 +70,8 @@
 
         .card {
             width: 374px;
-
+            height: 100%;
+            flex: 0 0 auto;/* Ganti sesuai kebutuhan */
         }
 
         .name {
@@ -145,6 +146,13 @@
         .icon a {
             text-decoration: none;
         }
+
+        .card-container {
+        width: 100%;
+        display: flex;
+        z-index: 5;
+    }
+
     </style>
 </head>
 
@@ -208,15 +216,15 @@
                     </div>
                 </div>
             </div>
-            <div class="col-9">
+            <div class="con">
                 <!-- Konten halaman -->
                 <div class="container">
                     <div class="card-container d-flex gap-3" id="card-container">
                         @foreach ($order as $item)
                             @php
-                                // dd($item);
+                                //dd($item);
                             @endphp
-                            <div class="card" id="card-{{ $loop->iteration }}">
+                            <div class="card" id="card-{{ $loop->iteration }}" @if($item->is_hidden) style="display: none;" @endif>
                                 <div class="card-body">
                                     <div class="head d-flex justify-content-between">
                                         <div class="customer">
@@ -228,10 +236,10 @@
                                             </div>
                                         </div>
                                         <div class="confirm d-flex gap-4">
-                                            {{-- <div class="time" id="time-{{ $loop->iteration - 1 }}">
+                                            <div class="time" id="time-{{ $loop->iteration - 1 }}">
                                                 <span id="minutes-{{ $loop->iteration - 1 }}">00</span>:<span
                                                     id="seconds-{{ $loop->iteration - 1 }}">00</span>
-                                            </div> --}}
+                                            </div>
                                             <div class="confirm-btn"
                                                 style="width: 109px; height: 34px; background: #319795; border-radius:10px; border-width:none"
                                                 data-card-index="0">
@@ -266,7 +274,6 @@
                                 </div>
                             </div>
                         @endforeach
-                        <br>
                     </div>
                 </div>
             </div>
@@ -331,35 +338,15 @@
             intervals.push(interval); // Tambahkan interval ke array intervals
         }
 
-        // Tambahkan event listener pada tombol "Konfirmasi" di setiap card
-        var confirmButtons = document.getElementsByClassName("confirm-btn");
-        for (var i = 0; i < confirmButtons.length; i++) {
-            confirmButtons[i].addEventListener("click", function() {
-                var cardIndex = this.dataset.cardIndex;
-                console.log("Konfirmasi card dengan index:", cardIndex);
-                // Lakukan tindakan yang diinginkan saat tombol "Konfirmasi" ditekan
-
-                // Hapus kartu saat tombol "Konfirmasi" ditekan
-                document.getElementById(`card-${cardIndex}`).remove();
-                // remove local storage
-                // for (var i = 0; i < cardCount; i++) {
-                //   localStorage.removeItem(`card-${i}`);
-                // }
-                clearInterval(intervals[
-                    cardIndex
-                ]); // Hentikan perhitungan waktu dengan menghapus interval yang sesuai dari array intervals
-            });
-        }
-
         // Saat halaman dimuat, cek penyimpanan browser untuk mengatur ulang timer
         for (var i = 0; i < cardCount; i++) {
             startTimer(i);
         }
     };
 
-    setTimeout(() => {
-        location.reload()
-    }, 5000)
+    // setTimeout(() => {
+    //     location.reload()
+    // }, 5000)
 </script>
 
 </html>
