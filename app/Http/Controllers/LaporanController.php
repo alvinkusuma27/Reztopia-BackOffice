@@ -508,7 +508,10 @@ class LaporanController extends Controller
             $day = bin2hex($tgl->toDateTimeString());
 
             $order = Orders::with('product', 'order_detail.product_laporan_and_pesanan', 'user', 'order_status_pesanan_and_laporan')
-                ->where('id_order_status', 4)
+                ->where(function ($query) {
+                    $query->where('id_order_status', 4)
+                        ->orWhere('id_order_status', 1);
+                })
                 ->whereDate('date_order', $tgl)
                 ->where('payment_status', 'SUCCESS')
                 ->get();
@@ -538,14 +541,20 @@ class LaporanController extends Controller
                 'id' => 'required'
             ]);
 
+            //dd("salom");
+
             if ($validator->fails()) {
                 Alert::toast($validator->messages()->all(), 'error');
                 return redirect()->route('pesanan');
             }
             $order = Orders::findOrFail($request->id);
             $order->update([
-                'id_order_status' => 1
+                'id_order_status' => 1,
             ]);
+
+            $id_order = $order->id;
+            DB::table('orders')->where('id', $id_order)
+            ->update(['is_hidden' => 1]);
 
             if ($order->update()) {
                 Alert::toast('Order Successfully Accepted', 'success');
