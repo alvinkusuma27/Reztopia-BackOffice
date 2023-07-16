@@ -328,6 +328,39 @@ class UserController extends Controller
         }
     }
 
+    public function checkToken(Request $request)
+    {
+        try {
+            $token = $request->header('Authorization');
+            if ($token) {
+                $accessToken = str_replace('Bearer ', '', $token);
+
+                return response()->json([
+                    'meta' => [
+                        'status' => 'success',
+                        'message' => 'Token found'
+                    ],
+                    'token' => $accessToken
+                ], 200);
+            } else {
+                return response()->json([
+                    'meta' => [
+                        'status' => 'success',
+                        'message' => 'Token not Found'
+                    ],
+                ], 401);
+            }
+        } catch (Exception $error) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'error',
+                    'message' => 'Something went wrong'
+                ],
+                'data' => $error->getMessage()
+            ], 500);
+        }
+    }
+
     // public function tes()
     // {
     //     $user = User::all();
