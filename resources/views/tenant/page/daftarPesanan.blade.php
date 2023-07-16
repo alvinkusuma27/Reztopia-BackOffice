@@ -27,7 +27,7 @@
             width: 110px;
             height: 100vh;
             box-shadow: 6px 8px 14px 0px rgba(192, 192, 192, 0.12);
-            position:fixed;
+            position: fixed;
             display: flex;
             align-items: center;
             z-index: 10;
@@ -61,7 +61,7 @@
         .container {
             margin-top: 120px;
             margin-left: 140px;
-            margin-right: 140px;  
+            margin-right: 140px;
         }
 
         .navbar-brand img {
@@ -71,7 +71,8 @@
         .card {
             width: 374px;
             height: 100%;
-            flex: 0 0 auto;/* Ganti sesuai kebutuhan */
+            flex: 0 0 auto;
+            /* Ganti sesuai kebutuhan */
         }
 
         .name {
@@ -148,11 +149,10 @@
         }
 
         .card-container {
-        width: 100%;
-        display: flex;
-        z-index: 5;
-    }
-
+            width: 100%;
+            display: flex;
+            z-index: 5;
+        }
     </style>
 </head>
 
@@ -224,7 +224,8 @@
                             @php
                                 //dd($item);
                             @endphp
-                            <div class="card" id="card-{{ $loop->iteration }}" @if($item->is_hidden) style="display: none;" @endif>
+                            <div class="card" id="card-{{ $loop->iteration }}"
+                                @if ($item->is_hidden) style="display: none;" @endif>
                                 <div class="card-body">
                                     <div class="head d-flex justify-content-between">
                                         <div class="customer">
@@ -344,9 +345,9 @@
         }
     };
 
-    // setTimeout(() => {
-    //     location.reload()
-    // }, 5000)
+    setTimeout(() => {
+        location.reload()
+    }, 5000)
 </script>
 
 </html>
