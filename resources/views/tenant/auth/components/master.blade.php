@@ -7,7 +7,7 @@
     <title>Restopia - @yield('title')</title>
     <link rel="stylesheet" href="{{ asset('assets/css/main/app.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/pages/auth.css') }}">
-    <link rel="shortcut icon" href="{{ asset('assets/images/logo/favicon.ico') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="http://reztopia.my.id:8000/assets/images/logo/favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="{{ asset('assets/images/logo/favicon.png') }}" type="image/png">
 </head>
 

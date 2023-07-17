@@ -3,9 +3,9 @@
 @push('head')
     <style>
         /* .color-card {
-                        background-color: rgb(14, 12, 27);
-                        background-color: #F2F2F2;
-                    } */
+                                                                                                                                                                                                                                                                                                                    background-color: rgb(14, 12, 27);
+                                                                                                                                                                                                                                                                                                                    background-color: #F2F2F2;
+                                                                                                                                                                                                                                                                                                                } */
     </style>
 @endpush
 
@@ -100,7 +100,7 @@
                                                 <div class="card-content">
                                                     <button class="dropdown-item" href="#" data-bs-toggle="modal"
                                                         data-bs-target="#modalEditProduk{{ $item->id_product }}">
-                                                        @if (Storage::exists($item->image_product))
+                                                        @if (Storage::exists('public/uploads/products/' . $item->image_product))
                                                             <img src="{{ $item->image_product != null ? asset('storage/uploads/products/' . $item->image_product) : asset('assets/no-image.png') }}"
                                                                 class="card-img-top img-fluid"
                                                                 alt="{{ $item->image_product }}"
@@ -252,8 +252,13 @@
                                                             value="{{ $item->id_product }}">
                                                         <label class="custom-control-label"
                                                             for="ck{{ $item->id_product }}">
-                                                            <img src="{{ $item->image_product != null ? asset('storage/uploads/products/' . $item->image_product) : asset('assets/no-image.png') }}"
-                                                                alt="#" class="img-fluid">
+                                                            @if (Storage::exists('public/uploads/products/' . $item->image_product))
+                                                                <img src="{{ $item->image_product != null ? asset('storage/uploads/products/' . $item->image_product) : asset('assets/no-image.png') }}"
+                                                                    alt="#" class="img-fluid">
+                                                            @else
+                                                                <img src="{{ asset('assets/no-image.png') }}"
+                                                                    alt="#" class="img-fluid">
+                                                            @endif
                                                             <h5 class="mt-2">{{ $item->nama_makanan }}</h5>
                                                             <p>{{ $item->description }}</p>
                                                             <p>Rp.{{ number_format($item->original_price) }}</p>
@@ -525,8 +530,13 @@
                                                         name="id_product_{{ $item->id_product }}"
                                                         id="ck{{ $item->id_product }}" value="{{ $item->id_product }}">
                                                     <label class="custom-control-label" for="ck{{ $item->id_product }}">
-                                                        <img src="{{ $item->image_product != null ? asset('storage/uploads/products/' . $item->image_product) : asset('assets/no-image.png') }}"
-                                                            alt="#" class="img-fluid">
+                                                        @if (Storage::exists('public/uploads/products/' . $item->image_product))
+                                                            <img src="{{ $item->image_product != null ? asset('storage/uploads/products/' . $item->image_product) : asset('assets/no-image.png') }}"
+                                                                alt="#" class="img-fluid">
+                                                        @else
+                                                            <img src="{{ asset('assets/no-image.png') }}" alt="#"
+                                                                class="img-fluid">
+                                                        @endif
                                                         <h5 class="mt-2">{{ $item->nama_makanan }}</h5>
                                                         <p>{{ $item->description }}</p>
                                                         <p>Rp.{{ number_format($item->original_price) }}</p>
