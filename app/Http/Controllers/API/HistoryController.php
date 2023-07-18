@@ -92,7 +92,6 @@ class HistoryController extends Controller
                     'ot.name as tenant_name_order',
                     'or.payment_method as payment_method_order',
                     'or.total as total_order',
-                    'or.payment_status',
                     'or.payment_url'
                 )
                 ->join('outlets as ot', 'ot.id', '=', 'or.id_outlet')
@@ -122,6 +121,7 @@ class HistoryController extends Controller
                     'or.payment_method as payment_method_order',
                     'or.total as total_order',
                     'or.order_type',
+                    'or.payment_status',
                     'or.id',
                     'or.id_user'
                 )
