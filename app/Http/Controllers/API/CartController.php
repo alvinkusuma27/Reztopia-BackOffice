@@ -480,14 +480,11 @@ class CartController extends Controller
 
     public function checkout(Request $request)
     {
-        // dd($request->all());
         $validator = Validator::make(
             $request->all(),
             [
                 'id_order' => 'required',
-                // 'proof_of_payment' => 'required',
                 'order_type' => 'required|in:dine_in,take_away',
-                // 'payment_code' => 'required',
                 'table_number' => 'required',
             ]
         );
@@ -530,7 +527,6 @@ class CartController extends Controller
             Config::$is3ds = config('services.midtrans,is3ds');
 
             $transaction = Orders::with('user')->find($request->id_order);
-            // dd(config('services.midtrans'));
             $midtrans = [
                 'transaction_details' => [
                     'order_id' => $request->id_order,
