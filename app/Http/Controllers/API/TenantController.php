@@ -26,7 +26,7 @@ class TenantController extends Controller
             $results_tenant = array();
             foreach ($tenant as $item) {
                 $item->image = env('APP_URL') . '/storage/uploads/outlet/' . $item->image;
-                $item->link = env('APP_URL') . route('tenant.search', $item->id);
+                $item->link =  route('tenant.search', $item->id);
                 array_push($results_tenant, $item);
             }
             // dd($results_tenant);
@@ -36,6 +36,7 @@ class TenantController extends Controller
                 $item->link = route('menu.index', $item->id);
                 array_push($results_categories, $item);
             }
+
             return response()->json([
                 'meta' => [
                     'status' => 'success',

@@ -12,20 +12,6 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 
 Route::get('clear', function () {
 
@@ -101,24 +87,3 @@ Route::group(
 );
 
 Route::get('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
-
-
-// Route::get('/forgot-password', function () {
-//     return view('tenant.auth.forgot-password');
-// })->name('forgot-password');
-
-// Route::get('/sent-forgot-password', function () {
-//     return view('tenant.auth.sent-forgot-password');
-// })->name('sent-forgot-password');
-
-// Route::get('/success-reset', function () {
-//     return view('tenant.auth.success-reset');
-// })->name('success-reset');
-
-
-// Route::get('/history', function () {
-//     return view('tenant.page.history');
-// });
-// Route::get('/pesanann', function () {
-//     return view('tenant.page.daftarPesanan');
-// })->name("pesanann");
