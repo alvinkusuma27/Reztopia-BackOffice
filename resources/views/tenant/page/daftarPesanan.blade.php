@@ -323,9 +323,13 @@
                     seconds = 0;
                     appendSeconds.textContent = "00";
                 }
-                if (seconds > 1800) {
+                if (minutes >= 1 && minutes < 30) {
                     timeDiv.style.backgroundColor = "#E53E3E";
                 }
+                if (minutes >= 30) {
+                    timeDiv.style.backgroundColor = "#D34C46";
+                }
+            }
 
                 // Simpan data waktu ke penyimpanan browser
                 var timeData = {
@@ -347,7 +351,7 @@
 
     setTimeout(() => {
         location.reload()
-    }, 5000)
+    }, 10000)
 </script>
 
 </html>
