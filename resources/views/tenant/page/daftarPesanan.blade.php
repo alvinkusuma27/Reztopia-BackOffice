@@ -331,23 +331,22 @@
                 }
             }
 
-                // Simpan data waktu ke penyimpanan browser
-                var timeData = {
-                    minutes: minutes,
-                    seconds: seconds
-                };
-                localStorage.setItem(`card-${index}`, JSON.stringify(timeData));
-            }
-
-            interval = setInterval(updateTimer, 1000);
-            intervals.push(interval); // Tambahkan interval ke array intervals
+            // Simpan data waktu ke penyimpanan browser
+            var timeData = {
+                minutes: minutes,
+                seconds: seconds
+            };
+            localStorage.setItem(`card-${index}`, JSON.stringify(timeData));
         }
 
-        // Saat halaman dimuat, cek penyimpanan browser untuk mengatur ulang timer
-        for (var i = 0; i < cardCount; i++) {
-            startTimer(i);
-        }
-    };
+        interval = setInterval(updateTimer, 1000);
+        intervals.push(interval); // Tambahkan interval ke array intervals
+    }
+
+    // Saat halaman dimuat, cek penyimpanan browser untuk mengatur ulang timer
+    for (var i = 0; i < cardCount; i++) {
+        startTimer(i);
+    }
 
     setTimeout(() => {
         location.reload()
