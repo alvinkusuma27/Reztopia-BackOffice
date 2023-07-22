@@ -197,7 +197,7 @@
                         </a>
                     </div>
                     <div class="logout">
-                        <a href="/dashboard">
+                        <a href="{{ route('dashboard') }}">
                             <svg width="57" height="58" viewBox="0 0 57 58" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <g id="LogOut">
