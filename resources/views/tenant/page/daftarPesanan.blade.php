@@ -171,7 +171,7 @@
             <div class="col-3 sidebar">
                 <div class="icon">
                     <div class="detail text-center mt-3">
-                        <a href="{{ route('pesanan') }}" style="color:#6597BF">
+                        <a href="/pesanan" style="color:#6597BF">
                             <svg width="57" height="57" viewBox="0 0 57 58" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <g id="material-symbols:checklist-rtl-rounded">
@@ -184,7 +184,7 @@
                         </a>
                     </div>
                     <div class="history text-center mt-3">
-                        <a href="{{ route('history') }}" style="color:#C6D9E8">
+                        <a href="/history" style="color:#C6D9E8">
                             <svg width="57" height="57" viewBox="0 0 57 58" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <g id="ic:round-history">
@@ -323,34 +323,31 @@
                     seconds = 0;
                     appendSeconds.textContent = "00";
                 }
-                if (minutes >= 1 && minutes < 30) {
+                if (seconds > 1800) {
                     timeDiv.style.backgroundColor = "#E53E3E";
                 }
-                if (minutes >= 30) {
-                    timeDiv.style.backgroundColor = "#D34C46";
-                }
+
+                // Simpan data waktu ke penyimpanan browser
+                var timeData = {
+                    minutes: minutes,
+                    seconds: seconds
+                };
+                localStorage.setItem(`card-${index}`, JSON.stringify(timeData));
             }
 
-            // Simpan data waktu ke penyimpanan browser
-            var timeData = {
-                minutes: minutes,
-                seconds: seconds
-            };
-            localStorage.setItem(`card-${index}`, JSON.stringify(timeData));
+            interval = setInterval(updateTimer, 1000);
+            intervals.push(interval); // Tambahkan interval ke array intervals
         }
 
-        interval = setInterval(updateTimer, 1000);
-        intervals.push(interval); // Tambahkan interval ke array intervals
-    }
-
-    // Saat halaman dimuat, cek penyimpanan browser untuk mengatur ulang timer
-    for (var i = 0; i < cardCount; i++) {
-        startTimer(i);
-    }
+        // Saat halaman dimuat, cek penyimpanan browser untuk mengatur ulang timer
+        for (var i = 0; i < cardCount; i++) {
+            startTimer(i);
+        }
+    };
 
     setTimeout(() => {
         location.reload()
-    }, 10000)
+    }, 5000)
 </script>
 
 </html>
