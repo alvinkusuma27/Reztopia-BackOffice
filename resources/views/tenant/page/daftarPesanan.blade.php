@@ -171,7 +171,7 @@
             <div class="col-3 sidebar">
                 <div class="icon">
                     <div class="detail text-center mt-3">
-                        <a href="/pesanan" style="color:#6597BF">
+                        <a href="{{ route('pesanan') }}" style="color:#6597BF">
                             <svg width="57" height="57" viewBox="0 0 57 58" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <g id="material-symbols:checklist-rtl-rounded">
@@ -184,7 +184,7 @@
                         </a>
                     </div>
                     <div class="history text-center mt-3">
-                        <a href="/history" style="color:#C6D9E8">
+                        <a href="{{ route('history') }}" style="color:#C6D9E8">
                             <svg width="57" height="57" viewBox="0 0 57 58" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <g id="ic:round-history">
@@ -323,7 +323,7 @@
                     seconds = 0;
                     appendSeconds.textContent = "00";
                 }
-                if (seconds > 1800) {
+                if (seconds > 180) {
                     timeDiv.style.backgroundColor = "#E53E3E";
                 }
 
