@@ -323,13 +323,18 @@
                     appendMinutes.textContent = minutes < 10 ? "0" + minutes : minutes;
                     appendSeconds.textContent = "00";
                 }
-                if (minutes >= 1 && minutes < 30) {
+                if (minutes > 2) {
                     timeDiv.style.backgroundColor = "#E53E3E";
                 }
+<<<<<<< HEAD
                 if (minutes >= 30) {
                     timeDiv.style.backgroundColor = "#D34C46";
                 }
 
+=======
+
+                // Simpan data waktu ke penyimpanan browser
+>>>>>>> 1b2d33857568f6c3f1ec4006871c2a18fce744a7
                 var timeData = {
                     minutes: minutes,
                     seconds: seconds
@@ -338,6 +343,7 @@
             }
 
             interval = setInterval(updateTimer, 1000);
+<<<<<<< HEAD
             intervals.push(interval);
         }
 
@@ -346,9 +352,20 @@
         }
 
     }
+=======
+            intervals.push(interval); // Tambahkan interval ke array intervals
+        }
+
+        // Saat halaman dimuat, cek penyimpanan browser untuk mengatur ulang timer
+        for (var i = 0; i < cardCount; i++) {
+            startTimer(i);
+        }
+    };
+
+>>>>>>> 1b2d33857568f6c3f1ec4006871c2a18fce744a7
     setTimeout(() => {
         location.reload()
-    }, 10000)
+    }, 5000)
 </script>
 
 
