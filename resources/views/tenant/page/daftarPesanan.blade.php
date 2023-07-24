@@ -197,7 +197,7 @@
                         </a>
                     </div>
                     <div class="logout">
-                        <a href="/dashboard">
+                        <a href="{{ route('dashboard') }}">
                             <svg width="57" height="58" viewBox="0 0 57 58" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <g id="LogOut">
@@ -287,11 +287,13 @@
         sessionStorage.clear()
     </script>
 @endif --}}
-
+{{-- @php
+    dd($count_id);
+@endphp --}}
 <script>
     window.onload = function() {
-        var cardCount = {{ $count_id }}; // Jumlah card yang ada
-        var intervals = []; // Array untuk menyimpan interval timers
+        var cardCount = {{ $count_id }};
+        var intervals = [];
 
         function startTimer(index) {
             var storedTime = localStorage.getItem(`card-${index}`);
@@ -307,20 +309,18 @@
                 minutes = timeData.minutes;
                 seconds = timeData.seconds;
                 appendMinutes.textContent = minutes < 10 ? "0" + minutes : minutes;
-                appendSeconds.textContent = seconds <= 9 ? "0" + seconds : seconds;
+                appendSeconds.textContent = seconds < 10 ? "0" + seconds : seconds;
             }
 
             function updateTimer() {
                 seconds++;
                 if (seconds <= 9) {
                     appendSeconds.textContent = "0" + seconds;
-                } else {
-                    appendSeconds.textContent = seconds;
                 }
-                if (seconds > 59) {
+                if (seconds >= 60) {
                     minutes++;
-                    appendMinutes.textContent = minutes < 10 ? "0" + minutes : minutes;
                     seconds = 0;
+                    appendMinutes.textContent = minutes < 10 ? "0" + minutes : minutes;
                     appendSeconds.textContent = "00";
                 }
                 if (minutes >= 1 && minutes < 30) {
@@ -329,28 +329,27 @@
                 if (minutes >= 30) {
                     timeDiv.style.backgroundColor = "#D34C46";
                 }
+
+                var timeData = {
+                    minutes: minutes,
+                    seconds: seconds
+                };
+                localStorage.setItem(`card-${index}`, JSON.stringify(timeData));
             }
 
-            // Simpan data waktu ke penyimpanan browser
-            var timeData = {
-                minutes: minutes,
-                seconds: seconds
-            };
-            localStorage.setItem(`card-${index}`, JSON.stringify(timeData));
+            interval = setInterval(updateTimer, 1000);
+            intervals.push(interval);
         }
 
-        interval = setInterval(updateTimer, 1000);
-        intervals.push(interval); // Tambahkan interval ke array intervals
-    }
+        for (var i = 0; i < cardCount; i++) {
+            startTimer(i);
+        }
 
-    // Saat halaman dimuat, cek penyimpanan browser untuk mengatur ulang timer
-    for (var i = 0; i < cardCount; i++) {
-        startTimer(i);
     }
-
     setTimeout(() => {
         location.reload()
     }, 10000)
 </script>
+
 
 </html>
