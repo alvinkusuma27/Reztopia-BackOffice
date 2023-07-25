@@ -316,25 +316,25 @@
                 seconds++;
                 if (seconds <= 9) {
                     appendSeconds.textContent = "0" + seconds;
-                }
-                if (seconds >= 60) {
+                } else if (seconds >= 60) {
+
                     minutes++;
                     seconds = 0;
                     appendMinutes.textContent = minutes < 10 ? "0" + minutes : minutes;
                     appendSeconds.textContent = "00";
                 }
-                if (minutes > 2) {
+                // if (seconds >= 60) {
+                // }
+                if (minutes > 1) {
                     timeDiv.style.backgroundColor = "#E53E3E";
                 }
-<<<<<<< HEAD
-                if (minutes >= 30) {
+                elseif(minutes >= 2) {
+
                     timeDiv.style.backgroundColor = "#D34C46";
                 }
+                // if (minutes >= 30) {
+                // }
 
-=======
-
-                // Simpan data waktu ke penyimpanan browser
->>>>>>> 1b2d33857568f6c3f1ec4006871c2a18fce744a7
                 var timeData = {
                     minutes: minutes,
                     seconds: seconds
@@ -343,16 +343,6 @@
             }
 
             interval = setInterval(updateTimer, 1000);
-<<<<<<< HEAD
-            intervals.push(interval);
-        }
-
-        for (var i = 0; i < cardCount; i++) {
-            startTimer(i);
-        }
-
-    }
-=======
             intervals.push(interval); // Tambahkan interval ke array intervals
         }
 
@@ -362,7 +352,6 @@
         }
     };
 
->>>>>>> 1b2d33857568f6c3f1ec4006871c2a18fce744a7
     setTimeout(() => {
         location.reload()
     }, 5000)
