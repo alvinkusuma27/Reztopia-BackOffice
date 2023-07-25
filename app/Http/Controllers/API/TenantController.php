@@ -105,4 +105,51 @@ class TenantController extends Controller
             ], 500);
         }
     }
+
+    public function filter_location(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'position' => 'required'
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'meta' => [
+                        'status' => 'failed',
+                        'message' => 'Bad Request'
+                    ],
+                ], 400);
+            }
+
+            $tenant = Outlet::with('user')->where('position', $request->position)
+                ->get();
+
+            if (empty($tenant[0])) {
+                return response()->json([
+                    'meta' => [
+                        'status' => 'failed',
+                        'message' => 'Data Not Found'
+                    ]
+                ], 400);
+            }
+
+            return response()->json([
+                'meta' => [
+                    'status' => 'Success',
+                    'message' =>
+                    'Data Successfully Fetch',
+                ],
+                'data' => $tenant
+            ], 400);
+        } catch (Exception $error) {
+            return response()->json([
+                'meta' => [
+                    'status' => 'error',
+                    'message' => 'something went wrong'
+                ],
+                'data' => $error->getMessage()
+            ], 500);
+        }
+    }
 }

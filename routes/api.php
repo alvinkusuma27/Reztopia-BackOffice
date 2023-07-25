@@ -34,6 +34,7 @@ Route::middleware('auth:sanctum')->group(function () {
         function () {
             Route::get('index', [TenantController::class, 'index'])->name('tenant.index');
             Route::get('search/{value}', [TenantController::class, 'search'])->name('tenant.search');
+            Route::post('filter-location', [TenantController::class, 'filter_location']);
         }
     );
 
