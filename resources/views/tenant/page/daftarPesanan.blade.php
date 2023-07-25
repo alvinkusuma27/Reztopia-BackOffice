@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,17 +10,13 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
     </script>
-
     <style>
         body {
             background: #F6FBFD;
-
         }
-
         .navbar {
             background-color: #FFF;
         }
-
         .sidebar {
             background-color: #FFF;
             width: 110px;
@@ -32,11 +27,9 @@
             align-items: center;
             z-index: 10;
         }
-
         .icon {
             margin: auto;
         }
-
         .logo {
             background-color: #007bff;
             height: 80px;
@@ -44,55 +37,45 @@
             align-items: center;
             justify-content: center;
         }
-
         .logout {
             position: fixed;
             bottom: 0;
             margin-left: 10px;
             margin-bottom: 50px;
         }
-
         .logo img {
             width: 60px;
             height: 60px;
             object-fit: cover;
         }
-
         .container {
             margin-top: 120px;
             margin-left: 140px;
             margin-right: 140px;
         }
-
         .navbar-brand img {
             margin-left: 50px;
         }
-
         .card {
             width: 374px;
             height: 100%;
             flex: 0 0 auto;
             /* Ganti sesuai kebutuhan */
         }
-
         .name {
             color: #272727;
             font-size: 20px;
-
             font-weight: 600;
             l ine-height: 20px;
             word-wrap: break-word
         }
-
         .table-cust {
             color: #272727;
             font-size: 16px;
-
             font-weight: 500;
             line-height: 20px;
             word-wrap: break-word
         }
-
         .time {
             margin-top: 2px;
             text-align: center;
@@ -100,26 +83,22 @@
             font-size: 16px;
             padding-top: 3px;
         }
-
         .confirm-btn button {
             border: none;
             background: none;
             color: white;
         }
-
         .confirm-btn {
             text-align: center;
             padding-top: 3px;
             border-radius: 3px;
         }
-
         .time {
             width: 63px;
             height: 30px;
             background: #6597BF;
             border-radius: 15px
         }
-
         .total {
             color: #272727;
             font-size: 16px;
@@ -127,7 +106,6 @@
             line-height: 20px;
             word-wrap: break-word
         }
-
         .name-food {
             color: #272727;
             font-size: 20px;
@@ -135,7 +113,6 @@
             line-height: 20px;
             word-wrap: break-word
         }
-
         .desc-food {
             color: #272727;
             font-size: 14px;
@@ -143,11 +120,9 @@
             line-height: 20px;
             word-wrap: break-word
         }
-
         .icon a {
             text-decoration: none;
         }
-
         .card-container {
             width: 100%;
             display: flex;
@@ -155,7 +130,6 @@
         }
     </style>
 </head>
-
 <body>
     @include('sweetalert::alert')
     <nav class="navbar fixed-top">
@@ -165,13 +139,12 @@
             </a>
         </div>
     </nav>
-
     <div class="container-fluid">
         <div class="row">
             <div class="col-3 sidebar">
                 <div class="icon">
                     <div class="detail text-center mt-3">
-                        <a href="{{ route('pesanan') }}" style="color:#6597BF">
+                        <a href="/pesanan" style="color:#6597BF">
                             <svg width="57" height="57" viewBox="0 0 57 58" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <g id="material-symbols:checklist-rtl-rounded">
@@ -184,7 +157,7 @@
                         </a>
                     </div>
                     <div class="history text-center mt-3">
-                        <a href="{{ route('history') }}" style="color:#C6D9E8">
+                        <a href="/history" style="color:#C6D9E8">
                             <svg width="57" height="57" viewBox="0 0 57 58" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <g id="ic:round-history">
@@ -197,7 +170,7 @@
                         </a>
                     </div>
                     <div class="logout">
-                        <a href="{{ route('dashboard') }}">
+                        <a href="/dashboard">
                             <svg width="57" height="58" viewBox="0 0 57 58" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <g id="LogOut">
@@ -279,7 +252,6 @@
                 </div>
             </div>
         </div>
-
 </body>
 {{-- 
 @if ($checkLastOrder < $checkDate)
@@ -287,14 +259,10 @@
         sessionStorage.clear()
     </script>
 @endif --}}
-{{-- @php
-    dd($count_id);
-@endphp --}}
 <script>
     window.onload = function() {
-        var cardCount = {{ $count_id }};
-        var intervals = [];
-
+        var cardCount = {{ $count_id }}; // Jumlah card yang ada
+        var intervals = []; // Array untuk menyimpan interval timers
         function startTimer(index) {
             var storedTime = localStorage.getItem(`card-${index}`);
             var seconds = 0;
@@ -303,59 +271,52 @@
             var appendSeconds = document.getElementById(`seconds-${index}`);
             var timeDiv = document.getElementById(`time-${index}`);
             var interval;
-
             if (storedTime) {
                 var timeData = JSON.parse(storedTime);
                 minutes = timeData.minutes;
                 seconds = timeData.seconds;
                 appendMinutes.textContent = minutes < 10 ? "0" + minutes : minutes;
-                appendSeconds.textContent = seconds < 10 ? "0" + seconds : seconds;
+                appendSeconds.textContent = seconds <= 9 ? "0" + seconds : seconds;
             }
-
             function updateTimer() {
                 seconds++;
                 if (seconds <= 9) {
                     appendSeconds.textContent = "0" + seconds;
-                } else if (seconds >= 60) {
-
+                } else {
+                    appendSeconds.textContent = seconds;
+                }
+                if (seconds > 59) {
                     minutes++;
-                    seconds = 0;
                     appendMinutes.textContent = minutes < 10 ? "0" + minutes : minutes;
+                    seconds = 0;
                     appendSeconds.textContent = "00";
                 }
-                // if (seconds >= 60) {
-                // }
                 if (minutes > 1) {
                     timeDiv.style.backgroundColor = "#E53E3E";
                 }
-                elseif(minutes >= 2) {
-
-                    timeDiv.style.backgroundColor = "#D34C46";
-                }
-                // if (minutes >= 30) {
-                // }
-
+                // Simpan data waktu ke penyimpanan browser
                 var timeData = {
+
+        Expand All
+    
+    @@ -347,7 +351,7 @@ function updateTimer() {
+  
                     minutes: minutes,
                     seconds: seconds
                 };
                 localStorage.setItem(`card-${index}`, JSON.stringify(timeData));
             }
-
             interval = setInterval(updateTimer, 1000);
             intervals.push(interval); // Tambahkan interval ke array intervals
         }
-
         // Saat halaman dimuat, cek penyimpanan browser untuk mengatur ulang timer
         for (var i = 0; i < cardCount; i++) {
             startTimer(i);
         }
     };
-
     setTimeout(() => {
         location.reload()
     }, 5000)
 </script>
-
 
 </html>
