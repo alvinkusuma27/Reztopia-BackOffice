@@ -21,7 +21,9 @@ class TenantController extends Controller
         try {
             $tenant = Outlet::with('user')->whereHas('user', function ($query) {
                 $query->where('roles', '!=', 'admin');
-            })->get();
+            })
+                ->where('active', 'active')
+                ->get();
             $categories = Categories::all();
             $results_tenant = array();
             foreach ($tenant as $item) {
