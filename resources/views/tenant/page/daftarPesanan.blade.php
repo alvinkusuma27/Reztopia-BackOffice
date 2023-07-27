@@ -323,7 +323,7 @@
                     seconds = 0;
                     appendSeconds.textContent = "00";
                 }
-                if (seconds > 1800) {
+                if (minutes > 1) {
                     timeDiv.style.backgroundColor = "#E53E3E";
                 }
 
