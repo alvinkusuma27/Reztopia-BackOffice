@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Midtrans\Config;
 use Midtrans\Snap;
-use Illuminate\Support\Str;
 
 class CartController extends Controller
 {
@@ -25,7 +24,6 @@ class CartController extends Controller
     public function index()
     {
         try {
-            // $data = Cart::where('id_user', Auth::user()->id)->get();
             $data = DB::table('order_details as od')
                 ->select(
                     'od.id',
@@ -91,9 +89,8 @@ class CartController extends Controller
             ], [
                 'order_type.in' => 'order type only dine in and take away'
             ]);
-            if (!$validator->fails()) {
-                // $check_cart_product = Cart::where('id_user', Auth::user()->id)->get();
 
+            if (!$validator->fails()) {
 
                 $check_cart = DB::table('order_details as od')
                     ->where('os.name', 'cart')
@@ -105,6 +102,15 @@ class CartController extends Controller
 
                 $uniqid =
                     floor(time() - 999999999);
+
+                if ($check_cart[0]->id_outlet != $request->id_outlet) {
+                    return response()->json([
+                        'meta' => [
+                            'status' => 'Forbidden',
+                            'message' => 'Not the same outlet'
+                        ]
+                    ], 400);
+                }
 
                 if (empty($check_cart[0])) {
                     $product = Products::select('id_category', 'price_final')->where('id', $request->id_product)->first();
@@ -150,19 +156,6 @@ class CartController extends Controller
                         ->get();
                     // dd($check_cart_product);
                     if (!empty($check_cart_product[0])) {
-                        // $id_product = $check_cart_product[0]->id_product;
-                        // $id_cart = $check_cart_product[0]->id;
-                        // dd('oni');
-                        // dd('ya');
-                        // $check_id_order = DB::table('order_details as od')
-                        //     ->select('o.id')
-                        //     ->where('os.name', 'cart')
-                        //     ->where('o.id_user', Auth::user()->id)
-                        // ->join('order_status as os', 'os.id', '=', 'o.id_order_status')
-                        //     ->join('orders as o', 'o.id', '=', 'od.id_order')
-                        //     ->get();
-                        // dd($check_cart_product[0]);
-
                         $note = Order_detail::findOrFail($check_cart_product[0]->id_order_details);
                         // dd($note);
                         $note->update([
@@ -171,10 +164,6 @@ class CartController extends Controller
                             // 'type_order' => $request->type_order
                         ]);
 
-                        // $order_update = Orders::findOrFail($check_cart_product[0]->id);
-                        // $order_update->update([
-                        //     'total' => $check_cart_product[0]->price_final * $check_cart_product[0]->quantity
-                        // ]);
                         $cek = Order_detail::with('product')->where('id_order', $check_cart_product[0]->id)->get();
                         $total_mentah = array();
                         foreach ($cek as $item) {
@@ -195,15 +184,6 @@ class CartController extends Controller
                             ]
                         ], 200);
                     } else {
-                        // $cart = new Cart();
-                        // $cart->id_product = $request->id_product;
-                        // $cart->id_user = $request->id_user;
-                        // $cart->id_outlet = $request->id_outlet;
-                        // $cart->quantity = $request->quantity;
-                        // $cart->type_order = $request->type_order;
-                        // $cart->note = $request->note;
-                        // $cart->created_at = Carbon::now();
-                        // $cart->save();
                         $check_id_order = DB::table('order_details as od')
                             ->select('o.id', 'p.price_final', 'od.quantity')
                             ->where('os.name', 'cart')
@@ -212,19 +192,6 @@ class CartController extends Controller
                             ->join('products as p', 'p.id', '=', 'od.id_product')
                             ->join('order_status as os', 'os.id', '=', 'o.id_order_status')
                             ->get();
-                        // $id_order = $check_id_order[0]->id;
-                        // dd($id_order);
-
-
-                        // $product = Products::select('id_category')->where('id', $request->id_product)->first();
-                        // dd($product);
-
-                        // $order = new Orders();
-                        // $order->id_user = Auth::user()->id;
-                        // // $order->order_type = $request->type_order;
-                        // $order->id_order_status = 3;
-                        // $order->id_category = $product->id_category;
-                        // $order->save();
 
                         $cart = new Order_detail();
                         $cart->id_order = $check_id_order[0]->id;
