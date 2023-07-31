@@ -3,9 +3,9 @@
 @push('head')
     <style>
         /* .color-card {
-                                                                                                                                                                                                                                                                                                                    background-color: rgb(14, 12, 27);
-                                                                                                                                                                                                                                                                                                                    background-color: #F2F2F2;
-                                                                                                                                                                                                                                                                                                                } */
+                                                                                                                                                                                                                                                                                                                            background-color: rgb(14, 12, 27);
+                                                                                                                                                                                                                                                                                                                            background-color: #F2F2F2;
+                                                                                                                                                                                                                                                                                                                        } */
     </style>
 @endpush
 
@@ -137,7 +137,7 @@
     {{-- MODAL TAMBAH Category --}}
     <div class="modal fade" id="modalTambahCategory" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-dialog modal-dialog-scrollable" role="document" style="height: 120%;">
             <div class="modal-content">
                 <div class="modal-header d-flex justify-content-center">
                     <h5 class="modal-title" id="exampleModalScrollableTitle">Tambah Category</h5>
