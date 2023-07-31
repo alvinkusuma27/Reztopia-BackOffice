@@ -103,12 +103,23 @@ class CartController extends Controller
                 $uniqid =
                     floor(time() - 999999999);
 
-                if ($check_cart[0]->id_outlet != $request->id_outlet) {
+                $for_check_same_outlet =
+                    DB::table('order_details as od')
+                    // ->select('*', DB::raw('max(o.) as check_id'))
+                    // ->where(DB::raw('o.id', 'max(o.id)'))
+                    ->where('os.name', 'cart')
+                    ->where('o.id_user', Auth::user()->id)
+                    ->join('orders as o', 'o.id', '=', 'od.id_order')
+                    ->join('order_status as os', 'os.id', '=', 'o.id_order_status')
+                    ->where('o.id_order_status', 3)
+                    ->get();
+
+                if ($for_check_same_outlet[0]->id_outlet != $request->id_outlet) {
                     return response()->json([
                         'meta' => [
                             'status' => 'Forbidden',
                             'message' => 'Not the same outlet'
-                        ]
+                        ],
                     ], 400);
                 }
 
