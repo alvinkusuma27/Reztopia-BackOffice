@@ -7,7 +7,7 @@ body {
 }
 
 #auth #auth-left {
-    padding: 5rem 8rem;
+    padding: 5rem 0rem;
     width: 50%;
     margin: auto;
 }
@@ -33,7 +33,7 @@ body {
 }
 @media screen and (max-width: 576px) {
     #auth #auth-left {
-        padding: 5rem 3rem;
+        padding: 5rem 0rem;
     }
 }
 body.theme-dark #auth-right {

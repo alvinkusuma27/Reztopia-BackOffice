@@ -260,7 +260,7 @@
                                     @foreach ($item->order_detail as $key)
                                         <div class="menu-list d-flex gap-3 mt-3">
                                             <div class="total">
-                                                {{ $loop->iteration }}
+                                                {{ (int) $key->quantity }}
                                             </div>
                                             <div class="food">
                                                 <div class="name-food">
