@@ -105,8 +105,6 @@ class CartController extends Controller
 
                 $for_check_same_outlet =
                     DB::table('order_details as od')
-                    // ->select('*', DB::raw('max(o.) as check_id'))
-                    // ->where(DB::raw('o.id', 'max(o.id)'))
                     ->where('os.name', 'cart')
                     ->where('o.id_user', Auth::user()->id)
                     ->join('orders as o', 'o.id', '=', 'od.id_order')
@@ -125,6 +123,8 @@ class CartController extends Controller
 
                 if (empty($check_cart[0])) {
                     $product = Products::select('id_category', 'price_final')->where('id', $request->id_product)->first();
+
+
                     $order = new Orders();
                     $order->id = $uniqid;
                     $order->id_user = Auth::user()->id;
@@ -156,6 +156,14 @@ class CartController extends Controller
                         ]
                     ], 200);
                 } else {
+                    if ($for_check_same_outlet[0]->id_outlet != $request->id_outlet) {
+                        return response()->json([
+                            'meta' => [
+                                'status' => 'Forbidden',
+                                'message' => 'Not the same outlet'
+                            ],
+                        ], 400);
+                    }
                     $check_cart_product = DB::table('order_details as od')
                         ->select('p.price_final', 'o.id', 'od.id_product', 'od.id as id_order_details', 'od.quantity')
                         ->where('os.name', 'cart')
