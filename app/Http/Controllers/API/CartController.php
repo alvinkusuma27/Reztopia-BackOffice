@@ -112,6 +112,14 @@ class CartController extends Controller
                     ->where('o.id_order_status', 3)
                     ->get();
 
+                if ($for_check_same_outlet[0]->id_outlet != $request->id_outlet) {
+                    return response()->json([
+                        'meta' => [
+                            'status' => 'Forbidden',
+                            'message' => 'Not the same outlet'
+                        ],
+                    ], 400);
+                }
 
                 if (empty($check_cart[0])) {
                     $product = Products::select('id_category', 'price_final')->where('id', $request->id_product)->first();
