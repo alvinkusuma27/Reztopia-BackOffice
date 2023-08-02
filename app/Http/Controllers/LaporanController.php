@@ -380,14 +380,18 @@ class LaporanController extends Controller
             $tgl = Carbon::now();
             $day = bin2hex($tgl->toDateTimeString());
 
-            $order = Orders::with('product', 'order_detail.product_laporan_and_pesanan', 'user', 'order_status_pesanan_and_laporan')
+            $order = Orders::with('product', 'outlet', 'order_detail.product_laporan_and_pesanan', 'user', 'order_status_pesanan_and_laporan')
                 ->where(function ($query) {
                     $query->where('id_order_status', 4)
                         ->orWhere('id_order_status', 1);
                 })
+                ->whereHas('outlet', function ($query) {
+                    $query->where('id_user', Auth::user()->id);
+                })
                 ->whereDate('date_order', $tgl)
                 ->where('payment_status', 'SUCCESS')
                 ->get();
+            // dd($order);
             $checkLastOrder = Orders::latest()->first()->date_order;
             $checkDate = Carbon::now()->toDateString();
 
