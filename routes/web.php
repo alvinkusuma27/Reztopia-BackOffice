@@ -87,3 +87,7 @@ Route::group(
 );
 
 Route::get('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+
+Route::get('/login/post', function () {
+    return view('tenant.page.loginPOS');
+});

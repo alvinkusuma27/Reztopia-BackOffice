@@ -26,7 +26,7 @@
         }
 
         .main{
-            width: 70%;
+            width: 65%;
             height: 430px;
             padding: 35px;
             flex-shrink: 0;
