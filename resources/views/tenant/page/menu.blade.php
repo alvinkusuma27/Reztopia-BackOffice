@@ -387,11 +387,11 @@
                             <input type="number" class="form-control mt-3" id="basicInput" name="original_price"
                                 value="{{ old('original_price') }}">
                         </div>
-                        {{-- <div class="form-group mb-3">
+                        <div class="form-group mb-3">
                             <label for="basicInput">Harga Modal</label>
                             <input type="number" class="form-control mt-3" id="basicInput" name="cost_price"
                                 value="{{ old('cost_price') }}">
-                        </div> --}}
+                        </div>
                         <div class="form-group mb-3">
                             <label for="basicInput">Diskon</label>
                             <input type="number" class="form-control mt-3" id="basicInput" name="discount"
@@ -458,11 +458,11 @@
                                 <input type="number" class="form-control mt-3" id="basicInput" name="original_price"
                                     value="{{ old('original_price') != null ? old('original_price') : $item->original_price }}">
                             </div>
-                            {{-- <div class="form-group mb-3">
+                            <div class="form-group mb-3">
                                 <label for="basicInput">Harga Modal</label>
                                 <input type="number" class="form-control mt-3" id="basicInput" name="cost_price"
                                     value="{{ old('cost_price') != null ? old('cost_price') : $item->cost_price }}">
-                            </div> --}}
+                            </div>
                             <div class="form-group mb-3">
                                 <label for="basicInput">Diskon</label>
                                 <input type="number" class="form-control mt-3" id="basicInput" name="discount"
