@@ -79,7 +79,7 @@
 @section('container')
     <div class="page-heading">
         <h3>Data Akun</h3>
-        <p>Atur data akun dan bundle disini</p>
+        <p>Untuk Mengatur Data Tenant</p>
     </div>
     <div class="page-content">
         <section class="row">

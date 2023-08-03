@@ -3,8 +3,8 @@
 
 @section('container')
     <div class="page-heading">
-        <h3>Welcome Tenant {{ empty($outlet[0]) ? '0' : $outlet[0]->tenant_name }}</h3>
-        <p>All System are running smothly! you have 3 unread</p>
+        <h3>Selamat Datang {{ empty($outlet[0]) ? 'Admin Kantin Telkom University' : $outlet[0]->tenant_name }}</h3>
+        <p>Kantin Lebih Modern dengan Dashboard Aplikasi Reztopia</p>
     </div>
     <div class="page-content">
         <section class="row">
@@ -23,7 +23,7 @@
                                         </div>
                                         <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                                             <h6 class="text-muted font-semibold">
-                                                Number of Omzet
+                                                Jumlah Omset
                                             </h6>
                                             <h6 class="font-extrabold mb-0">
                                                 {{ !empty($total_order) ? number_format($total_order, 2, ',', '.') : '0' }}
@@ -160,9 +160,8 @@
                     <div class="col-12 col-xl-6">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Order Details</h4>
-                                <p>The total number of sessions within the date range. It is the period time a user is
-                                    actively engaged with your website, page or app, etc</p>
+                                <h4>Detail Pesanan</h4>
+                                <p>Grafik Untuk Mengetahui Detail Pemesanan dengan Lebih Jelas</p>
                             </div>
                             <div class="card-body">
                                 {{-- <div class="row">
@@ -225,9 +224,9 @@
                                         @if (auth()->user()->roles == 'kantin')
                                             <thead>
                                                 <tr>
-                                                    <th>Product</th>
-                                                    <th>Price</th>
-                                                    <th>Order</th>
+                                                    <th>Produk</th>
+                                                    <th>Harga</th>
+                                                    <th>Pesanan</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -256,7 +255,7 @@
                                         @else
                                             <thead>
                                                 <tr>
-                                                    <th>Name</th>
+                                                    <th>Nama</th>
                                                     <th>Total Order</th>
                                                 </tr>
                                             </thead>

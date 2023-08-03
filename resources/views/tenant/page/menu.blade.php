@@ -29,13 +29,13 @@
                             <div class="dropdown-menu">
                                 <button class="dropdown-item" data-bs-toggle="modal"
                                     data-bs-target="#modalTambahCategory"><i class="bi bi-plus"></i>
-                                    <span>Tambah Category</span></button>
+                                    <span>Tambah Kategori</span></button>
                                 <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalEditCategory"><i
                                         class="bi bi-pencil"></i>
-                                    <span>Edit Category</span></button>
+                                    <span>Edit Kategori</span></button>
                                 <button class="dropdown-item" data-bs-toggle="modal"
                                     data-bs-target="#modalDeleteCategory"><i class="bi bi-trash"></i>
-                                    <span>Hapus Category</span></button>
+                                    <span>Hapus Kategori</span></button>
                             </div>
                         </div>
                     </div>
@@ -68,25 +68,25 @@
                     <div class="col-12 col-xl-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Produk</h4>
+                                <h4>Menu</h4>
                                 <div class="d-flex justify-content-lg-between">
-                                    <p>Produk yang dijual baik ready stok maupun out of stok</p>
+                                    <p>Tambahkan Kelezatan dengan Menu yang Menggugah Selera</p>
                                     <div class="btn-group mb-1">
                                         <div class="dropdown">
                                             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="dropdown"
                                                 aria-haspopup="true" aria-expanded="false">
-                                                Atur Produk
+                                                Atur Menu
                                             </button>
                                             <div class="dropdown-menu">
                                                 <button class="dropdown-item" href="#" data-bs-toggle="modal"
                                                     data-bs-target="#modalTambahProduk"><i class="bi bi-plus"></i>
-                                                    <span>Tambah Produk</span></button>
+                                                    <span>Tambah Menu</span></button>
                                                 {{-- <button class="dropdown-item" href="#" data-bs-toggle="modal"
                                                     data-bs-target="#modalEditProduk"><i class="bi bi-pencil"></i>
                                                     <span>Edit Produk</span></button> --}}
                                                 <button class="dropdown-item" href="#" data-bs-toggle="modal"
                                                     data-bs-target="#modalDeleteProduct"><i class="bi bi-trash"></i>
-                                                    <span>Hapus Produk</span></button>
+                                                    <span>Hapus Menu</span></button>
                                             </div>
                                         </div>
                                     </div>
@@ -140,14 +140,14 @@
         <div class="modal-dialog modal-dialog-scrollable" role="document" style="height: 120%;">
             <div class="modal-content">
                 <div class="modal-header d-flex justify-content-center">
-                    <h5 class="modal-title" id="exampleModalScrollableTitle">Tambah Category</h5>
+                    <h5 class="modal-title" id="exampleModalScrollableTitle">Tambah Kategori</h5>
                 </div>
                 <form action="{{ route('menu.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group mb-3">
                             <input type="text" hidden name="id_outlet" value="{{ $id_outlet }}">
-                            <label for="basicInput">Nama Category</label>
+                            <label for="basicInput">Nama Kategori</label>
                             <input type="text" class="form-control mt-3" id="basicInput"
                                 name="name"value="{{ old('name') }}">
                         </div>
@@ -235,7 +235,7 @@
 
                                 <input type="text" hidden name="id_outlet" value="{{ $id_outlet }}">
                                 <input type="text" hidden name="id_category" value="{{ $item->id }}">
-                                <label for="basicInput">Nama Category</label>
+                                <label for="basicInput">Nama Kategori</label>
                                 <input type="text" class="form-control mt-3" id="basicInput"
                                     name="name"value="{{ $item->name }}">
                             </div>
@@ -293,7 +293,7 @@
         <div class="modal-dialog modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header d-flex justify-content-center">
-                    <h5 class="modal-title" id="exampleModalScrollableTitle">HAPUS Category</h5>
+                    <h5 class="modal-title" id="exampleModalScrollableTitle">Hapus Category</h5>
                 </div>
                 <form action="{{ route('menu.destroy') }}" method="post">
                     @csrf
@@ -368,13 +368,13 @@
         <div class="modal-dialog modal-dialog-scrollable" role="document" style="height: 110%;">
             <div class="modal-content">
                 <div class="modal-header d-flex justify-content-center">
-                    <h5 class="modal-title" id="exampleModalScrollableTitle">Tambah Produk</h5>
+                    <h5 class="modal-title" id="exampleModalScrollableTitle">Tambah Menu</h5>
                 </div>
                 <form action="{{ route('menu.store.product') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group mb-3">
-                            <label for="basicInput">Nama Produk</label>
+                            <label for="basicInput">Nama Menu</label>
                             <input type="text" class="form-control mt-3" id="basicInput" name="name"
                                 value="{{ old('name') }}">
                         </div>
@@ -387,11 +387,11 @@
                             <input type="number" class="form-control mt-3" id="basicInput" name="original_price"
                                 value="{{ old('original_price') }}">
                         </div>
-                        <div class="form-group mb-3">
+                        {{-- <div class="form-group mb-3">
                             <label for="basicInput">Harga Modal</label>
                             <input type="number" class="form-control mt-3" id="basicInput" name="cost_price"
                                 value="{{ old('cost_price') }}">
-                        </div>
+                        </div> --}}
                         <div class="form-group mb-3">
                             <label for="basicInput">Diskon</label>
                             <input type="number" class="form-control mt-3" id="basicInput" name="discount"
@@ -458,11 +458,11 @@
                                 <input type="number" class="form-control mt-3" id="basicInput" name="original_price"
                                     value="{{ old('original_price') != null ? old('original_price') : $item->original_price }}">
                             </div>
-                            <div class="form-group mb-3">
+                            {{-- <div class="form-group mb-3">
                                 <label for="basicInput">Harga Modal</label>
                                 <input type="number" class="form-control mt-3" id="basicInput" name="cost_price"
                                     value="{{ old('cost_price') != null ? old('cost_price') : $item->cost_price }}">
-                            </div>
+                            </div> --}}
                             <div class="form-group mb-3">
                                 <label for="basicInput">Diskon</label>
                                 <input type="number" class="form-control mt-3" id="basicInput" name="discount"
