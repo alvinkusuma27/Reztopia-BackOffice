@@ -33,6 +33,12 @@ Route::group(
         Route::get('forgot-password', [AuthController::class, 'forgot'])->name('forgot-password');
         // Route::get('register', [AuthController::class, 'register'])->name('register');
         // Route::post('register', [AuthController::class, 'post_register'])->name('post_register');
+        // Route::get('/login/post', function () {
+        //     return view('tenant.page.loginPOS');
+        // });
+        Route::get('/login/pos', [AuthController::class, 'pos_login'])->name('pos_login');
+        Route::post('post-login-pos', [AuthController::class, 'post_login_pos'])->name('post_login_pos');
+        Route::get('pos-logout', [AuthController::class, 'pos_logout'])->name('pos_logout');
     }
 );
 
@@ -87,3 +93,7 @@ Route::group(
 );
 
 Route::get('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+
+Route::get('/login/post', function () {
+    return view('tenant.page.loginPOS');
+});
