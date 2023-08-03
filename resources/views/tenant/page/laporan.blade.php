@@ -67,8 +67,8 @@
 @section('container')
     <div class="page-heading d-flex justify-content-between">
         <div class="flex-start">
-            <h3>Laporan Keuangan</h3>
-            <p>Laporan Keuangan Resto Bawah Tanah</p>
+            <h3>Laporan Penjualan</h3>
+            <p>Untuk Melihat Data Penjualan Tenant</p>
         </div>
         @if (auth()->user()->roles == 'admin')
             <div class="flex-end">
@@ -97,7 +97,7 @@
                             <div class="card-body px-4 py-4-5">
                                 <div class="row">
                                     <h6 class="text-muted font-semibold">
-                                        Today's Order
+                                        Pesanan Hari Ini
                                     </h6>
                                     <h6 class="font-extrabold mb-0">{{ $order_today }}</h6>
                                 </div>
@@ -109,7 +109,7 @@
                             <div class="card-body px-4 py-4-5">
                                 <div class="row">
                                     <h6 class="text-muted font-semibold">
-                                        Today's Omzet
+                                        Omset Hari Ini
                                     </h6>
                                     <h6 class="font-extrabold mb-0">Rp.{{ number_format($omzet_today) }}</h6>
                                 </div>
