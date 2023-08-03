@@ -49,6 +49,45 @@ class AuthController extends Controller
         return redirect()->route('dashboard');
     }
 
+    public function pos_login()
+    {
+        if (Auth::check()) {
+            return redirect()->route('pesanan');
+        }
+        return view('tenant.page.loginPOS');
+    }
+
+    public function post_login_pos(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            Alert::error($validator->messages()->all());
+            return redirect()->route('pos_login');
+        }
+
+        $data = [
+            'email' => $request->email,
+            'password' => $request->password
+        ];
+
+        if (!Auth::attempt($data)) {
+            Session::flash('error', 'Email or Password is wrong');
+            Alert::toast('Email or Password is wrong', 'error');
+            return redirect()->route('pos_login')->withErrors('Email or Password is wrong');
+        }
+        return redirect()->route('pesanan');
+    }
+
+    public function pos_logout()
+    {
+        Auth::logout();
+        return redirect()->route('pos_login');
+    }
+
     public function register()
     {
         if (Auth::check()) {

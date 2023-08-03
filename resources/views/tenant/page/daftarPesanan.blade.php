@@ -197,7 +197,7 @@
                         </a>
                     </div>
                     <div class="logout">
-                        <a href="{{ route('dashboard') }}">
+                        <a href="{{ route('pos_logout') }}">
                             <svg width="57" height="58" viewBox="0 0 57 58" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <g id="LogOut">
@@ -221,9 +221,6 @@
                 <div class="container">
                     <div class="card-container d-flex gap-3" id="card-container">
                         @foreach ($order as $item)
-                            @php
-                                //dd($item);
-                            @endphp
                             <div class="card" id="card-{{ $loop->iteration }}"
                                 @if ($item->is_hidden) style="display: none;" @endif>
                                 <div class="card-body">
@@ -281,12 +278,6 @@
         </div>
 
 </body>
-{{-- 
-@if ($checkLastOrder < $checkDate)
-    <script>
-        sessionStorage.clear()
-    </script>
-@endif --}}
 
 <script>
     window.onload = function() {

@@ -12,13 +12,6 @@ class CheckRole
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    // public function handle($request, Closure $next, ...$roles)
-    // {
-    //     if (in_array($request->user()->roles, $roles)) {
-    //         return $next($request);
-    //     }
-    //     return view('tenant.autTY6GMJ7KIJ8ML:h.login');
-    // }
     public function handle($request, Closure $next, ...$roles)
     {
         if (in_array($request->user()->roles, $roles)) {
