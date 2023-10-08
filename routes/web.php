@@ -21,7 +21,9 @@ Route::get('clear', function () {
 });
 Route::redirect('/', 'dashboard');
 Route::get('email', [EmailController::class, 'index']);
-
+Route::get('/cek', function(){
+    return 'aaa';
+});
 Route::group(
     [
         'prefix' => 'auth'
